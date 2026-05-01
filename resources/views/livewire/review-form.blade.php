@@ -24,7 +24,7 @@
         <div class="w-full max-w-md">
 
             {{-- Gift teaser --}}
-            <div class="bg-[#242424] border border-[#E52B2B] rounded-xl p-4 mb-6 text-center">
+            <div class="bg-[var(--bg_card)] border border-[var(--accent)] rounded-xl p-4 mb-6 text-center">
                 <p class="text-2xl">🎁</p>
                 <p class="text-orange-400 font-bold text-lg mt-1">{{ $campaign->gift_title }}</p>
                 @if ($campaign->gift_description)
@@ -58,7 +58,7 @@
                         Tu nombre <span class="text-red-500">*</span>
                     </label>
                     <input type="text" wire:model="customerName" placeholder="ej. Juan Pérez" autocomplete="name"
-                        class="w-full bg-[#1c1c1c] border border-gray-700 rounded-lg px-4 py-3 text-white
+                        class="w-full bg-[var(--bg_primary)] border border-[var(--border)] rounded-lg px-4 py-3 text-[var(--text_primary)]
                            placeholder-gray-600 focus:outline-none focus:border-orange-500 text-base" />
                     @error('customerName')
                         <p class="text-red-400 text-xs mt-1">{{ $message }}</p>
@@ -72,7 +72,7 @@
                     </label>
                     <input type="email" wire:model="customerEmail" placeholder="juan@ejemplo.com" autocomplete="email"
                         inputmode="email"
-                        class="w-full bg-[#1c1c1c] border border-gray-700 rounded-lg px-4 py-3 text-white
+                        class="w-full bg-[var(--bg_primary)] border border-[var(--border)] rounded-lg px-4 py-3 text-[var(--text_primary)]
                            placeholder-gray-600 focus:outline-none focus:border-orange-500 text-base" />
                     <p class="text-gray-600 text-xs mt-1">Aquí recibirás tu regalo 🎁</p>
                     @error('customerEmail')
@@ -86,13 +86,13 @@
                         Cuéntanos tu experiencia <span class="text-gray-500 font-normal">(opcional)</span>
                     </label>
                     <textarea wire:model="comment" rows="3" placeholder="¿Qué fue lo que más te gustó? ¿Volvería?"
-                        class="w-full bg-[#1c1c1c] border border-gray-700 rounded-lg px-4 py-3 text-white
+                        class="w-full bg-[var(--bg_primary)] border border-[var(--border)] rounded-lg px-4 py-3 text-[var(--text_primary)]
                            placeholder-gray-600 focus:outline-none focus:border-orange-500 text-base resize-none"></textarea>
                 </div>
 
                 {{-- Submit --}}
                 <button type="submit" wire:loading.attr="disabled"
-                    class="w-full bg-[#E52B2B] hover:bg-red-700 active:bg-red-800 text-white font-bold
+                    class="w-full bg-[var(--accent)] hover:bg-[var(--button_hover)] active:bg-red-800 text-[var(--text_primary)] font-bold
                        py-4 rounded-xl text-lg tracking-wide transition-colors
                        disabled:opacity-60 disabled:cursor-not-allowed">
                     <span wire:loading.remove>Enviar reseña y recibir mi regalo 🎁</span>
@@ -109,21 +109,21 @@
             <h2 class="text-3xl text-orange-400 mb-2">¡Gracias, {{ $customerName }}!</h2>
             <p class="text-gray-400 text-sm mb-6">
                 Tu reseña fue enviada. Revisa tu correo
-                <strong class="text-white">{{ $customerEmail }}</strong> — ahí está tu regalo.
+                <strong class="text-[var(--text_primary)]">{{ $customerEmail }}</strong> — ahí está tu regalo.
             </p>
 
             {{-- Gift code display --}}
-            <div class="bg-[#242424] border-2 border-[#E52B2B] rounded-2xl p-6 mb-6">
+            <div class="bg-[var(--bg_card)] border-2 border-[var(--accent)] rounded-2xl p-6 mb-6">
                 <p class="text-2xl mb-2">🎁</p>
                 <p class="text-orange-400 font-bold text-xl mb-1">{{ $campaign->gift_title }}</p>
                 @if ($campaign->gift_description)
                     <p class="text-gray-400 text-sm mb-4">{{ $campaign->gift_description }}</p>
                 @endif
                 <p class="text-gray-500 text-xs uppercase tracking-widest mb-1">Tu código único</p>
-                <p class="text-white text-4xl font-black tracking-[8px] font-mono">{{ $giftCode }}</p>
+                <p class="text-[var(--text_primary)] text-4xl font-black tracking-[8px] font-mono">{{ $giftCode }}</p>
             </div>
 
-            <div class="bg-[#242424] rounded-xl p-4 text-left space-y-2">
+            <div class="bg-[var(--bg_card)] rounded-xl p-4 text-left space-y-2">
                 <p class="text-yellow-400 font-semibold text-sm">📱 ¿Cómo canjear tu regalo?</p>
                 <ol class="text-gray-400 text-sm space-y-1 list-decimal list-inside">
                     <li>Muestra este código (o el correo) al llegar al restaurante</li>

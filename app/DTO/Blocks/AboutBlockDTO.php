@@ -22,8 +22,8 @@ final readonly class AboutBlockDTO extends BlockDTO
     public static function fromArray(array $data): static
     {
         return new self(
-            heading: $data['heading'] ?? 'Historia de Asados',
-            description: $data['description'] ?? 'Pasión por el humo.',
+            heading: $data['heading'] ?? '',
+            description: $data['description'] ?? '',
             image: $data['image'] ?? null,
         );
     }

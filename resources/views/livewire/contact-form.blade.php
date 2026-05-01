@@ -2,7 +2,7 @@
     @if($this->submitted)
         {{-- ═══ SUCCESS STATE ═══ --}}
         <div class="text-center py-12 px-6">
-            <div class="inline-flex items-center justify-center w-20 h-20 bg-[#18833b]/20 border-2 border-[#18833b] rounded-full mb-6">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-[var(--accent_green)]/20 border-2 border-[var(--accent_green)] rounded-full mb-6">
                 <svg class="w-10 h-10 text-[#18833b]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                 </svg>
@@ -37,7 +37,7 @@
                                 wire:model="formValues.{{ $i }}"
                                 placeholder="{{ $placeholder }}"
                                 rows="4"
-                                class="w-full bg-[#111] border border-gray-700 focus:border-[#E52B2B] focus:ring-1 focus:ring-[#E52B2B] rounded-lg px-4 py-3 text-gray-200 placeholder-gray-600 transition-colors outline-none resize-none"
+                                class="w-full bg-[var(--bg_section)] border border-[var(--border)] focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)] rounded-lg px-4 py-3 text-[var(--text_secondary)] placeholder-gray-600 transition-colors outline-none resize-none"
                                 {{ $required ? 'required' : '' }}
                             ></textarea>
 
@@ -48,7 +48,7 @@
                             @endphp
                             <select
                                 wire:model="formValues.{{ $i }}"
-                                class="w-full bg-[#111] border border-gray-700 focus:border-[#E52B2B] focus:ring-1 focus:ring-[#E52B2B] rounded-lg px-4 py-3 text-gray-200 transition-colors outline-none"
+                                class="w-full bg-[var(--bg_section)] border border-[var(--border)] focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)] rounded-lg px-4 py-3 text-[var(--text_secondary)] transition-colors outline-none"
                                 {{ $required ? 'required' : '' }}
                             >
                                 <option value="">{{ $placeholder ?: 'Selecciona una opción' }}</option>
@@ -62,7 +62,7 @@
                                 type="{{ $type }}"
                                 wire:model="formValues.{{ $i }}"
                                 placeholder="{{ $placeholder }}"
-                                class="w-full bg-[#111] border border-gray-700 focus:border-[#E52B2B] focus:ring-1 focus:ring-[#E52B2B] rounded-lg px-4 py-3 text-gray-200 placeholder-gray-600 transition-colors outline-none"
+                                class="w-full bg-[var(--bg_section)] border border-[var(--border)] focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)] rounded-lg px-4 py-3 text-[var(--text_secondary)] placeholder-gray-600 transition-colors outline-none"
                                 {{ $required ? 'required' : '' }}
                             >
                         @endif
@@ -79,10 +79,10 @@
                 {{-- Captcha matemático --}}
                 @if($this->blockData['show_captcha'] ?? true)
                     <div class="md:col-span-2">
-                        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 bg-[#111] border border-gray-700 rounded-lg px-5 py-4">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 bg-[var(--bg_section)] border border-[var(--border)] rounded-lg px-5 py-4">
                             <div class="flex items-center gap-3 shrink-0">
                                 <span class="text-xs font-bold uppercase tracking-widest text-gray-500">Anti-bot:</span>
-                                <div class="bg-[#1c1c1c] border border-gray-600 rounded px-4 py-2 font-['Anton'] text-white text-xl tracking-widest select-none">
+                                <div class="bg-[var(--bg_primary)] border border-[var(--border_light)] rounded px-4 py-2 font-['Anton'] text-white text-xl tracking-widest select-none">
                                     {{ $this->captchaA }} + {{ $this->captchaB }} = ?
                                 </div>
                             </div>
@@ -91,7 +91,7 @@
                                     type="number"
                                     wire:model="captchaAnswer"
                                     placeholder="Tu respuesta"
-                                    class="w-full sm:w-32 bg-[#0f0f0f] border border-gray-700 focus:border-[#E52B2B] focus:ring-1 focus:ring-[#E52B2B] rounded-lg px-4 py-2.5 text-gray-200 placeholder-gray-600 transition-colors outline-none"
+                                    class="w-full sm:w-32 bg-[var(--bg_primary)] border border-[var(--border)] focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)] rounded-lg px-4 py-2.5 text-[var(--text_secondary)] placeholder-gray-600 transition-colors outline-none"
                                 >
                             </div>
                         </div>
@@ -105,7 +105,7 @@
                     type="submit"
                     wire:loading.attr="disabled"
                     wire:loading.class="opacity-60 cursor-wait"
-                    class="inline-flex items-center justify-center gap-3 bg-[#E52B2B] hover:bg-red-700 disabled:opacity-60 text-white px-8 py-4 rounded font-bold uppercase tracking-widest text-sm transition-all duration-300 shadow-[0_0_20px_rgba(229,43,43,0.3)] hover:shadow-[0_0_35px_rgba(229,43,43,0.5)] hover:-translate-y-0.5 min-w-48"
+                    class="inline-flex items-center justify-center gap-3 bg-[var(--accent)] hover:bg-[var(--button_hover)] disabled:opacity-60 text-white px-8 py-4 rounded font-bold uppercase tracking-widest text-sm transition-all duration-300 shadow-[0_0_20px_rgba(229,43,43,0.3)] hover:shadow-[0_0_35px_rgba(229,43,43,0.5)] hover:-translate-y-0.5 min-w-48"
                 >
                     <span wire:loading.remove>
                         {{ $this->blockData['submit_label'] ?? 'Enviar Mensaje' }}

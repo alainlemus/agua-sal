@@ -26,8 +26,8 @@ final readonly class HeroBlockDTO extends BlockDTO
     public static function fromArray(array $data): static
     {
         return new self(
-            heading: $data['hero_heading'] ?? 'El auténtico sabor del asado',
-            subheading: $data['hero_subheading'] ?? 'Carnes ahumadas, fuego lento y la verdadera experiencia BBQ americana.',
+            heading: $data['hero_heading'] ?? '',
+            subheading: $data['hero_subheading'] ?? '',
             heroImage: $data['hero_image'] ?? null,
             heroVideo: $data['hero_video'] ?? null,
             heroSideImage: $data['hero_side_image'] ?? null,

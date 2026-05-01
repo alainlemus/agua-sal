@@ -96,7 +96,8 @@
                 @php $siteInfo = siteInfo(); @endphp
                 @if ($siteInfo?->site_logo)
                     <img src="{{ asset('storage/' . $siteInfo->site_logo) }}" alt="{{ siteName() }}"
-                        class="h-14 w-auto object-contain drop-shadow-lg">
+                         class="h-14 w-auto object-contain drop-shadow-lg"
+                         onerror="this.style.display='none'">
                 @else
                     <img src="{{ asset('storage/images/logo.png') }}" alt="{{ siteName() }}"
                         class="h-14 w-auto object-contain drop-shadow-lg">

@@ -3776,6 +3776,11 @@ namespace App\Models {
     /**
      * App\Models\SiteInfo
      *
+     * @property string $salt_density
+     * @property string $bubbles_density
+     * @property boolean $enable_waves
+     * @property boolean $enable_salt_effect
+     * @property boolean $enable_bubbles
      * @property string|null $twitter_site
      * @property string $twitter_card
      * @property string $og_type
@@ -3783,6 +3788,7 @@ namespace App\Models {
      * @property string|null $seo_keywords
      * @property string|null $seo_description
      * @property string|null $seo_title
+     * @property string $theme
      * @property string|null $favicon
      * @property string|null $site_logo
      * @property \Illuminate\Support\Carbon|null $updated_at
@@ -3829,6 +3835,7 @@ namespace App\Models {
      * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo whereUpdatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo whereSiteLogo($value)
      * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo whereFavicon($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo whereTheme($value)
      * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo whereSeoTitle($value)
      * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo whereSeoDescription($value)
      * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo whereSeoKeywords($value)
@@ -3836,6 +3843,11 @@ namespace App\Models {
      * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo whereOgType($value)
      * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo whereTwitterCard($value)
      * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo whereTwitterSite($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo whereEnableBubbles($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo whereEnableSaltEffect($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo whereEnableWaves($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo whereBubblesDensity($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo whereSaltDensity($value)
      * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo query()

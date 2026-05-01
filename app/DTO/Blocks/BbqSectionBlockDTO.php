@@ -52,8 +52,8 @@ final readonly class BbqSectionBlockDTO extends BlockDTO
         );
 
         return new self(
-            heading: $data['heading'] ?? 'Nuestros Ahumados',
-            subheading: $data['subheading'] ?? 'Fuego lento. Sabor eterno.',
+            heading: $data['heading'] ?? '',
+            subheading: $data['subheading'] ?? '',
             description: $data['description'] ?? null,
             backgroundImage: $data['background_image'] ?? null,
             items: $items,

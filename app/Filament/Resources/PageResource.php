@@ -61,7 +61,7 @@ class PageResource extends Resource
                                 Forms\Components\TextInput::make('nav_label')
                                     ->label('Etiqueta en el menú (opcional)')
                                     ->helperText('Si se deja vacío, se usará el Título de la Página.')
-                                    ->placeholder('Ej. Ahumados BBQ')
+                                    ->placeholder('Ej. Tostadas y Mariscos')
                                     ->maxLength(60),
 
                                 Forms\Components\TextInput::make('nav_icon')
@@ -215,6 +215,15 @@ class PageResource extends Resource
                                         Forms\Components\TextInput::make('heading')->label('Título')->default('Nuestra Historia'),
                                         Forms\Components\Textarea::make('description')->label('Texto'),
                                         Forms\Components\FileUpload::make('image')->label('Imagen Lateral')->image(),
+                                        Forms\Components\Repeater::make('features')
+                                            ->label('Características (cajas con ícono)')
+                                            ->schema([
+                                                Forms\Components\TextInput::make('icon')->label('Ícono Heroicon (ej: heroicon-o-fire)')->placeholder('heroicon-o-sparkles'),
+                                                Forms\Components\TextInput::make('title')->label('Título de la caja')->placeholder('Fresco y Natural'),
+                                            ])
+                                            ->collapsible()
+                                            ->defaultItems(3)
+                                            ->addActionLabel('+ Agregar característica'),
                                     ]),
 
                                 Forms\Components\Builder\Block::make('cta_banner')

@@ -163,6 +163,7 @@ class DatabaseSeeder extends Seeder
             'site_name'       => 'Tostadería Agua y Sal',
             'tagline'         => 'Tostadas y Mariscos Frescos',
             'serves_cuisine'  => 'Mariscos',
+            'theme'           => 'default',
             'hero_heading'    => 'Tostadas y Mariscos Frescos',
             'hero_subheading' => 'El marisco más fresco, directo a tu mesa.',
             'about_text'      => 'En Tostadería Agua y Sal te invitamos a disfrutar de nuestras tostadas y mariscos preparados con los ingredientes más frescos. Calidad y sabor en cada bocado.',
@@ -184,6 +185,11 @@ class DatabaseSeeder extends Seeder
             'twitter_card'           => 'summary_large_image',
             'privacy_policy_title'   => 'Aviso de Privacidad',
             'privacy_policy_content' => '<p><strong>Tostadería Agua y Sal</strong>, con domicilio en Tulancingo, Hidalgo, México, es responsable del tratamiento de sus datos personales.</p><h2>¿Qué datos recopilamos?</h2><p>Recopilamos datos que usted nos proporciona voluntariamente: nombre, correo electrónico y contenido del mensaje.</p><h2>¿Para qué usamos sus datos?</h2><ul><li>Responder a sus solicitudes de información.</li><li>Gestionar las reseñas y opiniones sobre nuestros servicios.</li></ul><h2>Derechos ARCO</h2><p>Usted tiene derecho a <strong>Acceder, Rectificar, Cancelar u Oponerse</strong> al tratamiento de sus datos personales.</p><p><em>Última actualización: 30 de abril de 2026</em></p>',
+            'enable_bubbles'    => true,
+            'enable_salt_effect' => true,
+            'enable_waves'      => true,
+            'bubbles_density'   => 'medium',
+            'salt_density'      => 'normal',
         ]);
 
         Page::create([
@@ -221,6 +227,11 @@ class DatabaseSeeder extends Seeder
                         'heading'     => 'Frescura y Sabor',
                         'description' => 'En Tostadería Agua y Sal te invitamos a disfrutar de nuestras tostadas y mariscos preparados con los ingredientes más frescos. Cada platillo es hecho con dedicación para que tengas la mejor experiencia.',
                         'image'       => null,
+                        'features'    => [
+                            ['icon' => '🌊', 'title' => 'Fresco del Mar'],
+                            ['icon' => '👨‍🍳', 'title' => 'Tradición Artesanal'],
+                            ['icon' => '✨', 'title' => 'Calidad Premium'],
+                        ],
                     ],
                 ],
                 [

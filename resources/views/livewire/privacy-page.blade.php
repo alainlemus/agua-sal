@@ -1,20 +1,17 @@
 <div>
     {{-- Header --}}
-    <div class="relative pt-36 pb-14 overflow-hidden bg-[#111]">
-        <div class="absolute inset-0 bg-gradient-to-br from-black via-[#1c1c1c] to-black"></div>
-        <div class="absolute inset-0 opacity-[0.03]"
-            style="background-image: url('data:image/svg+xml,%3Csvg width=\'40\' height=\'40\' viewBox=\'0 0 40 40\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\' fill-rule=\'evenodd\'%3E%3Cpath d=\'M0 40L40 0H20L0 20M40 40V20L20 40\'/%3E%3C/g%3E%3C/svg%3E');">
-        </div>
+    <div class="relative pt-36 pb-14 overflow-hidden bg-[var(--bg_section)]">
+        <div class="absolute inset-0 bg-gradient-to-br from-black via-[var(--bg_primary)] to-black"></div>
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-10">
             <h1 class="text-3xl sm:text-5xl md:text-7xl font-['Anton'] text-white uppercase tracking-widest drop-shadow-2xl">
                 {{ $siteInfo?->privacy_policy_title ?: 'Aviso de Privacidad' }}
             </h1>
-            <div class="h-1 w-20 bg-[#E52B2B] mx-auto mt-6 rounded"></div>
+            <div class="h-1 w-20 bg-[var(--accent)] mx-auto mt-6 rounded"></div>
         </div>
     </div>
 
     {{-- Contenido --}}
-    <section class="py-20 bg-[#1c1c1c]">
+    <section class="py-20 bg-[var(--bg_primary)]">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
 
             @if ($siteInfo?->privacy_policy_content)
@@ -52,7 +49,7 @@
 
             <div class="mt-12 pt-8 border-t border-gray-800">
                 <a href="/"
-                    class="inline-flex items-center gap-2 text-[#E52B2B] hover:text-red-400 font-semibold transition-colors text-sm uppercase tracking-widest">
+                    class="inline-flex items-center gap-2 text-[var(--accent)] hover:text-[var(--button_hover)] font-semibold transition-colors text-sm uppercase tracking-widest">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                     </svg>

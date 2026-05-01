@@ -10,6 +10,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -64,6 +65,21 @@ class SiteInfoResource extends Resource
                             ->image()
                             ->directory('favicons')
                             ->helperText('PNG cuadrado de 32×32 o 64×64 px. Aparece en la pestaña del navegador.'),
+
+                        Forms\Components\Select::make('theme')
+                            ->label('Tema de Colores')
+                            ->options(function () {
+                                $themes = config('themes', []);
+                                $options = ['default' => 'Océano Profundo (Default)'];
+                                foreach ($themes as $key => $theme) {
+                                    if ($key !== 'default') {
+                                        $options[$key] = $theme['name'] . ' — ' . $theme['description'];
+                                    }
+                                }
+                                return $options;
+                            })
+                            ->default('default')
+                            ->helperText('Selecciona la combinación de colores para el sitio web.'),
                     ])
                     ->collapsible()
                     ->collapsed(),
@@ -112,6 +128,47 @@ class SiteInfoResource extends Resource
                             ->label('Reproducir automáticamente al cargar el sitio')
                             ->helperText('Si está activado, la música comenzará a reproducirse automáticamente cuando el usuario visite el sitio. El navegador podría bloquear la reproducción automática hasta que el usuario interactúe.')
                             ->default(false),
+                    ])
+                    ->collapsible(),
+
+                Forms\Components\Section::make('Efectos Visuales')
+                    ->description('Configura los efectos animados del sitio (burbujas, sal cayendo, olas).')
+                    ->icon('heroicon-o-sparkles')
+                    ->schema([
+                        Forms\Components\Toggle::make('enable_bubbles')
+                            ->label('Mostrar burbujas flotando')
+                            ->default(true)
+                            ->helperText('Burbujas que suben desde abajo de la pantalla.'),
+
+                        Forms\Components\Toggle::make('enable_salt_effect')
+                            ->label('Mostrar efecto de sal cayendo')
+                            ->default(true)
+                            ->helperText('Partículas de sal que caen desde arriba.'),
+
+                        Forms\Components\Toggle::make('enable_waves')
+                            ->label('Mostrar olas animadas')
+                            ->default(true)
+                            ->helperText('Olas animadas en la parte inferior del sitio.'),
+
+                        Forms\Components\Select::make('bubbles_density')
+                            ->label('Densidad de burbujas')
+                            ->options([
+                                'low'    => 'Pocas',
+                                'medium' => 'Medias',
+                                'high'   => 'Muchas',
+                            ])
+                            ->default('medium')
+                            ->helperText('Cantidad de burbujas en pantalla.'),
+
+                        Forms\Components\Select::make('salt_density')
+                            ->label('Intensidad del efecto de sal')
+                            ->options([
+                                'soft'   => 'Suave',
+                                'normal' => 'Normal',
+                                'intense' => 'Intenso',
+                            ])
+                            ->default('normal')
+                            ->helperText('Intensidad de las partículas de sal.'),
                     ])
                     ->collapsible(),
 

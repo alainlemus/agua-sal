@@ -1,19 +1,19 @@
 <div>
     {{-- Header --}}
     <section class="pt-32 pb-12 bg-black relative overflow-hidden" x-data="{ shown: false }" x-intersect="shown = true">
-        <div class="absolute inset-0 bg-gradient-to-b from-[#1c1c1c] to-black opacity-50 z-0"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-[var(--bg_primary)] to-black opacity-50 z-0"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center transition-all duration-1000 transform lg:py-20"
             :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'">
             <h1 class="text-5xl md:text-7xl font-['Anton'] text-white uppercase tracking-widest mb-4">
-                Nuestro <span class="text-[#E52B2B]">Menú</span>
+                Nuestro <span class="text-[var(--accent)]">Menú</span>
             </h1>
             @php $activeMenu = $menus->firstWhere('slug', $activeTab); @endphp
             <p class="text-xl text-gray-400 font-medium">{{ $activeMenu?->subtitle ?? '' }}</p>
-            <div class="h-1 w-24 bg-[#18833b] mx-auto rounded mt-6"></div>
+            <div class="h-1 w-24 bg-[var(--accent_green)] mx-auto rounded mt-6"></div>
         </div>
     </section>
 
-    <section class="bg-[#1c1c1c] min-h-screen">
+    <section class="bg-[var(--bg_primary)] min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
             @if ($menus->isEmpty())
@@ -28,8 +28,8 @@
 <button wire:click="setTab('{{ $menu->slug }}')"
                                 class="px-6 py-3 rounded-full font-black text-sm uppercase tracking-widest transition-all whitespace-nowrap
                            {{ $activeTab === $menu->slug
-                                ? 'bg-[#E52B2B] text-white shadow-lg shadow-red-900/40'
-                                : 'bg-[#2a2a2a] text-gray-400 hover:text-white hover:bg-[#333]' }}">
+                                ? 'bg-[var(--accent)] text-white shadow-lg shadow-red-900/40'
+                                : 'bg-[var(--bg_card)] text-gray-400 hover:text-white hover:bg-[var(--bg_card_hover)]' }}">
                                 {{ $menu->name }}
                                 @if ($menu->schedule)
                                     <span
@@ -75,12 +75,13 @@
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-4">
                                 @foreach ($products as $product)
-                                    <div class="flex items-center gap-4 group hover:bg-[#2a2a2a] p-3 sm:p-4 rounded-xl transition-colors border border-transparent hover:border-gray-800">
+                                    <div class="flex items-center gap-4 group hover:bg-[var(--bg_card)] p-3 sm:p-4 rounded-xl transition-colors border border-transparent hover:border-transparent">
                                         <div class="w-16 h-16 sm:w-24 sm:h-24 flex-shrink-0 rounded-lg overflow-hidden shadow-lg border border-gray-700">
                                             @php
                                                 $placeholders = [
-                                                    asset('storage/images/hamburguesa.jpg'),
-                                                    asset('storage/images/gabachona.jpg'),
+                                                    'https://images.unsplash.com/photo-1559737552-2f8195a0651b?auto=format&fit=crop&q=80',
+                                                    'https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?auto=format&fit=crop&q=80',
+                                                    'https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?auto=format&fit=crop&q=80',
                                                 ];
                                                 $productImg = $product->image
                                                     ? asset('storage/' . $product->image)
@@ -88,14 +89,15 @@
                                             @endphp
                                             <img src="{{ $productImg }}"
                                                 alt="{{ $product->name }}"
-                                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                                onerror="this.src='https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&q=80'">
                                         </div>
                                         <div class="flex-grow flex flex-col justify-center min-w-0">
-                                            <div class="flex justify-between items-baseline mb-1 sm:mb-2 border-b border-gray-800 pb-1 sm:pb-2 gap-2">
-                                                 <h4 class="text-base sm:text-xl font-black text-white uppercase tracking-wide group-hover:text-[#E52B2B] transition-colors truncate">
+                                            <div class="flex justify-between items-baseline mb-1 sm:mb-2 border-b border-transparent pb-1 sm:pb-2 gap-2">
+                                                 <h4 class="text-base sm:text-xl font-black text-white uppercase tracking-wide group-hover:text-[var(--accent)] transition-colors truncate">
                                                      {{ $product->name }}
                                                  </h4>
-                                                <span class="text-[#18833b] font-bold text-base sm:text-xl flex-shrink-0">
+                                                <span class="text-[var(--accent_green)] font-bold text-base sm:text-xl flex-shrink-0">
                                                     ${{ number_format($product->price, 2) }}
                                                 </span>
                                             </div>
