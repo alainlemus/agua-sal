@@ -8,17 +8,15 @@
                     <div class="absolute inset-0 z-0">
                         @if(!empty($block['data']['hero_image']))
                             <img src="{{ asset('storage/' . $block['data']['hero_image']) }}" class="w-full h-full object-cover">
-                        @else
+                        @elseif(!empty($block['data']['hero_video']))
                             <video autoplay loop muted playsinline class="w-full h-full object-cover">
-                                @if(!empty($block['data']['hero_video']))
-                                    <source src="{{ asset('storage/' . $block['data']['hero_video']) }}" type="video/mp4">
-                                @else
-                                    <source src="{{ asset('videos/hero.mp4') }}" type="video/mp4">
-                                @endif
+                                <source src="{{ asset('storage/' . $block['data']['hero_video']) }}" type="video/mp4">
                             </video>
                         @endif
-                        <div class="absolute inset-0 bg-[#1c1c1c]/40 mix-blend-multiply"></div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#1c1c1c] via-transparent to-transparent"></div>
+                        @if(!empty($block['data']['hero_image']) || !empty($block['data']['hero_video']))
+                            <div class="absolute inset-0 bg-[#1c1c1c]/40 mix-blend-multiply"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#1c1c1c] via-transparent to-transparent"></div>
+                        @endif
                     </div>
 
                     <div class="hidden lg:block absolute bottom-0 left-[5%] z-20 animate-fade-in-up delay-[800ms]">
@@ -26,23 +24,31 @@
                             @if(!empty($block['data']['hero_side_image']))
                                 <img src="{{ asset('storage/' . $block['data']['hero_side_image']) }}" alt="{{ siteName() }}"
                                     class="h-[45vh] w-auto object-contain object-bottom drop-shadow-[0_0_40px_rgba(0,0,0,0.9)] filter contrast-110">
-                            @else
-                                <img src="{{ asset('images/papi.png') }}" alt="{{ siteName() }}"
-                                    class="h-[45vh] w-auto object-contain object-bottom drop-shadow-[0_0_40px_rgba(0,0,0,0.9)] filter contrast-110">
                             @endif
-                            <div class="absolute top-1/4 -right-16 bg-[#1c1c1c]/90 backdrop-blur border border-[#E52B2B] px-6 py-3 rounded shadow-2xl transform rotate-3">
-                                <span class="text-white font-['Anton'] tracking-wider text-xl whitespace-nowrap">{{ $block['data']['hero_badge_text_1'] ?? 'CALIDAD Y SABOR' }}<br><span class="text-[#E52B2B]">{{ $block['data']['hero_badge_text_2'] ?? 'EN CADA CORTE' }}</span></span>
-                            </div>
+                            @if(!empty($block['data']['hero_badge_text_1']) || !empty($block['data']['hero_badge_text_2']))
+                                <div class="absolute top-1/4 -right-16 bg-[#1c1c1c]/90 backdrop-blur border border-[#E52B2B] px-6 py-3 rounded shadow-2xl transform rotate-3">
+                                    <span class="text-white font-['Anton'] tracking-wider text-xl whitespace-nowrap">
+                                        {{ $block['data']['hero_badge_text_1'] ?? '' }}
+                                        @if(!empty($block['data']['hero_badge_text_2']))
+                                        <br><span class="text-[#E52B2B]">{{ $block['data']['hero_badge_text_2'] }}</span>
+                                        @endif
+                                    </span>
+                                </div>
+                            @endif
                         </div>
                     </div>
 
                     <div class="relative z-10 text-center px-4 max-w-4xl mx-auto mt-20">
-                        <h1 class="text-6xl md:text-8xl font-['Anton'] text-white uppercase tracking-widest mb-6 drop-shadow-2xl opacity-0 animate-fade-in-up">
-                            {{ $block['data']['hero_heading'] ?? 'El auténtico sabor del asado' }}
-                        </h1>
-                        <p class="text-xl md:text-2xl text-gray-300 font-medium mb-10 opacity-0 animate-fade-in-up delay-[300ms]">
-                            {{ $block['data']['hero_subheading'] ?? 'Carnes ahumadas, fuego lento y la verdadera experiencia BBQ americana.' }}
-                        </p>
+                        @if(!empty($block['data']['hero_heading']))
+                            <h1 class="text-6xl md:text-8xl font-['Anton'] text-white uppercase tracking-widest mb-6 drop-shadow-2xl opacity-0 animate-fade-in-up">
+                                {{ $block['data']['hero_heading'] }}
+                            </h1>
+                        @endif
+                        @if(!empty($block['data']['hero_subheading']))
+                            <p class="text-xl md:text-2xl text-gray-300 font-medium mb-10 opacity-0 animate-fade-in-up delay-[300ms]">
+                                {{ $block['data']['hero_subheading'] }}
+                            </p>
+                        @endif
                         <div class="opacity-0 animate-fade-in-up delay-[600ms]">
                                         <a href="/menu" class="inline-block bg-[#E52B2B] hover:bg-red-700 text-white px-8 py-4 rounded font-bold uppercase tracking-widest text-lg transition-all shadow-[0_0_20px_rgba(229,43,43,0.4)] hover:shadow-[0_0_30px_rgba(229,43,43,0.6)] hover:-translate-y-1">
                                             Ver Menú

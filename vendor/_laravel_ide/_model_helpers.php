@@ -1710,11 +1710,10 @@ namespace App\Models {
      * @property string|null $nav_label
      * @property boolean $show_in_nav
      * @property boolean $is_published
+     * @property string $modal_delay
      * @property boolean $modal_intrusive
      * @property boolean $modal_video_autoplay
      * @property string|null $modal_video_url
-     * @property string|null $modal_video_type
-     * @property string $modal_delay
      * @property boolean $modal_show_video
      * @property array|null $modal_carousel_items
      * @property boolean $modal_show_carousel
@@ -1741,11 +1740,10 @@ namespace App\Models {
      * @method static \Illuminate\Database\Eloquent\Builder<Page>|Page whereModalShowCarousel($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Page>|Page whereModalCarouselItems($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Page>|Page whereModalShowVideo($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Page>|Page whereModalDelay($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Page>|Page whereModalVideoType($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Page>|Page whereModalVideoUrl($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Page>|Page whereModalVideoAutoplay($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Page>|Page whereModalIntrusive($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Page>|Page whereModalDelay($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Page>|Page whereIsPublished($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Page>|Page whereShowInNav($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Page>|Page whereNavLabel($value)
@@ -3804,42 +3802,14 @@ namespace App\Models {
      * @property string|null $whatsapp
      * @property string|null $phone
      * @property string|null $address
-     * @property bool $theme_feature_enabled
      * @property string|null $serves_cuisine
      * @property string|null $tagline
-     * @property string $secondary_color_light
-     * @property string $primary_color_light
-     * @property string $text_muted_light
-     * @property string $text_color_light
-     * @property string $bg_secondary_light
-     * @property string $bg_color_light
-     * @property string $text_muted
-     * @property string $text_color
-     * @property string $bg_secondary
-     * @property string $bg_color
-     * @property string $secondary_color
-     * @property string $primary_color
-     * @property string $theme_mode
      * @property string|null $site_name
      * @property int $id
      * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo whereId($value)
      * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo whereSiteName($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo whereThemeMode($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo wherePrimaryColor($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo whereSecondaryColor($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo whereBgColor($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo whereBgSecondary($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo whereTextColor($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo whereTextMuted($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo whereBgColorLight($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo whereBgSecondaryLight($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo whereTextColorLight($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo whereTextMutedLight($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo wherePrimaryColorLight($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo whereSecondaryColorLight($value)
      * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo whereTagline($value)
      * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo whereServesCuisine($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo whereThemeFeatureEnabled($value)
      * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo whereAddress($value)
      * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo wherePhone($value)
      * @method static \Illuminate\Database\Eloquent\Builder<SiteInfo>|SiteInfo whereWhatsapp($value)

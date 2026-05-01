@@ -137,7 +137,7 @@ class RolesAndPermissionsSeeder extends Seeder
         ));
 
         // ── Asignar super_admin al usuario admin ──────────────────────────
-        $admin = User::where('email', 'admin@donpapi.test')->first();
+        $admin = User::where('email', 'admin@aguaysal.test')->first();
         if ($admin) {
             if (!$admin->hasRole('super_admin')) {
                 $admin->assignRole('super_admin');

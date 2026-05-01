@@ -23,7 +23,6 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // ── Limpiar tablas respetando foreign keys ──────────────────────────
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
         DB::table('role_has_permissions')->delete();
         DB::table('model_has_roles')->delete();
@@ -45,153 +44,71 @@ class DatabaseSeeder extends Seeder
         User::truncate();
         if ($isMysql) DB::statement('SET FOREIGN_KEY_CHECKS=1');
 
-        // ── Usuario admin ───────────────────────────────────────────────────
         User::factory()->create([
             'name'     => 'Admin User',
-            'email'    => 'admin@donpapi.test',
+            'email'    => 'admin@aguaysal.test',
             'password' => bcrypt('password'),
         ]);
 
-        // ────────────────────────────────────────────────────────────────────
-        // CATEGORÍAS
-        // ────────────────────────────────────────────────────────────────────
         $cats = [
-            'Cortes'       => Category::create(['name' => 'Cortes Al Grill',           'slug' => 'cortes',        'is_active' => true, 'description' => 'Angus, Wagyu y opciones premium.']),
-            'Hamburguesas' => Category::create(['name' => 'Hamburguesas',               'slug' => 'hamburguesas',  'is_active' => true, 'description' => 'Acompañadas de papas gajo.']),
-            'Para Arrancar' => Category::create(['name' => 'Para Arrancar',             'slug' => 'para-arrancar', 'is_active' => true, 'description' => 'Perfectos para iniciar tu experiencia BBQ.']),
-            'Caldosos'     => Category::create(['name' => 'Caldosos',                   'slug' => 'caldosos',      'is_active' => true, 'description' => 'Sopas y caldos.']),
-            'Pastas'       => Category::create(['name' => 'Pastas',                     'slug' => 'pastas',        'is_active' => true, 'description' => 'Pastas con el toque de la casa.']),
-            'Ensaladas'    => Category::create(['name' => 'Ensaladas',                  'slug' => 'ensaladas',     'is_active' => true, 'description' => 'Frescas y deliciosas.']),
-            'Licores'      => Category::create(['name' => 'Vinos y Licores',            'slug' => 'licores',       'is_active' => true, 'description' => 'Champagne, Whiskys, Rones y Destilados.']),
-            'Charolas'     => Category::create(['name' => 'Charolas Gabachonas',        'slug' => 'charolas',      'is_active' => true, 'description' => 'Acompañadas por pan brioche y guarniciones.']),
-            'Especialidad' => Category::create(['name' => 'Especialidad de la Casa',    'slug' => 'especialidad',  'is_active' => true, 'description' => 'Por cada 250g se incluye pan y guarnición.']),
-            'Huercos'      => Category::create(['name' => 'Para Los Huercos (Kids)',    'slug' => 'huercos',       'is_active' => true, 'description' => 'Menú infantil.']),
-            'Bebidas'      => Category::create(['name' => 'Bebidas y Coctelería',       'slug' => 'bebidas',       'is_active' => true, 'description' => 'Cervezas y bebidas preparadas.']),
+            'Tostadas'   => Category::create(['name' => 'Tostadas',            'slug' => 'tostadas',   'is_active' => true, 'description' => 'Tostadas frescas con mariscos.']),
+            'Mariscos'   => Category::create(['name' => 'Mariscos',            'slug' => 'mariscos',   'is_active' => true, 'description' => 'Preparaciones con mariscos frescos.']),
+            'Botanas'    => Category::create(['name' => 'Botanas',             'slug' => 'botanas',    'is_active' => true, 'description' => 'Perfectas para compartir.']),
+            'Bebidas'    => Category::create(['name' => 'Bebidas',             'slug' => 'bebidas',    'is_active' => true, 'description' => 'Refrescos y más.']),
+            'Cervezas'   => Category::create(['name' => 'Cervezas',            'slug' => 'cervezas',   'is_active' => true, 'description' => 'Cervezas bien frías.']),
         ];
 
-        // ────────────────────────────────────────────────────────────────────
-        // PRODUCTOS
-        // ────────────────────────────────────────────────────────────────────
         $products = [
-            // Cortes Al Grill
-            ['cat' => 'Cortes', 'name' => 'Rib-Eye (Angus High Choice)',    'price' => 690,   'desc' => '480 a 520 grs',                                                                      'feat' => true],
-            ['cat' => 'Cortes', 'name' => 'Porter House (Angus High Choice)','price' => 1500, 'desc' => '950 a 1050 grs'],
-            ['cat' => 'Cortes', 'name' => 'T-Bone (Angus High Choice)',     'price' => 1300,  'desc' => '950 a 1050 grs'],
-            ['cat' => 'Cortes', 'name' => 'New York (Angus High Choice)',   'price' => 670,   'desc' => '480 a 520 grs'],
-            ['cat' => 'Cortes', 'name' => 'Mega Cow Boy (Angus Prime)',     'price' => 1700,  'desc' => '1000 a 1100 grms'],
-            ['cat' => 'Cortes', 'name' => 'Tomahawk (Angus Prime)',         'price' => 1900,  'desc' => '1000 a 1100 grs',                                                                    'feat' => true],
-            ['cat' => 'Cortes', 'name' => 'Rib-Eye (Carne Uruguaya)',       'price' => 1350,  'desc' => 'Precio por 500gr.'],
-            ['cat' => 'Cortes', 'name' => 'New York (Carne Uruguaya)',      'price' => 1250,  'desc' => 'Precio por 500gr.'],
-            ['cat' => 'Cortes', 'name' => 'Picaña (Carne Uruguaya)',        'price' => 1500,  'desc' => 'Precio por kilo.'],
-            ['cat' => 'Cortes', 'name' => 'Rib Eye 9+ (Wagyu Australiano)', 'price' => 2250,  'desc' => 'Precio por 500gr. Full Blood'],
-            ['cat' => 'Cortes', 'name' => 'New-York 9+ (Wagyu Australiano)','price' => 2105,  'desc' => 'Precio por 500gr. Full Blood'],
-            ['cat' => 'Cortes', 'name' => 'Picaña 5-6 (Wagyu Australiano)', 'price' => 1400,  'desc' => 'Precio por kilo. Full Blood'],
-            ['cat' => 'Cortes', 'name' => 'Rib-Eye A5 (Wagyu Arita Japonés)','price' => 7500, 'desc' => 'Precio $7.50 el gramo',                                                              'feat' => true],
-            ['cat' => 'Cortes', 'name' => 'New-York A5 (Wagyu Arita Japonés)','price' => 7000,'desc' => 'Precio $7.00 el gramo'],
+            ['cat' => 'Tostadas', 'name' => 'Tostada de Camarón',  'price' => 160, 'desc' => '3 unidades',           'feat' => true],
+            ['cat' => 'Tostadas', 'name' => 'Tostada de Pulpo',   'price' => 160, 'desc' => '3 unidades'],
+            ['cat' => 'Tostadas', 'name' => 'Tostada de Jaiba',   'price' => 160, 'desc' => '3 unidades'],
+            ['cat' => 'Tostadas', 'name' => 'Tostada Mixta',      'price' => 180, 'desc' => '3 unidades'],
+            ['cat' => 'Tostadas', 'name' => 'Tostada de Atún',    'price' => 210, 'desc' => '3 unidades'],
 
-            // Hamburguesas
-            ['cat' => 'Hamburguesas', 'name' => 'Clásica',      'price' => 195, 'desc' => '300 grms carne, aderezo, queso americano, gouda, tocino y cebolla caramelizada.'],
-            ['cat' => 'Hamburguesas', 'name' => 'Brisket',      'price' => 295, 'desc' => 'Pan brioche, 200gr de brisket ahumado, coleslaw y pepinillos.',                     'feat' => true],
-            ['cat' => 'Hamburguesas', 'name' => 'Pulled Pork',  'price' => 230, 'desc' => 'Pan brioche, 200gr de pulled pork, coleslaw y pepinillos.'],
+            ['cat' => 'Mariscos', 'name' => 'Jaiba del Día',           'price' => 150, 'desc' => '2 unidades'],
+            ['cat' => 'Mariscos', 'name' => 'Camarones al Ajillo',     'price' => 280, 'desc' => '250g'],
+            ['cat' => 'Mariscos', 'name' => 'Pulpo al Ajillo',        'price' => 380, 'desc' => '250g',              'feat' => true],
+            ['cat' => 'Mariscos', 'name' => 'Camarones a la Diabla',   'price' => 280, 'desc' => '250g'],
+            ['cat' => 'Mariscos', 'name' => 'Pulpo a la Diabla',      'price' => 380, 'desc' => '250g'],
+            ['cat' => 'Mariscos', 'name' => 'Camarones en Currob',    'price' => 280, 'desc' => '300g'],
+            ['cat' => 'Mariscos', 'name' => 'Pulpo en Currob',        'price' => 380, 'desc' => '300g'],
+            ['cat' => 'Mariscos', 'name' => 'Paquete de Camarones',   'price' => 350, 'desc' => ''],
 
-            // Para Arrancar
-            ['cat' => 'Para Arrancar', 'name' => 'Tlacoyo de Picaña con Salsa de Huitlacoche', 'price' => 130, 'desc' => '2 piezas rellenos de frijol, 150g picaña',          'feat' => true],
-            ['cat' => 'Para Arrancar', 'name' => 'Papa al Horno',                               'price' => 100, 'desc' => 'Papa horneada con mix de quesos'],
-            ['cat' => 'Para Arrancar', 'name' => 'Sopes de Cola de Res',                        'price' => 90,  'desc' => 'Orden de 3 sopecitos con cremoso de aguacate'],
-            ['cat' => 'Para Arrancar', 'name' => 'Molleja de Res al Grill',                     'price' => 180, 'desc' => '300gr de molleja asada directo al grill'],
-            ['cat' => 'Para Arrancar', 'name' => 'Guacamole',                                   'price' => 150, 'desc' => 'Tradicional mexicano'],
-            ['cat' => 'Para Arrancar', 'name' => 'Guacamole con Chicharrón Ramos',              'price' => 250, 'desc' => '200g de auténtico chicharrón del norte',             'feat' => true],
-            ['cat' => 'Para Arrancar', 'name' => 'Tuétano con Arrachera',                       'price' => 210, 'desc' => 'Tuétano con arrachera cremosa, aguacate, rábano y cilantro'],
-            ['cat' => 'Para Arrancar', 'name' => 'Sopes Ramos',                                 'price' => 100, 'desc' => 'Orden de 3 sopecitos de chicharrón regio'],
-            ['cat' => 'Para Arrancar', 'name' => 'Costillas de Elote',                          'price' => 130, 'desc' => 'Acompañadas de salsa morita o mayonesa chiltepín'],
+            ['cat' => 'Botanas', 'name' => 'Guacamole',   'price' => 120, 'desc' => ''],
+            ['cat' => 'Botanas', 'name' => 'Mixto',       'price' => 250, 'desc' => 'Jaiba, Pulpo, Camarón'],
+            ['cat' => 'Botanas', 'name' => 'Chichen',     'price' => 120, 'desc' => ''],
+            ['cat' => 'Botanas', 'name' => 'Pancita',     'price' => 160, 'desc' => ''],
+            ['cat' => 'Botanas', 'name' => 'Cocktel de Camarón',  'price' => 120, 'desc' => ''],
+            ['cat' => 'Botanas', 'name' => 'Cocktel de Jaiba',   'price' => 120, 'desc' => ''],
+            ['cat' => 'Botanas', 'name' => 'Cocktel de Pulpo',   'price' => 150, 'desc' => ''],
 
-            // Caldosos
-            ['cat' => 'Caldosos', 'name' => 'Frijoles Puercos',  'price' => 100, 'desc' => 'Jamón, chorizo y chile cuaresmeño, salchicha y carne de puerco.'],
-            ['cat' => 'Caldosos', 'name' => 'Sopa de Tortilla',  'price' => 100, 'desc' => 'Caldillo base jitomate con sazón de la casa, crema, aguacate, chicharrón.'],
-            ['cat' => 'Caldosos', 'name' => 'Jugo de Carne',     'price' => 130, 'desc' => 'Sabor tenue picosito, acompañado de cebolla y cilantro.'],
+            ['cat' => 'Bebidas', 'name' => 'Agua Mineral',       'price' => 30,  'desc' => ''],
+            ['cat' => 'Bebidas', 'name' => 'Coca-Cola',         'price' => 35,  'desc' => ''],
+            ['cat' => 'Bebidas', 'name' => 'Sidral Mundet',      'price' => 35,  'desc' => ''],
+            ['cat' => 'Bebidas', 'name' => 'Pepsi',             'price' => 35,  'desc' => ''],
+            ['cat' => 'Bebidas', 'name' => 'Lemon Postobón',     'price' => 35,  'desc' => ''],
+            ['cat' => 'Bebidas', 'name' => 'Boing Mango',       'price' => 30,  'desc' => ''],
+            ['cat' => 'Bebidas', 'name' => 'Boing Fresa',        'price' => 30,  'desc' => ''],
+            ['cat' => 'Bebidas', 'name' => 'Boing Manzana',      'price' => 30,  'desc' => ''],
+            ['cat' => 'Bebidas', 'name' => 'Boing Piña',        'price' => 30,  'desc' => ''],
+            ['cat' => 'Bebidas', 'name' => 'H2O Limón',         'price' => 30,  'desc' => ''],
+            ['cat' => 'Bebidas', 'name' => 'H2O Tamarindo',      'price' => 30,  'desc' => ''],
+            ['cat' => 'Bebidas', 'name' => 'Topochico',          'price' => 30,  'desc' => ''],
+            ['cat' => 'Bebidas', 'name' => 'Vitamina',          'price' => 30,  'desc' => ''],
+            ['cat' => 'Bebidas', 'name' => 'Café',              'price' => 35,  'desc' => ''],
+            ['cat' => 'Bebidas', 'name' => 'Chocomilk',         'price' => 30,  'desc' => ''],
+            ['cat' => 'Bebidas', 'name' => 'Arena',              'price' => 30,  'desc' => ''],
+            ['cat' => 'Bebidas', 'name' => 'Tónica',            'price' => 25,  'desc' => ''],
 
-            // Pastas
-            ['cat' => 'Pastas', 'name' => 'Pasta 3 Quesos',          'price' => 225, 'desc' => 'Gouda, manchego y parmesano. Acompañada de 100g de brisket.'],
-            ['cat' => 'Pastas', 'name' => 'Pasta Pomodoro',           'price' => 225, 'desc' => 'Con queso parmesano y 100 g de brisket.'],
-            ['cat' => 'Pastas', 'name' => 'Mac and Cheese con Brisket','price' => 230, 'desc' => 'Base 3 quesos y 100gr de brisket ahumado.',                  'feat' => true],
-
-            // Ensaladas
-            ['cat' => 'Ensaladas', 'name' => 'Ensalada Mediterránea', 'price' => 130, 'desc' => 'Mix de lechugas, jitomates rostizados, aceitunas, cebolla, pistachos, queso feta.'],
-            ['cat' => 'Ensaladas', 'name' => 'Ensalada Don Papi',     'price' => 150, 'desc' => 'Higos caramelizados, jamón serrano, queso de cabra, fresas.'],
-
-            // Vinos y Licores — Champagne
-            ['cat' => 'Licores', 'name' => 'Dom Perignon (Botella)',    'price' => 11000, 'desc' => 'Champagne'],
-            ['cat' => 'Licores', 'name' => 'Moet Ice (Botella)',        'price' => 3400,  'desc' => 'Champagne'],
-            ['cat' => 'Licores', 'name' => 'Moet Rose (Botella)',       'price' => 3400,  'desc' => 'Champagne'],
-            ['cat' => 'Licores', 'name' => 'Moet Ice Rose (Botella)',   'price' => 4100,  'desc' => 'Champagne'],
-            ['cat' => 'Licores', 'name' => '24K Gold (Botella)',        'price' => 2000,  'desc' => 'Champagne'],
-            ['cat' => 'Licores', 'name' => 'Freixenet Black (Botella)', 'price' => 1500,  'desc' => 'Champagne'],
-            // Vinos Tintos
-            ['cat' => 'Licores', 'name' => 'Calixa Ojos Negros',              'price' => 900,  'desc' => 'Vino Tinto'],
-            ['cat' => 'Licores', 'name' => 'Sangre de Toro',                  'price' => 800,  'desc' => 'Vino Tinto'],
-            ['cat' => 'Licores', 'name' => 'Tablas',                          'price' => 1100, 'desc' => 'Vino Tinto'],
-            ['cat' => 'Licores', 'name' => 'Monte Xanit',                     'price' => 1900, 'desc' => 'Vino Tinto'],
-            ['cat' => 'Licores', 'name' => 'Marqués de Cáceres Reserva',      'price' => 1900, 'desc' => 'Vino Tinto'],
-            ['cat' => 'Licores', 'name' => 'Amicorum',                        'price' => 1950, 'desc' => 'Vino Tinto'],
-            ['cat' => 'Licores', 'name' => 'Casillero del Diablo Carnaval',   'price' => 700,  'desc' => 'Vino Tinto'],
-            ['cat' => 'Licores', 'name' => 'Marqués de Cáceres Crianza',      'price' => 1000, 'desc' => 'Vino Tinto'],
-            // Whiskys
-            ['cat' => 'Licores', 'name' => 'Black & White',            'price' => 550,  'desc' => 'Whisky (Copeo $55)'],
-            ['cat' => 'Licores', 'name' => 'Red Label',                'price' => 700,  'desc' => 'Whisky (Copeo $70)'],
-            ['cat' => 'Licores', 'name' => 'Buchanan\'s',              'price' => 1650, 'desc' => 'Whisky (Copeo $165)'],
-            ['cat' => 'Licores', 'name' => 'Jack Daniel\'s Black',     'price' => 950,  'desc' => 'Whisky (Copeo $95)'],
-            ['cat' => 'Licores', 'name' => 'Jack Daniels',             'price' => 1200, 'desc' => 'Whisky (Copeo $120)'],
-            ['cat' => 'Licores', 'name' => 'Jack Daniels Honey / Apple','price' => 1200,'desc' => 'Whisky (Copeo $120)'],
-            ['cat' => 'Licores', 'name' => 'Glenfidich 12',            'price' => 2900, 'desc' => 'Whisky (Copeo $290)'],
-            ['cat' => 'Licores', 'name' => 'Glenfidich 15',            'price' => 4100, 'desc' => 'Whisky'],
-            ['cat' => 'Licores', 'name' => 'Macallan 15',              'price' => 8000, 'desc' => 'Whisky'],
-            ['cat' => 'Licores', 'name' => 'Macallan 12',              'price' => 3800, 'desc' => 'Whisky (Copeo $380)'],
-            ['cat' => 'Licores', 'name' => 'Gentleman Jack',           'price' => 1700, 'desc' => 'Whisky (Copeo $170)'],
-            ['cat' => 'Licores', 'name' => '1792',                     'price' => 1700, 'desc' => 'Whisky (Copeo $170)'],
-            ['cat' => 'Licores', 'name' => 'Woodford Reserve',         'price' => 1700, 'desc' => 'Whisky (Copeo $170)'],
-            ['cat' => 'Licores', 'name' => 'Chivas Regal 12',          'price' => 1900, 'desc' => 'Whisky (Copeo $190)'],
-            ['cat' => 'Licores', 'name' => 'Old Parr 12',              'price' => 1700, 'desc' => 'Whisky (Copeo $170)'],
-            ['cat' => 'Licores', 'name' => 'Buchana\'s Deluxe 12',     'price' => 1900, 'desc' => 'Whisky (Copeo $190)'],
-            ['cat' => 'Licores', 'name' => 'Buchana\'s Master',        'price' => 2700, 'desc' => 'Whisky (Copeo $270)'],
-            ['cat' => 'Licores', 'name' => 'Buchana\'s 18',            'price' => 5300, 'desc' => 'Whisky (Copeo $530)'],
-            ['cat' => 'Licores', 'name' => 'J. Walker Red',            'price' => 800,  'desc' => 'Whisky (Copeo $80)'],
-            ['cat' => 'Licores', 'name' => 'J. Walker Black Label',    'price' => 2400, 'desc' => 'Whisky (Copeo $240)'],
-            ['cat' => 'Licores', 'name' => 'J.Walker Double Black',    'price' => 2800, 'desc' => 'Whisky (Copeo $280)'],
-            ['cat' => 'Licores', 'name' => 'J.Walker Gold Label',      'price' => 3600, 'desc' => 'Whisky (Copeo $360)'],
-            ['cat' => 'Licores', 'name' => 'J.Walker Green Label',     'price' => 4500, 'desc' => 'Whisky (Copeo $450)'],
-            ['cat' => 'Licores', 'name' => 'J.Walker Blue Label',      'price' => 10900,'desc' => 'Whisky (Copeo $1090)'],
-            // Ginebras
-            ['cat' => 'Licores', 'name' => 'Bombay Sapphire', 'price' => 1000, 'desc' => 'Ginebra (Copeo $100)'],
-            ['cat' => 'Licores', 'name' => 'Hendrick\'s',     'price' => 1800, 'desc' => 'Ginebra (Copeo $180)'],
-            ['cat' => 'Licores', 'name' => 'Bulldog',         'price' => 1600, 'desc' => 'Ginebra (Copeo $160)'],
-            ['cat' => 'Licores', 'name' => 'Tanqueray Ten',   'price' => 2100, 'desc' => 'Ginebra (Copeo $210)'],
-            // Rones
-            ['cat' => 'Licores', 'name' => 'Bacardi Blanco',     'price' => 700, 'desc' => 'Ron (Copeo $70)'],
-            ['cat' => 'Licores', 'name' => 'Bacardi Añejo',      'price' => 850, 'desc' => 'Ron (Copeo $85)'],
-            ['cat' => 'Licores', 'name' => 'Bacardi Coco',       'price' => 800, 'desc' => 'Ron (Copeo $80)'],
-            ['cat' => 'Licores', 'name' => 'Bacardi Raspberry',  'price' => 800, 'desc' => 'Ron (Copeo $80)'],
-            ['cat' => 'Licores', 'name' => 'Havana Club 7',      'price' => 900, 'desc' => 'Ron (Copeo $90)'],
-            ['cat' => 'Licores', 'name' => 'Matusalem Clásico',  'price' => 600, 'desc' => 'Ron (Copeo $60)'],
-            ['cat' => 'Licores', 'name' => 'Matusalem Platino',  'price' => 700, 'desc' => 'Ron (Copeo $70)'],
-            // Brandy
-            ['cat' => 'Licores', 'name' => 'Torres 5',        'price' => 700,  'desc' => 'Brandy (Copeo $70)'],
-            ['cat' => 'Licores', 'name' => 'Torres 10',       'price' => 880,  'desc' => 'Brandy (Copeo $88)'],
-            ['cat' => 'Licores', 'name' => 'Torres 15',       'price' => 1400, 'desc' => 'Brandy (Copeo $140)'],
-            ['cat' => 'Licores', 'name' => 'Torres 20',       'price' => 2400, 'desc' => 'Brandy (Copeo $240)'],
-            ['cat' => 'Licores', 'name' => 'Torres Alta Luz', 'price' => 1300, 'desc' => 'Brandy (Copeo $130)'],
-
-            // Charolas Gabachonas
-            ['cat' => 'Charolas', 'name' => 'Charola Para 2 Personas', 'price' => 740, 'desc' => 'Pulled pork, brisket, costilla de res y salchicha'],
-
-            // Especialidad de la Casa
-            ['cat' => 'Especialidad', 'name' => 'Brisket Wagyu', 'price' => 1530, 'desc' => 'Nuestra máxima especialidad ahumada.', 'feat' => true],
-
-            // Para Los Huercos
-            ['cat' => 'Huercos', 'name' => 'Mini Clásica con Papas', 'price' => 105, 'desc' => 'Mini hamburguesa de res, queso, papas gajo.'],
-
-            // Bebidas y Coctelería
-            ['cat' => 'Bebidas', 'name' => 'Cerveza de Barril 1L', 'price' => 100, 'desc' => 'De barril bien fría.'],
-            ['cat' => 'Bebidas', 'name' => 'Cerveza XX Lager',     'price' => 40,  'desc' => 'Media'],
+            ['cat' => 'Cervezas', 'name' => 'Carta Blanca',    'price' => 40,  'desc' => ''],
+            ['cat' => 'Cervezas', 'name' => 'Corona',           'price' => 45,  'desc' => ''],
+            ['cat' => 'Cervezas', 'name' => 'Corona Light',     'price' => 45,  'desc' => ''],
+            ['cat' => 'Cervezas', 'name' => 'Negra Modelo',     'price' => 50,  'desc' => ''],
+            ['cat' => 'Cervezas', 'name' => 'Modelo Light',     'price' => 50,  'desc' => ''],
+            ['cat' => 'Cervezas', 'name' => 'Victoria',         'price' => 40,  'desc' => ''],
+            ['cat' => 'Cervezas', 'name' => 'Super Barre',      'price' => 35,  'desc' => ''],
+            ['cat' => 'Cervezas', 'name' => 'Tsunami',          'price' => 50,  'desc' => ''],
+            ['cat' => 'Cervezas', 'name' => 'X Lager',          'price' => 40,  'desc' => ''],
         ];
 
         foreach ($products as $p) {
@@ -206,27 +123,16 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        // ────────────────────────────────────────────────────────────────────
-        // MENÚ PRINCIPAL
-        // ────────────────────────────────────────────────────────────────────
         $menu = Menu::create([
-            'name'        => 'Menu 1',
+            'name'        => 'Menú',
             'slug'        => 'menu-1',
-            'description' => 'Menu de comida',
-            'schedule'    => 'Lunes - Domingo 11:00am - 08:00pm',
+            'description' => 'Menú de Tostadas y Mariscos',
+            'schedule'    => 'Lunes - Domingo 11:00am - 10:00pm',
             'is_active'   => true,
             'sort_order'  => 1,
         ]);
 
-        // Orden real del SQLite: Charolas(8), Cortes(1), Hamburguesas(2),
-        // Para Arrancar(3), Caldosos(4), Pastas(5), Ensaladas(6),
-        // Especialidad(9), Huercos(10), Bebidas(11), Licores(7)
-        $menuSectionOrder = [
-            'Charolas', 'Cortes', 'Hamburguesas', 'Para Arrancar',
-            'Caldosos', 'Pastas', 'Ensaladas', 'Especialidad',
-            'Huercos', 'Bebidas', 'Licores',
-        ];
-
+        $menuSectionOrder = ['Tostadas', 'Mariscos', 'Botanas', 'Bebidas', 'Cervezas'];
         $orden = 1;
         foreach ($menuSectionOrder as $key) {
             MenuSection::create([
@@ -237,123 +143,84 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        // ────────────────────────────────────────────────────────────────────
-        // CAMPAÑA DE RESEÑAS
-        // ────────────────────────────────────────────────────────────────────
         $campaign = ReviewCampaign::create([
-            'name'             => 'Enero',
-            'slug'             => 'enero-2026',
+            'name'             => 'Bienvenida',
+            'slug'             => 'bienvenida-2026',
             'is_active'        => true,
             'max_uses'         => 500,
             'gift_title'       => '¡Bebida gratis!',
-            'gift_code_prefix' => 'DON-PAPI',
-            'gift_description' => 'Valido para una bebida de tu elección, no aplica en destilados',
+            'gift_code_prefix' => 'AGUA-SAL',
+            'gift_description' => 'Válido para una bebida de tu elección.',
         ]);
 
-        ReviewSubmission::create(['review_campaign_id' => $campaign->id, 'customer_name' => 'Carlos Martínez',  'customer_email' => 'carlos@example.com',  'rating' => 5, 'comment' => '¡Excelente comida! Todo estaba delicioso y el servicio fue de primera. Definitivamente vuelvo.',       'gift_code' => 'DON-PAPI-EJ01', 'ip_address' => '127.0.0.1', 'created_at' => now()->subDays(5)]);
-        ReviewSubmission::create(['review_campaign_id' => $campaign->id, 'customer_name' => 'Ana Sofía Garza',  'customer_email' => 'ana@example.com',     'rating' => 5, 'comment' => 'El Brisket Wagyu es de otro nivel. El ambiente es muy agradable y el trato del personal excelente.',        'gift_code' => 'DON-PAPI-EJ02', 'ip_address' => '127.0.0.1', 'created_at' => now()->subDays(3)]);
-        ReviewSubmission::create(['review_campaign_id' => $campaign->id, 'customer_name' => 'Roberto Sánchez',  'customer_email' => 'roberto@example.com', 'rating' => 4, 'comment' => 'Muy buena experiencia. Los cortes a su punto y las cervezas bien frías. Volveremos pronto.',               'gift_code' => 'DON-PAPI-EJ03', 'ip_address' => '127.0.0.1', 'created_at' => now()->subDays(2)]);
-        ReviewSubmission::create(['review_campaign_id' => $campaign->id, 'customer_name' => 'Fernanda López',   'customer_email' => 'fernanda@example.com','rating' => 5, 'comment' => 'El Tomahawk es espectacular. El humo, el sabor, la presentación… todo 10/10.',                           'gift_code' => 'DON-PAPI-EJ04', 'ip_address' => '127.0.0.1', 'created_at' => now()->subDays(1)]);
-        ReviewSubmission::create(['review_campaign_id' => $campaign->id, 'customer_name' => 'Diego Hernández',  'customer_email' => 'diego@example.com',   'rating' => 4, 'comment' => 'Muy rico todo. Las salsas caseras son espectaculares y las hamburguesas de brisket son mi favoritas.',    'gift_code' => 'DON-PAPI-EJ05', 'ip_address' => '127.0.0.1', 'created_at' => now()->subHours(6)]);
+        ReviewSubmission::create(['review_campaign_id' => $campaign->id, 'customer_name' => 'María González',    'customer_email' => 'maria@example.com',    'rating' => 5, 'comment' => 'Las tostadas de camarón están increíbles. El lugar es muy agradable.',        'gift_code' => 'AGUA-SAL-001', 'ip_address' => '127.0.0.1', 'created_at' => now()->subDays(5)]);
+        ReviewSubmission::create(['review_campaign_id' => $campaign->id, 'customer_name' => 'Carlos Pérez',      'customer_email' => 'carlos@example.com',  'rating' => 5, 'comment' => 'El pulpo al ajillo es espectacular. Totalmente recomendado.',            'gift_code' => 'AGUA-SAL-002', 'ip_address' => '127.0.0.1', 'created_at' => now()->subDays(3)]);
+        ReviewSubmission::create(['review_campaign_id' => $campaign->id, 'customer_name' => 'Ana Ramírez',        'customer_email' => 'ana@example.com',     'rating' => 4, 'comment' => 'Muy buena relación calidad-precio. El servicio es excelente.',              'gift_code' => 'AGUA-SAL-003', 'ip_address' => '127.0.0.1', 'created_at' => now()->subDays(2)]);
+        ReviewSubmission::create(['review_campaign_id' => $campaign->id, 'customer_name' => 'Roberto Hernández', 'customer_email' => 'roberto@example.com', 'rating' => 5, 'comment' => 'Las mejores tostadas de Tulancingo. Volveré sin duda.',               'gift_code' => 'AGUA-SAL-004', 'ip_address' => '127.0.0.1', 'created_at' => now()->subDays(1)]);
+        ReviewSubmission::create(['review_campaign_id' => $campaign->id, 'customer_name' => 'Sofia Martínez',   'customer_email' => 'sofia@example.com',   'rating' => 4, 'comment' => 'El ambiente es muy agradable y la comida llega rápido.',               'gift_code' => 'AGUA-SAL-005', 'ip_address' => '127.0.0.1', 'created_at' => now()->subHours(6)]);
 
-        // ────────────────────────────────────────────────────────────────────
-        // SITE INFO — Datos reales de Asados Don Papi
-        // ────────────────────────────────────────────────────────────────────
         SiteInfo::create([
-            'site_name'       => 'Asados Don Papi',
-            'tagline'         => null,
-            'serves_cuisine'  => null,
-            'hero_heading'    => 'EL AUTÉNTICO SABOR DEL ASADO',
-            'hero_subheading' => 'Fuego, humo y técnica BBQ americana.',
-            'about_text'      => 'En Don Papi Asados nuestra pasión es el fuego. Utilizamos las mejores maderas y técnicas de ahumado tradicional para llevar a tu mesa cortes premium con un sabor incomparable.',
-            'address'         => 'C. Violeta sn, San José Caltengo, 43628 Tulancingo, Hgo.',
-            'phone'           => '+527752538154',
-            'whatsapp'        => '+527752538154',
-            'email'           => 'contacto@donpapi.mx',
-            'site_logo'       => 'images/logo.png',
-            'favicon'         => 'favicons/01KPF8CH3RTS3VFC12FEERCCD3.png',
-            'schedules'       => [
-                ['days' => 'Lunes a Jueves',    'hours' => '11:00 AM - 01:00 AM'],
-                ['days' => 'Viernes a Sábado',  'hours' => '11:00 AM - 01:00 AM'],
-                ['days' => 'Domingo',           'hours' => '11:00 AM - 01:00 AM'],
+            'site_name'       => 'Tostadería Agua y Sal',
+            'tagline'         => 'Tostadas y Mariscos Frescos',
+            'serves_cuisine'  => 'Mariscos',
+            'hero_heading'    => 'Tostadas y Mariscos Frescos',
+            'hero_subheading' => 'El marisco más fresco, directo a tu mesa.',
+            'about_text'      => 'En Tostadería Agua y Sal te invitamos a disfrutar de nuestras tostadas y mariscos preparados con los ingredientes más frescos. Calidad y sabor en cada bocado.',
+            'address'         => 'Melchor Ocampo Nte. #302, Centro, 43600 Tulancingo, Hgo.',
+            'phone'          => '+527757574934',
+            'whatsapp'       => '+527757574934',
+            'email'          => 'contacto@aguaysal.mx',
+            //'site_logo'      => 'images/logo.png',
+            //'favicon'       => 'favicons/01KPF8CH3RTS3VFC12FEERCCD3.png',
+            'schedules'      => [
+                ['days' => 'Lunes a Domingo', 'hours' => '11:00 AM - 10:00 PM'],
             ],
-            'map_embed_url'   => '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d6508.340280685612!2d-98.3727792!3d20.0951904!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d057b2455f3277%3A0xb07d627d1cdb0319!2sAsados%20Don%20papi!5e1!3m2!1ses!2smx!4v1775539308168!5m2!1ses!2smx" width="800" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
-            'social_links'    => [
-                ['platform' => 'facebook',  'label' => 'Asados Don Papi - Facebook',  'url' => 'https://www.facebook.com/asadosdonpapi'],
-                ['platform' => 'instagram', 'label' => 'Asados Don Papi - Instagram', 'url' => 'https://www.instagram.com/don_papi_asados/'],
-                ['platform' => 'tiktok',    'label' => 'Asados Don Papi - TikTok',    'url' => 'https://www.tiktok.com/@asados.don.papi'],
+            'map_embed_url'  => '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1627.2122980015508!2d-98.37340138276426!3d20.082940995835916!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1ses!2smx!4v1777594636234!5m2!1ses!2smx" width="800" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
+                'social_links'   => [
+                ['platform' => 'facebook',  'label' => 'Tostadería Agua y Sal - Facebook',   'url' => 'https://www.facebook.com/AguaySalTostaderia'],
+                ['platform' => 'instagram', 'label' => 'Tostadería Agua y Sal - Instagram', 'url' => 'https://www.instagram.com/aguaysaltostaderia/'],
             ],
             'og_type'                => 'website',
             'twitter_card'           => 'summary_large_image',
             'privacy_policy_title'   => 'Aviso de Privacidad',
-            'privacy_policy_content' => '<p>En <strong>Asados Don Papi</strong>, con domicilio en Tulancingo, Hidalgo, México, somos responsables del tratamiento de sus datos personales, los cuales serán protegidos conforme a lo dispuesto en la <em>Ley Federal de Protección de Datos Personales en Posesión de los Particulares</em> y demás normativa aplicable.</p><h2>¿Qué datos recopilamos?</h2><p>Recopilamos únicamente los datos que usted nos proporciona de forma voluntaria a través de nuestros formularios de contacto y de reseñas: nombre, correo electrónico y el contenido del mensaje.</p><h2>¿Para qué usamos sus datos?</h2><ul><li>Responder a sus solicitudes de información o reservaciones.</li><li>Gestionar las reseñas y opiniones sobre nuestros servicios.</li><li>Mejorar la experiencia en nuestro sitio web.</li></ul><h2>Cookies</h2><p>Este sitio utiliza cookies técnicas para su correcto funcionamiento. No utilizamos cookies de seguimiento de terceros sin su consentimiento.</p><h2>Derechos ARCO</h2><p>Usted tiene derecho a <strong>Acceder, Rectificar, Cancelar u Oponerse</strong> al tratamiento de sus datos personales. Para ejercer estos derechos, contáctenos a través de nuestro formulario de contacto o al correo electrónico indicado en este sitio.</p><h2>Cambios al aviso</h2><p>Nos reservamos el derecho de actualizar este aviso en cualquier momento. Cualquier cambio será publicado en esta misma página.</p><p><em>Última actualización: 19 de abril de 2026</em></p>',
+            'privacy_policy_content' => '<p><strong>Tostadería Agua y Sal</strong>, con domicilio en Tulancingo, Hidalgo, México, es responsable del tratamiento de sus datos personales.</p><h2>¿Qué datos recopilamos?</h2><p>Recopilamos datos que usted nos proporciona voluntariamente: nombre, correo electrónico y contenido del mensaje.</p><h2>¿Para qué usamos sus datos?</h2><ul><li>Responder a sus solicitudes de información.</li><li>Gestionar las reseñas y opiniones sobre nuestros servicios.</li></ul><h2>Derechos ARCO</h2><p>Usted tiene derecho a <strong>Acceder, Rectificar, Cancelar u Oponerse</strong> al tratamiento de sus datos personales.</p><p><em>Última actualización: 30 de abril de 2026</em></p>',
         ]);
 
-        // ────────────────────────────────────────────────────────────────────
-        // PÁGINAS CMS
-        // ────────────────────────────────────────────────────────────────────
-
-        // Página de Inicio
         Page::create([
             'title'           => 'Inicio',
             'slug'            => 'home',
             'is_published'    => true,
             'show_in_nav'     => true,
-            'nav_label'       => 'Nosotros',
-            'nav_icon'        => '🔥',
+            'nav_label'       => 'Inicio',
+            'nav_icon'        => '🏠',
             'nav_order'       => 0,
             'builder_content' => [
                 [
                     'type' => 'hero',
                     'data' => [
-                        'hero_heading'      => 'EL AUTÉNTICO SABOR DEL ASADO',
-                        'hero_subheading'   => 'Fuego, humo y técnica BBQ americana.',
+                        'hero_heading'      => 'TOSTADAS Y MARISCOS FRESCOS',
+                        'hero_subheading'   => 'El marisco más fresco, directo a tu mesa.',
                         'hero_image'        => null,
-                        'hero_video'        => 'videos/hero.mp4',
-                        'hero_side_image'   => 'images/papi.png',
-                        'hero_badge_text_1' => 'CALIDAD Y SABOR',
-                        'hero_badge_text_2' => 'EN CADA CORTE',
+                        'hero_video'        => null,
+                        'hero_side_image'   => null,
+                        'hero_badge_text_1' => null,
+                        'hero_badge_text_2' => null,
                     ],
                 ],
                 [
                     'type' => 'featured_products',
                     'data' => [
                         'heading'     => 'Nuestras Especialidades',
-                        'subtitle'    => 'Descubre lo mejor de nuestra cocina',
-                        'product_ids' => ['16', '90'],
-                    ],
-                ],
-                [
-                    'type' => 'promotions_carousel',
-                    'data' => [
-                        'heading' => 'Noticias y Promociones',
-                        'items'   => [
-                            ['image' => 'images/promo1.jpg', 'title' => '2x1 en Cervezas Artesanales',   'link' => null],
-                            ['image' => 'images/promo2.jpg', 'title' => 'Nuevo Brisket Wagyu, ¡Pruébalo!','link' => null],
-                            ['image' => 'images/promo3.jpg', 'title' => 'Música en vivo este Viernes',    'link' => null],
-                        ],
+                        'subtitle'    => 'Lo más pedido por nuestros clientes',
+                        'product_ids' => ['1', '7'],
                     ],
                 ],
                 [
                     'type' => 'about_section',
                     'data' => [
-                        'heading'     => 'La Pasión por el Fuego',
-                        'description' => 'En Don Papi Asados nuestra pasión es el fuego. Utilizamos las mejores maderas y técnicas de ahumado tradicional para llevar a tu mesa cortes premium.',
-                        'image'       => 'images/hamburguesa.jpg',
-                    ],
-                ],
-                [
-                    'type' => 'ahumado_section',
-                    'data' => [
-                        'heading'     => 'El Arte del Ahumado',
-                        'description' => 'Paciencia, leña seleccionada y humo. Nuestro proceso de ahumado toma entre 12 y 16 horas para desatar la jugosidad extrema y lograr el afamado \'Smoke Ring\'.',
-                        'video_url'   => '<iframe width="560" height="315" src="https://www.youtube.com/embed/gSl4o8XR-0c?si=-nllnBQxWJcATNqZ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
-                        'mosaic_items' => [
-                            ['image' => 'images/ahumado1.jpg'],
-                            ['image' => 'images/promo2.jpg'],
-                            ['image' => 'images/promo1.jpg'],
-                            ['image' => 'images/promo3.jpg'],
-                        ],
+                        'heading'     => 'Frescura y Sabor',
+                        'description' => 'En Tostadería Agua y Sal te invitamos a disfrutar de nuestras tostadas y mariscos preparados con los ingredientes más frescos. Cada platillo es hecho con dedicación para que tengas la mejor experiencia.',
+                        'image'       => null,
                     ],
                 ],
                 [
@@ -364,67 +231,12 @@ class DatabaseSeeder extends Seeder
                     'type' => 'contact_map_section',
                     'data' => [
                         'heading'     => 'Nuestra Ubicación',
-                        'description' => 'Visítanos y prueba el verdadero sabor BBQ de la ciudad. El fuego está ardiendo.',
+                        'description' => 'Visítanos y disfruta el mejor marisco de Tulancingo.',
                     ],
                 ],
             ],
         ]);
 
-        // Página Ahumados
-        Page::create([
-            'title'           => 'ahumados',
-            'slug'            => 'ahumados',
-            'is_published'    => true,
-            'show_in_nav'     => true,
-            'nav_label'       => 'Ahumados',
-            'nav_icon'        => '🥩',
-            'nav_order'       => 0,
-            'builder_content' => [],
-        ]);
-
-        // Página Taquería
-        Page::create([
-            'title'           => 'Taqueria',
-            'slug'            => 'taqueria',
-            'is_published'    => true,
-            'show_in_nav'     => true,
-            'nav_label'       => 'Taqueria',
-            'nav_icon'        => '🌮',
-            'nav_order'       => 0,
-            'builder_content' => [
-                [
-                    'type' => 'taqueria_section',
-                    'data' => [
-                        'heading'          => 'La Taquería de Don Papi',
-                        'subheading'       => 'De noche, somos taquería.',
-                        'description'      => null,
-                        'schedule'         => 'Lun – Sáb | 7pm – 12am',
-                        'background_image' => '01KPHACABJXFHBPZYCVJC27QTY.jpg',
-                        'tacos'            => [],
-                    ],
-                ],
-                [
-                    'type' => 'contact_map_section',
-                    'data' => ['heading' => 'Ubicación'],
-                ],
-                [
-                    'type' => 'social_feed',
-                    'data' => [
-                        'heading'     => 'Síguenos en Redes',
-                        'description' => null,
-                        'posts'       => [
-                            [
-                                'platform' => 'tiktok',
-                                'url'      => 'https://www.tiktok.com/@asados.don.papi/video/7602098668249877781',
-                                'caption'  => '🔥🪵 Nada de esto nació como un plan. Nació del fuego, del tiempo… y de hacer las cosas con el corazón.  Esto es Asados, don Papi. Y apenas estamos comenzando. @Juan Soto',
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-        ]);
-
-        // Página de Contacto
         Page::create([
             'title'           => 'Contacto',
             'slug'            => 'contacto',
@@ -432,15 +244,15 @@ class DatabaseSeeder extends Seeder
             'show_in_nav'     => true,
             'nav_label'       => 'Contacto',
             'nav_icon'        => '📬',
-            'nav_order'       => 3,
+            'nav_order'       => 2,
             'builder_content' => [
                 [
                     'type' => 'contact_form',
                     'data' => [
                         'heading'            => 'Escríbenos',
-                        'description'        => 'Raza!! quieres hacer un evento con nosotros? Escríbenos y te decimos cómo hacerlo posible. También puedes escribirnos si tienes alguna duda o sugerencia.',
+                        'description'        => '¿Tienes alguna duda o sugerencia? Escríbenos y te responderemos pronto.',
                         'submit_label'       => 'Enviar Mensaje',
-                        'notification_email' => 'alainttlm@gmail.com',
+                        'notification_email' => 'contacto@aguaysal.mx',
                         'show_captcha'       => true,
                         'success_message'    => null,
                         'fields'             => [
@@ -457,31 +269,29 @@ class DatabaseSeeder extends Seeder
             ],
         ]);
 
-        // ── Mensajes de contacto de ejemplo ────────────────────────────────
         ContactSubmission::create([
-            'sender_name' => 'María González',
+            'sender_name' => 'Laura Sánchez',
             'fields_data' => [
-                'nombre'   => 'María González',
-                'telefono' => '55 9876 5432',
-                'mensaje'  => 'Quisiera reservar una mesa para 6 personas el próximo sábado.',
+                'nombre'   => 'Laura Sánchez',
+                'telefono' => '55 1234 5678',
+                'mensaje'  => 'Quisiera saber si ofrecen servicio a domicilio.',
             ],
             'is_attended' => true,
-            'attended_at' => now()->subDays(3),
+            'attended_at' => now()->subDays(2),
             'attended_by' => 'Admin User',
-            'admin_notes' => 'Se confirmó la reserva para el sábado a las 2pm. Mesa #5.',
+            'admin_notes' => 'Se explicó el servicio a domicilio y se pasó la información.',
         ]);
 
         ContactSubmission::create([
-            'sender_name' => 'Luis Ramírez',
+            'sender_name' => 'Miguel Torres',
             'fields_data' => [
-                'nombre'   => 'Luis Ramírez',
-                'telefono' => '55 1111 2222',
-                'mensaje'  => 'Tengo una consulta sobre el menú para eventos corporativos.',
+                'nombre'   => 'Miguel Torres',
+                'telefono' => '55 8765 4321',
+                'mensaje'  => '¿Pueden hacer un pedido grande para evento?',
             ],
             'is_attended' => false,
         ]);
 
-        // ── Roles y permisos ─────────────────────────────────────────────────
         $this->call(RolesAndPermissionsSeeder::class);
     }
 }

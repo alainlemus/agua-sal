@@ -628,128 +628,86 @@
         </style>
     @endif
 
-{{-- Brasas + Humo Effect --}}
-    <div class="ember-container pointer-events-none fixed inset-0 overflow-hidden z-30" aria-hidden="true">
-        {{-- Brasas --}}
-        <div class="ember absolute w-2 h-2 rounded-full bg-orange-500 animate-ember shadow-lg shadow-orange-500/50" style="left: 5%; animation-duration: 6s;"></div>
-        <div class="ember absolute w-2 h-2 rounded-full bg-orange-400 animate-ember shadow-lg shadow-orange-400/50" style="left: 12%; animation-duration: 8s;"></div>
-        <div class="ember absolute w-3 h-3 rounded-full bg-red-500 animate-ember shadow-lg shadow-red-500/50" style="left: 18%; animation-duration: 7s;"></div>
-        <div class="ember absolute w-2 h-2 rounded-full bg-yellow-400 animate-ember shadow-lg shadow-yellow-400/50" style="left: 25%; animation-duration: 9s;"></div>
-        <div class="ember absolute w-3 h-3 rounded-full bg-orange-500 animate-ember shadow-lg shadow-orange-500/50" style="left: 32%; animation-duration: 6s;"></div>
-        <div class="ember absolute w-2 h-2 rounded-full bg-red-600 animate-ember shadow-lg shadow-red-600/50" style="left: 38%; animation-duration: 8s;"></div>
-        <div class="ember absolute w-2 h-2 rounded-full bg-orange-400 animate-ember shadow-lg shadow-orange-400/50" style="left: 45%; animation-duration: 7s;"></div>
-        <div class="ember absolute w-3 h-3 rounded-full bg-yellow-500 animate-ember shadow-lg shadow-yellow-500/50" style="left: 52%; animation-duration: 9s;"></div>
-        <div class="ember absolute w-2 h-2 rounded-full bg-orange-500 animate-ember shadow-lg shadow-orange-500/50" style="left: 58%; animation-duration: 6s;"></div>
-        <div class="ember absolute w-2 h-2 rounded-full bg-red-500 animate-ember shadow-lg shadow-red-500/50" style="left: 65%; animation-duration: 8s;"></div>
-        <div class="ember absolute w-3 h-3 rounded-full bg-orange-400 animate-ember shadow-lg shadow-orange-400/50" style="left: 72%; animation-duration: 7s;"></div>
-        <div class="ember absolute w-2 h-2 rounded-full bg-yellow-400 animate-ember shadow-lg shadow-yellow-400/50" style="left: 78%; animation-duration: 9s;"></div>
-        <div class="ember absolute w-2 h-2 rounded-full bg-red-600 animate-ember shadow-lg shadow-red-600/50" style="left: 85%; animation-duration: 6s;"></div>
-        <div class="ember absolute w-3 h-3 rounded-full bg-orange-500 animate-ember shadow-lg shadow-orange-500/50" style="left: 90%; animation-duration: 8s;"></div>
-        <div class="ember absolute w-2 h-2 rounded-full bg-orange-400 animate-ember shadow-lg shadow-orange-400/50" style="left: 95%; animation-duration: 7s;"></div>
-
-        {{-- Humo --}}
-        <div class="ember absolute w-16 h-16 rounded-full bg-gradient-to-t from-gray-600/60 to-transparent blur-md animate-smoke" style="left: 8%; animation-duration: 10s;"></div>
-        <div class="ember absolute w-20 h-20 rounded-full bg-gradient-to-t from-gray-500/50 to-transparent blur-lg animate-smoke" style="left: 25%; animation-duration: 12s;"></div>
-        <div class="ember absolute w-14 h-14 rounded-full bg-gradient-to-t from-gray-600/40 to-transparent blur-md animate-smoke" style="left: 42%; animation-duration: 11s;"></div>
-        <div class="ember absolute w-24 h-24 rounded-full bg-gradient-to-t from-gray-500/30 to-transparent blur-xl animate-smoke" style="left: 60%; animation-duration: 13s;"></div>
-        <div class="ember absolute w-18 h-18 rounded-full bg-gradient-to-t from-gray-600/50 to-transparent blur-lg animate-smoke" style="left: 78%; animation-duration: 10s;"></div>
-        <div class="ember absolute w-12 h-12 rounded-full bg-gradient-to-t from-gray-500/60 to-transparent blur-sm animate-smoke" style="left: 92%; animation-duration: 9s;"></div>
+    {{-- Burbujas Effect --}}
+    <div class="bubbles-container pointer-events-none fixed inset-0 overflow-hidden z-30" aria-hidden="true">
+        <div class="bubble absolute w-3 h-3 rounded-full bg-cyan-400/30 animate-bubble" style="left: 5%; animation-duration: 8s; animation-delay: 0s;"></div>
+        <div class="bubble absolute w-4 h-4 rounded-full bg-cyan-300/25 animate-bubble" style="left: 12%; animation-duration: 10s; animation-delay: 1s;"></div>
+        <div class="bubble absolute w-2 h-2 rounded-full bg-cyan-500/35 animate-bubble" style="left: 18%; animation-duration: 7s; animation-delay: 2s;"></div>
+        <div class="bubble absolute w-5 h-5 rounded-full bg-cyan-400/20 animate-bubble" style="left: 25%; animation-duration: 9s; animation-delay: 0.5s;"></div>
+        <div class="bubble absolute w-3 h-3 rounded-full bg-cyan-300/30 animate-bubble" style="left: 32%; animation-duration: 11s; animation-delay: 3s;"></div>
+        <div class="bubble absolute w-4 h-4 rounded-full bg-cyan-500/25 animate-bubble" style="left: 38%; animation-duration: 8s; animation-delay: 1.5s;"></div>
+        <div class="bubble absolute w-2 h-2 rounded-full bg-cyan-400/35 animate-bubble" style="left: 45%; animation-duration: 10s; animation-delay: 2.5s;"></div>
+        <div class="bubble absolute w-3 h-3 rounded-full bg-cyan-300/20 animate-bubble" style="left: 52%; animation-duration: 9s; animation-delay: 0.8s;"></div>
+        <div class="bubble absolute w-5 h-5 rounded-full bg-cyan-400/30 animate-bubble" style="left: 58%; animation-duration: 12s; animation-delay: 3.5s;"></div>
+        <div class="bubble absolute w-2 h-2 rounded-full bg-cyan-500/25 animate-bubble" style="left: 65%; animation-duration: 7s; animation-delay: 1.2s;"></div>
+        <div class="bubble absolute w-4 h-4 rounded-full bg-cyan-300/35 animate-bubble" style="left: 72%; animation-duration: 10s; animation-delay: 2.2s;"></div>
+        <div class="bubble absolute w-3 h-3 rounded-full bg-cyan-400/25 animate-bubble" style="left: 78%; animation-duration: 8s; animation-delay: 0.3s;"></div>
+        <div class="bubble absolute w-2 h-2 rounded-full bg-cyan-500/30 animate-bubble" style="left: 85%; animation-duration: 11s; animation-delay: 4s;"></div>
+        <div class="bubble absolute w-4 h-4 rounded-full bg-cyan-300/20 animate-bubble" style="left: 90%; animation-duration: 9s; animation-delay: 1.8s;"></div>
+        <div class="bubble absolute w-3 h-3 rounded-full bg-cyan-400/35 animate-bubble" style="left: 95%; animation-duration: 10s; animation-delay: 2.8s;"></div>
     </div>
 
-    {{-- Canvas Fire Effect --}}
-    <canvas id="fireCanvas" class="fixed bottom-0 left-0 right-0 pointer-events-none z-20" height="100"></canvas>
-    <script>
-    (function() {
-        const canvas = document.getElementById('fireCanvas');
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = 100;
-        window.addEventListener('resize', () => { canvas.width = window.innerWidth; });
-        const particles = [];
-        const colors = ['#ff4500', '#ff6600', '#ff3300', '#ff9900', '#ffcc00', '#ff0000'];
-        function createParticle(x) {
-            return {
-                x: x || Math.random() * canvas.width,
-                y: canvas.height,
-                vx: (Math.random() - 0.5) * 2,
-                vy: -Math.random() * 3 - 1.5,
-                size: Math.random() * 6 + 3,
-                life: 1,
-                decay: Math.random() * 0.025 + 0.015,
-                color: colors[Math.floor(Math.random() * colors.length)]
-            };
-        }
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            if (Math.random() < 0.7) particles.push(createParticle());
-            function hexToRgba(hex, alpha) {
-                const r = parseInt(hex.slice(1, 3), 16);
-                const g = parseInt(hex.slice(3, 5), 16);
-                const b = parseInt(hex.slice(5, 7), 16);
-                return `rgba(${r},${g},${b},${alpha})`;
-            }
-            for (let i = particles.length - 1; i >= 0; i--) {
-                const p = particles[i];
-                p.x += p.vx;
-                p.y += p.vy;
-                p.life -= p.decay;
-                p.size *= 0.97;
-                if (p.life <= 0 || p.y < canvas.height - 90) {
-                    particles.splice(i, 1);
-                    continue;
-                }
-                const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size);
-                gradient.addColorStop(0, hexToRgba(p.color, p.life));
-                gradient.addColorStop(1, 'transparent');
-                ctx.fillStyle = gradient;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-            requestAnimationFrame(animate);
-        }
-        animate();
-    })();
-    </script>
+    {{-- Sal Sparkle Effect --}}
+    <div class="sparkle-container pointer-events-none fixed inset-0 overflow-hidden z-30" aria-hidden="true">
+        <div class="sparkle absolute w-1 h-1 bg-white animate-sparkle" style="left: 8%; animation-duration: 3s; animation-delay: 0s;"></div>
+        <div class="sparkle absolute w-1 h-1 bg-amber-100 animate-sparkle" style="left: 15%; animation-duration: 4s; animation-delay: 0.5s;"></div>
+        <div class="sparkle absolute w-1.5 h-1.5 bg-white animate-sparkle" style="left: 22%; animation-duration: 3.5s; animation-delay: 1s;"></div>
+        <div class="sparkle absolute w-1 h-1 bg-amber-50 animate-sparkle" style="left: 30%; animation-duration: 4.5s; animation-delay: 1.5s;"></div>
+        <div class="sparkle absolute w-1 h-1 bg-white animate-sparkle" style="left: 38%; animation-duration: 3s; animation-delay: 2s;"></div>
+        <div class="sparkle absolute w-1.5 h-1.5 bg-amber-100 animate-sparkle" style="left: 45%; animation-duration: 4s; animation-delay: 2.5s;"></div>
+        <div class="sparkle absolute w-1 h-1 bg-white animate-sparkle" style="left: 55%; animation-duration: 3.5s; animation-delay: 0.3s;"></div>
+        <div class="sparkle absolute w-1 h-1 bg-amber-50 animate-sparkle" style="left: 62%; animation-duration: 4.5s; animation-delay: 0.8s;"></div>
+        <div class="sparkle absolute w-1.5 h-1.5 bg-white animate-sparkle" style="left: 70%; animation-duration: 3s; animation-delay: 1.3s;"></div>
+        <div class="sparkle absolute w-1 h-1 bg-white animate-sparkle" style="left: 78%; animation-duration: 4s; animation-delay: 1.8s;"></div>
+        <div class="sparkle absolute w-1 h-1 bg-amber-100 animate-sparkle" style="left: 85%; animation-duration: 3.5s; animation-delay: 2.3s;"></div>
+        <div class="sparkle absolute w-1.5 h-1.5 bg-amber-50 animate-sparkle" style="left: 92%; animation-duration: 4s; animation-delay: 2.8s;"></div>
+    </div>
+
     <style>
-        @keyframes ember-float {
+        @keyframes bubble-rise {
             0% {
-                transform: translateY(100vh) scale(1);
-                opacity: 0;
-            }
-            5% {
-                opacity: 1;
-            }
-            85% {
-                opacity: 0.8;
-            }
-            100% {
-                transform: translateY(-10vh) scale(0.2);
-                opacity: 0;
-            }
-        }
-        @keyframes smoke-rise {
-            0% {
-                transform: translateY(100vh) scale(1);
+                transform: translateY(100vh) scale(0.5);
                 opacity: 0;
             }
             10% {
                 opacity: 0.6;
             }
-            80% {
-                opacity: 0.3;
+            90% {
+                opacity: 0.4;
             }
             100% {
-                transform: translateY(-30vh) scale(2);
+                transform: translateY(-10vh) scale(1);
                 opacity: 0;
             }
         }
-        .animate-ember {
-            animation: ember-float linear infinite;
+        .animate-bubble {
+            animation: bubble-rise linear infinite;
         }
-        .animate-smoke {
-            animation: smoke-rise ease-out infinite;
+
+        @keyframes sparkle-float {
+            0% {
+                transform: translateY(100vh) scale(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+                transform: translateY(80vh) scale(1) rotate(45deg);
+            }
+            50% {
+                opacity: 0.8;
+                transform: translateY(50vh) scale(1.2) rotate(180deg);
+            }
+            90% {
+                opacity: 0.3;
+                transform: translateY(10vh) scale(0.8) rotate(315deg);
+            }
+            100% {
+                transform: translateY(-5vh) scale(0) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        .animate-sparkle {
+            animation: sparkle-float linear infinite;
         }
     </style>
 
