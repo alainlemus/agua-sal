@@ -28,7 +28,13 @@ RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoload
 COPY . .
 COPY --from=frontend-builder /app/public/build ./public/build
 
-RUN composer dump-autoload --optimize \
+RUN mkdir -p bootstrap/cache \
+    storage/logs \
+    storage/framework/cache/data \
+    storage/framework/sessions \
+    storage/framework/views
+
+RUN composer dump-autoload --optimize --no-scripts \
     && php artisan package:discover --ansi
 
 RUN chown -R www-data:www-data storage bootstrap/cache \
