@@ -202,7 +202,7 @@ class PageResource extends Resource
                                         Forms\Components\TextInput::make('hero_heading')->label('Título Fuerte'),
                                         Forms\Components\TextInput::make('hero_subheading')->label('Subtítulo'),
                                         Forms\Components\FileUpload::make('hero_image')->label('Imagen o Placeholder del Hero')->image(),
-                                        Forms\Components\FileUpload::make('hero_video')->label('Video de Fondo (Reemplaza a imagen por defecto)')->acceptedFileTypes(['video/mp4', 'video/webm', 'video/ogg']),
+                                        Forms\Components\FileUpload::make('hero_video')->label('Video de Fondo (Reemplaza a imagen por defecto)')->acceptedFileTypes(['video/mp4', 'video/webm', 'video/ogg'])->maxSize(100 * 1024),
                                         Forms\Components\FileUpload::make('hero_side_image')->label('Imagen Lateral Flotante')->image(),
                                         Forms\Components\TextInput::make('hero_badge_text_1')->label('Texto Superior Pestaña')->default('CALIDAD Y SABOR'),
                                         Forms\Components\TextInput::make('hero_badge_text_2')->label('Texto Resaltado Pestaña')->default('EN CADA CORTE'),
