@@ -10,6 +10,9 @@ RUN npm run build
 FROM php:8.4-cli-alpine AS app
 WORKDIR /var/www/html
 
+ARG APP_ENV=production
+ENV APP_ENV=${APP_ENV}
+
 RUN apk add --no-cache \
     libpng-dev \
     libxml2-dev \
@@ -23,7 +26,11 @@ RUN docker-php-ext-install pdo_mysql bcmath gd zip intl
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 COPY composer.json composer.lock ./
-RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --no-scripts
+RUN if [ "$APP_ENV" = "development" ] || [ "$APP_ENV" = "local" ]; then \
+        composer install --no-interaction --prefer-dist --optimize-autoloader --no-scripts; \
+    else \
+        composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --no-scripts; \
+    fi
 
 COPY . .
 COPY --from=frontend-builder /app/public/build ./public/build
