@@ -23,10 +23,13 @@ RUN docker-php-ext-install pdo_mysql bcmath gd zip intl
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 COPY composer.json composer.lock ./
-RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --no-scripts
 
 COPY . .
 COPY --from=frontend-builder /app/public/build ./public/build
+
+RUN composer dump-autoload --optimize \
+    && php artisan package:discover --ansi
 
 RUN chown -R www-data:www-data storage bootstrap/cache \
     && chmod -R ug+rwx storage bootstrap/cache
