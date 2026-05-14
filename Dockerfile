@@ -23,6 +23,14 @@ RUN apk add --no-cache \
 
 RUN docker-php-ext-install pdo_mysql bcmath gd zip intl
 
+RUN { \
+    echo 'upload_max_filesize=100M'; \
+    echo 'post_max_size=100M'; \
+    echo 'max_execution_time=300'; \
+    echo 'max_input_time=300'; \
+    echo 'memory_limit=256M'; \
+} > /usr/local/etc/php/conf.d/uploads.ini
+
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 COPY composer.json composer.lock ./
@@ -37,6 +45,8 @@ COPY --from=frontend-builder /app/public/build ./public/build
 
 RUN mkdir -p bootstrap/cache \
     storage/logs \
+    storage/app/public \
+    storage/app/livewire-tmp \
     storage/framework/cache/data \
     storage/framework/sessions \
     storage/framework/views
@@ -49,4 +59,4 @@ RUN chown -R www-data:www-data storage bootstrap/cache \
 
 EXPOSE 8000
 
-CMD ["sh", "-lc", "php artisan storage:link || true; php artisan config:cache; php artisan route:cache; php artisan view:cache; php artisan serve --host=0.0.0.0 --port=${PORT:-8000}"]
+CMD ["sh", "-lc", "php artisan storage:link || true; php artisan migrate --force; php artisan config:cache; php artisan route:cache; php artisan view:cache; php artisan serve --host=0.0.0.0 --port=${PORT:-8000}"]
