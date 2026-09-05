@@ -6,6 +6,7 @@ use App\Filament\Resources\SiteInfoResource\Pages;
 use App\Filament\Resources\SiteInfoResource\RelationManagers;
 use App\Models\SiteInfo;
 use Filament\Forms;
+use Filament\Navigation\NavigationItem;
 use Filament\Schemas\Components;
 use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
@@ -387,6 +388,28 @@ class SiteInfoResource extends Resource
     {
         $record = \App\Models\SiteInfo::first();
         return static::getUrl('edit', ['record' => $record]);
+    }
+
+    /**
+     * Este recurso solo tiene página "edit" (es un singleton de configuración),
+     * y Filament no genera automáticamente un ítem de navegación para recursos
+     * sin página "index" — sin este override, "Configuración General" nunca
+     * aparece en el sidebar aunque la página exista y funcione.
+     *
+     * @return array<NavigationItem>
+     */
+    public static function getNavigationItems(): array
+    {
+        return [
+            NavigationItem::make(static::getNavigationLabel())
+                ->key(static::class)
+                ->group(static::getNavigationGroup())
+                ->icon(static::getNavigationIcon())
+                ->activeIcon(static::getActiveNavigationIcon())
+                ->isActiveWhen(fn (): bool => request()->routeIs(static::getRouteBaseName() . '.*'))
+                ->sort(static::getNavigationSort())
+                ->url(static::getNavigationUrl()),
+        ];
     }
 
     public static function getPages(): array
