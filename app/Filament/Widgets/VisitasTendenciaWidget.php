@@ -8,11 +8,11 @@ use Illuminate\Support\Carbon;
 
 class VisitasTendenciaWidget extends ChartWidget
 {
-    protected static ?string $heading     = 'Visitas de los últimos 14 días';
+    protected ?string $heading     = 'Visitas de los últimos 14 días';
     protected static ?int    $sort        = 2;
     protected int | string | array $columnSpan  = 'full';
-    protected static ?string $maxHeight   = '280px';
-    protected static ?string $pollingInterval = '30s';
+    protected ?string $maxHeight   = '280px';
+    protected ?string $pollingInterval = '30s';
 
     protected function getData(): array
     {

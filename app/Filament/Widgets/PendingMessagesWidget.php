@@ -7,7 +7,7 @@ use Filament\Widgets\Widget;
 
 class PendingMessagesWidget extends Widget
 {
-    protected static string $view = 'filament.widgets.pending-messages-widget';
+    protected string $view = 'filament.widgets.pending-messages-widget';
 
     protected static ?int $sort = 1;
 

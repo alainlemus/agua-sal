@@ -6,7 +6,7 @@ use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\RelationManagers;
 use App\Models\Product;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -19,12 +19,12 @@ class ProductResource extends Resource
 
     protected static ?string $modelLabel = 'Platillo / Producto';
     protected static ?string $pluralModelLabel = 'Menú & Productos';
-    protected static ?string $navigationGroup  = 'Menú & Productos';
+    protected static string | \UnitEnum | null $navigationGroup  = 'Menú & Productos';
     protected static ?string $navigationLabel = 'Platillos';
-    protected static ?string $navigationIcon = 'heroicon-o-fire';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-fire';
     protected static ?int    $navigationSort  = 3;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $form): Schema
     {
         return $form
             ->schema([

@@ -7,7 +7,7 @@ use App\Models\ReviewCampaign;
 use App\Models\ReviewToken;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -22,11 +22,11 @@ class ReviewCampaignResource extends Resource
     protected static ?string $modelLabel       = 'Campaña de Reseñas';
     protected static ?string $pluralModelLabel = 'Campañas de Reseñas';
     protected static ?string $navigationLabel  = 'Campañas QR';
-    protected static ?string $navigationIcon   = 'heroicon-o-qr-code';
-    protected static ?string $navigationGroup  = 'Reseñas & QR';
+    protected static string | \BackedEnum | null $navigationIcon   = 'heroicon-o-qr-code';
+    protected static string | \UnitEnum | null $navigationGroup  = 'Reseñas & QR';
     protected static ?int    $navigationSort   = 1;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $form): Schema
     {
         return $form->schema([
             Forms\Components\Section::make('Campaña')->schema([

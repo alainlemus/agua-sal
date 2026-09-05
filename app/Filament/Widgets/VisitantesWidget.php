@@ -8,10 +8,10 @@ use Illuminate\Support\Facades\DB;
 
 class VisitantesWidget extends Widget
 {
-    protected static string $view  = 'filament.widgets.visitantes-widget';
+    protected string $view  = 'filament.widgets.visitantes-widget';
     protected static ?int $sort    = 4;
     protected int | string | array $columnSpan = 'full';
-    protected static ?string $pollingInterval  = null;
+    protected ?string $pollingInterval  = null;
 
     public function getTopPaises(): \Illuminate\Support\Collection
     {

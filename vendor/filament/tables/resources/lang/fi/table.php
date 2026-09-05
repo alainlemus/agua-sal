@@ -2,9 +2,25 @@
 
 return [
 
-    'column_toggle' => [
+    'column_manager' => [
 
-        'heading' => 'Kolumnit',
+        'heading' => 'Sarakkeet',
+
+        'actions' => [
+
+            'apply' => [
+                'label' => 'Aseta sarakkeet',
+            ],
+
+            'reorder' => [
+                'label' => 'Uudelleenjärjestele sarake',
+            ],
+
+            'reset' => [
+                'label' => 'Palauta',
+            ],
+
+        ],
 
     ],
 
@@ -12,6 +28,31 @@ return [
 
         'actions' => [
             'label' => 'Toiminta|Toiminnat',
+        ],
+
+        'icon' => [
+
+            'boolean' => [
+                'true' => 'Kyllä',
+                'false' => 'Ei',
+            ],
+
+        ],
+
+        'select' => [
+
+            'loading_message' => 'Ladataan...',
+
+            'no_options_message' => 'Ei vaihtoehtoja saatavilla.',
+
+            'no_search_results_message' => 'Ei hakuasi vastaavia vaihtoehtoja.',
+
+            'placeholder' => 'Valitse vaihtoehto',
+
+            'searching_message' => 'Haetaan...',
+
+            'search_prompt' => 'Aloita kirjoittaminen hakeaksesi...',
+
         ],
 
         'text' => [
@@ -87,6 +128,10 @@ return [
             'label' => 'Järjestele tietueita',
         ],
 
+        'reorder_record' => [
+            'label' => 'Uudelleenjärjestele kohde :key',
+        ],
+
         'filter' => [
             'label' => 'Suodata',
         ],
@@ -99,8 +144,12 @@ return [
             'label' => 'Avaa toiminnot',
         ],
 
-        'toggle_columns' => [
-            'label' => 'Näytä kolumnit',
+        'column_manager' => [
+            'label' => 'Näytä sarakkeet',
+        ],
+
+        'toggle_record_content' => [
+            'label' => 'Laajenna/kutista kohde :key',
         ],
 
     ],
@@ -145,7 +194,13 @@ return [
         ],
 
         'select' => [
+
             'placeholder' => 'Kaikki',
+
+            'relationship' => [
+                'empty_option_label' => 'Ei yhtään',
+            ],
+
         ],
 
         'trashed' => [
@@ -168,7 +223,6 @@ return [
 
             'group' => [
                 'label' => 'Ryhmittele',
-                'placeholder' => 'Ryhmittele',
             ],
 
             'direction' => [
@@ -186,7 +240,11 @@ return [
 
     ],
 
+    'loading' => 'Ladataan...',
+
     'reorder_indicator' => 'Raahaa ja pudota tietueet järjestykseen.',
+
+    'result_count' => '{0} Ei tuloksia|{1} :count tulos|[2,*] :count tulosta',
 
     'selection_indicator' => [
 
@@ -228,5 +286,7 @@ return [
         ],
 
     ],
+
+    'default_model_label' => 'tietue',
 
 ];

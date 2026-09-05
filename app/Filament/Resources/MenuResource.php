@@ -7,7 +7,7 @@ use App\Models\Category;
 use App\Models\Menu;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -21,11 +21,11 @@ class MenuResource extends Resource
     protected static ?string $modelLabel       = 'Menú';
     protected static ?string $pluralModelLabel = 'Menús';
     protected static ?string $navigationLabel  = 'Menús';
-    protected static ?string $navigationIcon   = 'heroicon-o-book-open';
-    protected static ?string $navigationGroup  = 'Menú & Productos';
+    protected static string | \BackedEnum | null $navigationIcon   = 'heroicon-o-book-open';
+    protected static string | \UnitEnum | null $navigationGroup  = 'Menú & Productos';
     protected static ?int    $navigationSort   = 1;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $form): Schema
     {
         $categoryOptions = Category::orderBy('name')->pluck('name', 'id')->toArray();
 

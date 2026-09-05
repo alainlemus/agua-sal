@@ -6,7 +6,7 @@ use App\Filament\Resources\SiteInfoResource\Pages;
 use App\Filament\Resources\SiteInfoResource\RelationManagers;
 use App\Models\SiteInfo;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -21,11 +21,11 @@ class SiteInfoResource extends Resource
     protected static ?string $modelLabel = 'Configuración General';
     protected static ?string $pluralModelLabel = 'Configuración Global';
     protected static ?string $navigationLabel = 'Configuración General';
-    protected static ?string $navigationGroup = 'Sitio Web';
-    protected static ?string $navigationIcon = 'heroicon-o-cog-8-tooth';
+    protected static string | \UnitEnum | null $navigationGroup = 'Sitio Web';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-cog-8-tooth';
     protected static ?int    $navigationSort = 2;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $form): Schema
     {
         return $form
             ->schema([

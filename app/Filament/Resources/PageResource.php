@@ -6,7 +6,7 @@ use App\Filament\Resources\PageResource\Pages;
 use App\Filament\Resources\PageResource\RelationManagers;
 use App\Models\Page;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Guava\FilamentIconPicker\Forms\IconPicker;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -22,11 +22,11 @@ class PageResource extends Resource
     protected static ?string $modelLabel = 'Página Dinámica (CMS)';
     protected static ?string $pluralModelLabel = 'Constructor de Páginas';
     protected static ?string $navigationLabel = 'Páginas';
-    protected static ?string $navigationGroup = 'Sitio Web';
-    protected static ?string $navigationIcon = 'heroicon-o-document-duplicate';
+    protected static string | \UnitEnum | null $navigationGroup = 'Sitio Web';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-document-duplicate';
     protected static ?int    $navigationSort = 1;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $form): Schema
     {
         return $form
             ->schema([

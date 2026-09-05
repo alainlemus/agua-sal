@@ -50,6 +50,29 @@
             margin: 0;
         }
 
+        .login-split__form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .login-split__submit {
+            width: 100%;
+            padding: 0.625rem 1rem;
+            border-radius: 0.5rem;
+            border: none;
+            background-color: #00b4d8;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: background-color 0.15s ease-in-out;
+        }
+
+        .login-split__submit:hover {
+            background-color: #0096c7;
+        }
+
         @media (max-width: 1023px) {
             .login-split__image {
                 display: none;
@@ -68,21 +91,20 @@
             <div class="login-split__brand">
                 <img src="{{ asset('storage/' . (\App\Models\SiteInfo::first()?->site_logo ?? '')) }}" alt="{{ \App\Models\SiteInfo::first()?->site_name }}" class="login-split__logo">
                 <h1 class="login-split__heading">{{ $this->getHeading() }}</h1>
-                @if ($subheading = $this->getSubHeading())
+                @if ($subheading = $this->getSubheading())
                     <p class="login-split__subheading">{{ $subheading }}</p>
                 @endif
             </div>
 
             {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::AUTH_LOGIN_FORM_BEFORE, scopes: $this->getRenderHookScopes()) }}
 
-            <x-filament-panels::form id="form" wire:submit="authenticate">
+            <form wire:submit="authenticate" class="login-split__form">
                 {{ $this->form }}
 
-                <x-filament-panels::form.actions
-                    :actions="$this->getCachedFormActions()"
-                    :full-width="$this->hasFullWidthFormActions()"
-                />
-            </x-filament-panels::form>
+                <button type="submit" class="login-split__submit">
+                    {{ __('filament-panels::auth/pages/login.form.actions.authenticate.label') }}
+                </button>
+            </form>
 
             {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::AUTH_LOGIN_FORM_AFTER, scopes: $this->getRenderHookScopes()) }}
         </div>

@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PageViewResource\Pages;
 use App\Models\PageView;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Filters\SelectFilter;
@@ -19,14 +19,14 @@ class PageViewResource extends Resource
     protected static ?string $modelLabel        = 'Visita';
     protected static ?string $pluralModelLabel  = 'Registro de Visitas';
     protected static ?string $navigationLabel   = 'Registro de Visitas';
-    protected static ?string $navigationIcon    = 'heroicon-o-globe-alt';
-    protected static ?string $navigationGroup   = 'Estadísticas';
+    protected static string | \BackedEnum | null $navigationIcon    = 'heroicon-o-globe-alt';
+    protected static string | \UnitEnum | null $navigationGroup   = 'Estadísticas';
     protected static ?int    $navigationSort    = 1;
 
     // Solo lectura — no se crean ni editan visitas manualmente
     public static function canCreate(): bool { return false; }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $form): Schema
     {
         return $form->schema([]);
     }

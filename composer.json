@@ -14,10 +14,10 @@
         "ext-intl": "*",
         "ext-zip": "*",
         "barryvdh/laravel-dompdf": "^3.1",
-        "bezhansalleh/filament-shield": "^3.9",
+        "bezhansalleh/filament-shield": "^4.0",
         "fakerphp/faker": "^1.24",
-        "filament/filament": "^3.2",
-        "guava/filament-icon-picker": "^2.3",
+        "filament/filament": "^4.0",
+        "guava/filament-icon-picker": "^3.1",
         "intervention/image": "^3.0",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
@@ -25,6 +25,7 @@
         "spatie/laravel-permission": "^6.25"
     },
     "require-dev": {
+        "filament/upgrade": "^4.0",
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.24",
         "laravel/sail": "^1.41",
