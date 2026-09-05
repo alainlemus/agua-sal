@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\ReviewSubmissionResource\Pages;
 
 use App\Filament\Resources\ReviewSubmissionResource;
-use Filament\Resources\Components\Tab;
+use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Resources\Pages\ListRecords;
 
 class ListReviewSubmissions extends ListRecords
