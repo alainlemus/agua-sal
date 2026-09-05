@@ -7,6 +7,7 @@ use App\Filament\Resources\PageResource\RelationManagers;
 use App\Models\Page;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Guava\FilamentIconPicker\Forms\IconPicker;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -64,11 +65,11 @@ class PageResource extends Resource
                                     ->placeholder('Ej. Tostadas y Mariscos')
                                     ->maxLength(60),
 
-                                Forms\Components\TextInput::make('nav_icon')
-                                    ->label('Emoji / Ícono (opcional)')
-                                    ->helperText('Agrega un emoji que aparecerá junto al link. Ej: 🔥 🌮 🥩')
-                                    ->placeholder('🔥')
-                                    ->maxLength(10),
+                                IconPicker::make('nav_icon')
+                                    ->label('Ícono (opcional)')
+                                    ->helperText('Aparecerá junto al link en el menú de navegación.')
+                                    ->sets(['heroicons'])
+                                    ->columns(5),
 
                                 Forms\Components\TextInput::make('nav_order')
                                     ->label('Orden en el menú')
@@ -76,7 +77,7 @@ class PageResource extends Resource
                                     ->numeric()
                                     ->default(0)
                                     ->minValue(0),
-                            ])->columns(4)->collapsible(),
+                            ])->columns(2)->collapsible(),
 
                         Forms\Components\Section::make('Modal al cargar la página')
                             ->description('Muestra un modal emergente cuando el visitante abre esta página.')
@@ -189,6 +190,8 @@ class PageResource extends Resource
                             ->label('Contenido de la Página')
                             ->live()
                             ->collapsible()
+                            ->blockPickerColumns(2)
+                            ->blockPickerWidth('3xl')
                             ->blocks([
 
                                 // ══════════════════════════════════════════════

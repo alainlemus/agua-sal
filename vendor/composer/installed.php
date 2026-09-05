@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-develop',
         'version' => 'dev-develop',
-        'reference' => '8134109aa0918710cb6d5003e986297350165f80',
+        'reference' => '185b7207fd5ed7634a4e4d91edfcbd0284096ee1',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -319,6 +319,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'guava/filament-icon-picker' => array(
+            'pretty_version' => '2.3.1',
+            'version' => '2.3.1.0',
+            'reference' => 'a9c2709db2df2d658fd045022d0300c2fa8a6fba',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../guava/filament-icon-picker',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'guzzlehttp/guzzle' => array(
             'pretty_version' => '7.10.0',
             'version' => '7.10.0.0',
@@ -625,7 +634,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-develop',
             'version' => 'dev-develop',
-            'reference' => '8134109aa0918710cb6d5003e986297350165f80',
+            'reference' => '185b7207fd5ed7634a4e4d91edfcbd0284096ee1',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

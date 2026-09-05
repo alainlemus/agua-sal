@@ -2198,6 +2198,66 @@
             "install-path": "../graham-campbell/result-type"
         },
         {
+            "name": "guava/filament-icon-picker",
+            "version": "2.3.1",
+            "version_normalized": "2.3.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/GuavaCZ/filament-icon-picker.git",
+                "reference": "a9c2709db2df2d658fd045022d0300c2fa8a6fba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/GuavaCZ/filament-icon-picker/zipball/a9c2709db2df2d658fd045022d0300c2fa8a6fba",
+                "reference": "a9c2709db2df2d658fd045022d0300c2fa8a6fba",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0@stable",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^7.0|^8.0|^9.0"
+            },
+            "time": "2025-08-19T12:48:35+00:00",
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Guava\\FilamentIconPicker\\FilamentIconPickerServiceProvider"
+                    ]
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Guava\\FilamentIconPicker\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Lukas Frey",
+                    "email": "mail@lukasfrey.cz"
+                }
+            ],
+            "description": "A filament plugin that adds an icon picker field.",
+            "support": {
+                "issues": "https://github.com/lukas-frey/filament-icon-picker/issues",
+                "source": "https://github.com/lukas-frey/filament-icon-picker/tree/2.3.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/LukasFreyCZ",
+                    "type": "github"
+                }
+            ],
+            "install-path": "../guava/filament-icon-picker"
+        },
+        {
             "name": "guzzlehttp/guzzle",
             "version": "7.10.0",
             "version_normalized": "7.10.0.0",
