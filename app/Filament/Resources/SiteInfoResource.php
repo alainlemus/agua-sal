@@ -64,7 +64,7 @@ class SiteInfoResource extends Resource
                             ->label('Favicon')
                             ->image()
                             ->directory('favicons')
-                            ->helperText('PNG cuadrado de 32×32 o 64×64 px. Aparece en la pestaña del navegador.'),
+                            ->helperText('Aparece en la pestaña del navegador. Se recorta a cuadrado y se optimiza automáticamente al subirla.'),
 
                         Forms\Components\Select::make('theme')
                             ->label('Tema de Colores')

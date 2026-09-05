@@ -1,6 +1,6 @@
 <div>
     {{-- Header --}}
-    <section class="pt-32 pb-12 bg-black relative overflow-hidden" x-data="{ shown: false }" x-intersect="shown = true">
+    <section class="pt-44 lg:pt-48 pb-12 bg-black relative overflow-hidden" x-data="{ shown: false }" x-intersect="shown = true">
         <div class="absolute inset-0 bg-gradient-to-b from-[var(--bg_primary)] to-black opacity-50 z-0"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center transition-all duration-1000 transform lg:py-20"
             :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'">
@@ -51,15 +51,63 @@
                             <p class="text-center text-gray-400 mb-10 max-w-2xl mx-auto">{{ $menu->description }}</p>
                         @endif
 
-                        @if ($menu->sections->isEmpty())
+                        @php
+                            $visibleSections = $menu->sections->filter(fn ($s) => $s->products()->count() > 0)->values();
+                        @endphp
+
+                        @if ($visibleSections->isEmpty())
                             <p class="text-center text-gray-600 italic py-10">Este menú no tiene secciones configuradas
                                 aún.</p>
                         @else
+                            <div @if ($visibleSections->count() > 1) x-data="{ activeCategory: '{{ $visibleSections->first()->id }}' }" @endif>
+
+                                @if ($visibleSections->count() > 1)
+                                    <div class="sticky top-20 lg:top-24 z-30 -mx-4 sm:mx-0 px-4 sm:px-0 py-3 mb-10 bg-[var(--bg_primary)]/95 backdrop-blur border-b border-[var(--border)]">
+                                        <div class="relative"
+                                            x-data="{
+                                                atStart: true,
+                                                atEnd: false,
+                                                checkScroll(el) {
+                                                    this.atStart = el.scrollLeft <= 4;
+                                                    this.atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4;
+                                                }
+                                            }"
+                                            x-init="$nextTick(() => checkScroll($refs.scroller))">
+                                            <div x-ref="scroller" @scroll="checkScroll($event.target)"
+                                                class="flex overflow-x-auto gap-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                                                @foreach ($visibleSections as $section)
+                                                    <button @click="activeCategory = '{{ $section->id }}'"
+                                                        :class="activeCategory === '{{ $section->id }}' ? 'bg-[var(--accent_green)] text-white' : 'bg-[var(--bg_card)] text-gray-400 hover:text-white hover:bg-[var(--bg_card_hover)]'"
+                                                        class="px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full font-black text-xs sm:text-sm uppercase tracking-widest whitespace-nowrap transition-colors shrink-0">
+                                                        {{ $section->display_name }}
+                                                    </button>
+                                                @endforeach
+                                                {{-- spacer so the fade hints below never cover a pill's label --}}
+                                                <div class="w-6 shrink-0 sm:hidden" aria-hidden="true"></div>
+                                            </div>
+                                            {{-- mobile-only "can swipe this way" hints --}}
+                                            <div x-show="!atStart" x-cloak
+                                                class="pointer-events-none absolute inset-y-0 left-0 w-10 flex items-center justify-start bg-gradient-to-r from-[var(--bg_primary)] to-transparent sm:hidden">
+                                                <svg class="w-4 h-4 text-[var(--text_secondary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
+                                                </svg>
+                                            </div>
+                                            <div x-show="!atEnd" x-cloak
+                                                class="pointer-events-none absolute inset-y-0 right-0 w-10 flex items-center justify-end bg-gradient-to-l from-[var(--bg_primary)] to-transparent sm:hidden">
+                                                <svg class="w-4 h-4 text-[var(--text_secondary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+
                             <div class="space-y-20">
-                                @foreach ($menu->sections as $section)
+                                @foreach ($visibleSections as $section)
                                     @php $products = $section->products(); @endphp
                                     @if ($products->count() > 0)
-                                        <div x-data="{ shown: false }" x-intersect="shown = true"
+                                        <div @if ($visibleSections->count() > 1) x-show="activeCategory === '{{ $section->id }}'" @endif
+                                            x-data="{ shown: false }" x-intersect="shown = true"
                                             class="transition-all duration-1000 transform"
                                             :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'">
 
@@ -85,7 +133,7 @@
                                                 ];
                                                 $productImg = $product->image
                                                     ? asset('storage/' . $product->image)
-                                                    : $placeholders[$product->id % count($placeholders)];
+                                                    : $placeholders[$loop->index % count($placeholders)];
                                             @endphp
                                             <img src="{{ $productImg }}"
                                                 alt="{{ $product->name }}"
@@ -109,6 +157,7 @@
                                         </div>
                                     @endif
                                 @endforeach
+                            </div>
                             </div>
                         @endif
 

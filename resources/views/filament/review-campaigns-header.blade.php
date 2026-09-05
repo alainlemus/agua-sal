@@ -1,17 +1,11 @@
-<div class="fi-header flex flex-col gap-y-2 px-4 py-6 sm:px-6 lg:px-8">
-    <div class="flex items-center justify-between gap-x-4">
-        <div>
-            <h1 class="fi-header-heading text-2xl font-bold tracking-tight text-gray-950 dark:text-white">
-                Campañas de Reseñas
-            </h1>
-        </div>
-        <div class="flex shrink-0 items-center gap-x-3">
-            {{ $actions ?? '' }}
-        </div>
-    </div>
+<x-filament-panels::header
+    heading="Campañas de Reseñas"
+    :actions="$actions ?? []"
+/>
 
+<div class="px-4 sm:px-6 lg:px-8">
     {{-- Banner informativo --}}
-    <div class="mt-2 rounded-xl border border-blue-500/30 bg-blue-500/10 p-4 text-sm text-blue-300 space-y-3">
+    <div class="rounded-xl border border-blue-500/30 bg-blue-500/10 p-4 text-sm text-blue-300 space-y-3">
         <p class="font-semibold text-blue-200 text-base">📋 ¿Cómo funciona el sistema de reseñas?</p>
 
         <div class="grid gap-3 sm:grid-cols-2">

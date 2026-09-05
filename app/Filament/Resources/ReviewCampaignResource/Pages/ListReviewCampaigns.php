@@ -21,6 +21,8 @@ class ListReviewCampaigns extends ListRecords
 
     public function getHeader(): ?View
     {
-        return view('filament.review-campaigns-header');
+        return view('filament.review-campaigns-header', [
+            'actions' => $this->getCachedHeaderActions(),
+        ]);
     }
 }

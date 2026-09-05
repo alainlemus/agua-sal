@@ -52,7 +52,7 @@
                                 {{ $block['data']['hero_subheading'] }}
                             </p>
                         @endif
-                        <div class="opacity-0 animate-fade-in-up delay-[600ms]">
+                        <div class="opacity-0 animate-fade-in-up delay-[600ms] mb-20 sm:mb-0">
                                         <a href="/menu" class="inline-block bg-[var(--accent)] hover:bg-[var(--button_hover)] text-[var(--text_primary)] px-8 py-4 rounded font-bold uppercase tracking-widest text-lg transition-all shadow-[0_0_20px_rgba(229,43,43,0.4)] hover:shadow-[0_0_30px_rgba(229,43,43,0.6)] hover:-translate-y-1">
                                             Ver Menú
                                         </a>
@@ -63,7 +63,7 @@
             @elseif($block['type'] === 'featured_products')
                 <!-- Featured Products Section -->
                 @if($featuredProducts->count() > 0)
-                    <section class="py-20 bg-[var(--bg_primary)]" id="destacados">
+                    <section class="py-20 bg-[var(--bg_primary)] scroll-mt-24" id="destacados">
                         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                             <div class="text-center mb-16">
                                 <h2 class="text-4xl md:text-5xl font-['Anton'] text-[var(--text_primary)] uppercase tracking-widest mb-4 inline-block border-b-4 border-[var(--accent_green)] pb-2">
@@ -84,7 +84,7 @@
                                             ];
                                             $productImg = $product->image
                                                 ? asset('storage/' . $product->image)
-                                                : $placeholders[$product->id % count($placeholders)];
+                                                : $placeholders[$loop->index % count($placeholders)];
                                         @endphp
                                         <img src="{{ $productImg }}"
                                             alt="{{ $product->name }}"
@@ -198,10 +198,17 @@
                                     <div class="bg-black p-4 text-center rounded border border-[var(--border)] min-w-[120px]">
                                         @if(!empty($f['icon']))
                                         <div class="mb-2 text-[var(--accent)]">
-                                            @if(\Illuminate\Support\Str::startsWith($f['icon'], 'heroicon-o-'))
+                                            @if($f['icon'] === 'custom-wave')
                                             <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2 16c1.5-2 3.5-2 5 0s3.5 2 5 0 3.5-2 5 0 3.5 2 5 0M2 10c1.5-2 3.5-2 5 0s3.5 2 5 0 3.5-2 5 0 3.5 2 5 0"/>
                                             </svg>
+                                            @elseif($f['icon'] === 'custom-chef')
+                                            <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8.5 12.5a3.5 3.5 0 117 0c0 .34-.03.67-.09 1H18a2 2 0 012 2v1a1 1 0 01-1 1H5a1 1 0 01-1-1v-1a2 2 0 012-2h1.09c-.06-.33-.09-.66-.09-1z"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 20.5h10M12 8V5"/>
+                                            </svg>
+                                            @elseif(\Illuminate\Support\Str::startsWith($f['icon'], 'heroicon-'))
+                                            @svg($f['icon'], 'w-8 h-8 mx-auto')
                                             @else
                                             <span class="text-3xl">{{ $f['icon'] }}</span>
                                             @endif
@@ -216,6 +223,7 @@
                             <div class="lg:w-1/2 relative">
                                 <div class="absolute -inset-4 bg-[var(--accent)] rounded-xl transform rotate-3 opacity-20 blur-lg"></div>
                                 <img src="{{ !empty($block['data']['image']) ? asset('storage/' . $block['data']['image']) : 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&q=80' }}"
+                                     alt="{{ $block['data']['heading'] ?? 'Frescura y sabor' }}"
                                      class="relative rounded-xl shadow-[0_0_30px_rgba(0,0,0,0.8)] border border-[var(--border)] filter contrast-125 w-full object-cover aspect-square"
                                      onerror="this.src='https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&q=80'">
                             </div>
@@ -518,7 +526,10 @@
                                 <ul class="space-y-6">
                                     @if ($__si?->address)
                                     <li class="flex items-start gap-4 text-[var(--text_secondary)]">
-                                        <span class="text-2xl">📍</span>
+                                        <svg class="w-6 h-6 shrink-0 text-[var(--accent)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
                                         <div>
                                             <strong class="block text-[var(--text_primary)] mb-1 uppercase tracking-wider font-bold">Dirección:</strong>
                                             {{ $__si->address }}
@@ -527,7 +538,9 @@
                                     @endif
                                     @if ($__si?->phone)
                                     <li class="flex items-start gap-4 text-[var(--text_secondary)]">
-                                        <span class="text-2xl">📱</span>
+                                        <svg class="w-6 h-6 shrink-0 text-[var(--accent)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                        </svg>
                                         <div>
                                             <strong class="block text-[var(--text_primary)] mb-1 uppercase tracking-wider font-bold">Llámanos:</strong>
                                             {{ $__si->phone }}
@@ -536,7 +549,9 @@
                                     @endif
                                     @if ($__si?->whatsapp)
                                     <li class="flex items-start gap-4 text-[var(--text_secondary)]">
-                                        <span class="text-2xl">💬</span>
+                                        <svg class="w-6 h-6 shrink-0 text-[var(--accent_green)]" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
+                                        </svg>
                                         <div>
                                             <strong class="block text-[var(--text_primary)] mb-1 uppercase tracking-wider font-bold">WhatsApp:</strong>
                                             <a href="https://wa.me/{{ $__si->whatsapp }}" target="_blank" class="text-[var(--accent_green)] hover:underline">
