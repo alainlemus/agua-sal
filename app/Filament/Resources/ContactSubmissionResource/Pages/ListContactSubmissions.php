@@ -4,7 +4,7 @@ namespace App\Filament\Resources\ContactSubmissionResource\Pages;
 
 use App\Filament\Resources\ContactSubmissionResource;
 use Filament\Resources\Pages\ListRecords;
-use Filament\Resources\Components\Tab;
+use Filament\Schemas\Components\Tabs\Tab;
 
 class ListContactSubmissions extends ListRecords
 {
