@@ -15,7 +15,7 @@
             </p>
         </div>
     @else
-        <form wire:submit="submit" novalidate>
+        <form wire:submit="submit">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                 @foreach($this->blockData['fields'] ?? [] as $i => $field)
                     @php
