@@ -15,7 +15,132 @@ $avatar = fn(string $size = 'w-8 h-8') => "<div class=\"{$size} rounded-full bor
 $label = fn(string $name, string $color = '#9ca3af') => "<div class='absolute inset-0 flex items-center justify-center pointer-events-none'><span style='font-size:8px;color:white;font-weight:600;text-transform:uppercase;letter-spacing:.06em;text-shadow:0 1px 3px rgba(0,0,0,.9);'>{$name}</span></div>";
 @endphp
 
-<div class="space-y-1.5 text-[0px]">
+{{--
+    Nota: este preview usa clases utilitarias de Tailwind que NO existen en el
+    bundle CSS del panel de admin de Filament v4 (el panel carga su propio CSS
+    precompilado, no el build de Tailwind del sitio). Por eso se reimplementa
+    aquí, con ámbito acotado a .psk-wrap, el subconjunto exacto de utilidades
+    que este archivo usa.
+--}}
+<style>
+.psk-wrap .h-0 { height: 0px; }
+.psk-wrap .w-0 { width: 0px; }
+.psk-wrap .h-0\.5 { height: 0.125rem; }
+.psk-wrap .w-0\.5 { width: 0.125rem; }
+.psk-wrap .h-1 { height: 0.25rem; }
+.psk-wrap .w-1 { width: 0.25rem; }
+.psk-wrap .h-1\.5 { height: 0.375rem; }
+.psk-wrap .w-1\.5 { width: 0.375rem; }
+.psk-wrap .h-2 { height: 0.5rem; }
+.psk-wrap .w-2 { width: 0.5rem; }
+.psk-wrap .h-2\.5 { height: 0.625rem; }
+.psk-wrap .w-2\.5 { width: 0.625rem; }
+.psk-wrap .h-3 { height: 0.75rem; }
+.psk-wrap .w-3 { width: 0.75rem; }
+.psk-wrap .h-3\.5 { height: 0.875rem; }
+.psk-wrap .w-3\.5 { width: 0.875rem; }
+.psk-wrap .h-4 { height: 1rem; }
+.psk-wrap .w-4 { width: 1rem; }
+.psk-wrap .h-5 { height: 1.25rem; }
+.psk-wrap .w-5 { width: 1.25rem; }
+.psk-wrap .h-6 { height: 1.5rem; }
+.psk-wrap .w-6 { width: 1.5rem; }
+.psk-wrap .h-7 { height: 1.75rem; }
+.psk-wrap .w-7 { width: 1.75rem; }
+.psk-wrap .h-8 { height: 2rem; }
+.psk-wrap .w-8 { width: 2rem; }
+.psk-wrap .h-9 { height: 2.25rem; }
+.psk-wrap .w-9 { width: 2.25rem; }
+.psk-wrap .h-10 { height: 2.5rem; }
+.psk-wrap .w-10 { width: 2.5rem; }
+.psk-wrap .h-12 { height: 3rem; }
+.psk-wrap .w-12 { width: 3rem; }
+.psk-wrap .h-14 { height: 3.5rem; }
+.psk-wrap .w-14 { width: 3.5rem; }
+.psk-wrap .h-16 { height: 4rem; }
+.psk-wrap .w-16 { width: 4rem; }
+.psk-wrap .h-20 { height: 5rem; }
+.psk-wrap .w-20 { width: 5rem; }
+.psk-wrap .w-1\/2 { width: 50%; }
+.psk-wrap .w-1\/3 { width: 33.333333%; }
+.psk-wrap .w-1\/4 { width: 25%; }
+.psk-wrap .w-2\/3 { width: 66.666667%; }
+.psk-wrap .w-2\/5 { width: 40%; }
+.psk-wrap .w-3\/4 { width: 75%; }
+.psk-wrap .w-3\/5 { width: 60%; }
+.psk-wrap .w-4\/5 { width: 80%; }
+.psk-wrap .w-full { width: 100%; }
+.psk-wrap .gap-0\.5 { gap: 0.125rem; }
+.psk-wrap .gap-1 { gap: 0.25rem; }
+.psk-wrap .gap-1\.5 { gap: 0.375rem; }
+.psk-wrap .gap-2 { gap: 0.5rem; }
+.psk-wrap .gap-3 { gap: 0.75rem; }
+.psk-wrap .gap-px { gap: 1px; }
+.psk-wrap .p-1 { padding: 0.25rem; }
+.psk-wrap .p-1\.5 { padding: 0.375rem; }
+.psk-wrap .p-2 { padding: 0.5rem; }
+.psk-wrap .p-3 { padding: 0.75rem; }
+.psk-wrap .px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
+.psk-wrap .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+.psk-wrap .py-1\.5 { padding-top: 0.375rem; padding-bottom: 0.375rem; }
+.psk-wrap .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+.psk-wrap .py-10 { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+.psk-wrap .mb-2 { margin-bottom: 0.5rem; }
+.psk-wrap .mt-1 { margin-top: 0.25rem; }
+.psk-wrap .ml-0\.5 { margin-left: 0.125rem; }
+.psk-wrap .pt-0\.5 { padding-top: 0.125rem; }
+.psk-wrap .mx-auto { margin-left: auto; margin-right: auto; }
+.psk-wrap .-ml-4 { margin-left: -1rem; }
+.psk-wrap .min-h-\[40px\] { min-height: 40px; }
+.psk-wrap .min-h-\[48px\] { min-height: 48px; }
+.psk-wrap .min-h-\[56px\] { min-height: 56px; }
+.psk-wrap .min-h-\[64px\] { min-height: 64px; }
+.psk-wrap .space-y-0\.5 > :not([hidden]) ~ :not([hidden]) { margin-top: 0.125rem; }
+.psk-wrap .space-y-1 > :not([hidden]) ~ :not([hidden]) { margin-top: 0.25rem; }
+.psk-wrap .space-y-1\.5 > :not([hidden]) ~ :not([hidden]) { margin-top: 0.375rem; }
+.psk-wrap .flex { display: flex; }
+.psk-wrap .flex-col { flex-direction: column; }
+.psk-wrap .flex-1 { flex: 1 1 0%; }
+.psk-wrap .flex-shrink-0 { flex-shrink: 0; }
+.psk-wrap .items-center { align-items: center; }
+.psk-wrap .justify-center { justify-content: center; }
+.psk-wrap .justify-between { justify-content: space-between; }
+.psk-wrap .grid { display: grid; }
+.psk-wrap .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.psk-wrap .grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.psk-wrap .grid-rows-3 { grid-template-rows: repeat(3, minmax(0, 1fr)); }
+.psk-wrap .relative { position: relative; }
+.psk-wrap .absolute { position: absolute; }
+.psk-wrap .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+.psk-wrap .overflow-hidden { overflow: hidden; }
+.psk-wrap .pointer-events-none { pointer-events: none; }
+.psk-wrap .text-center { text-align: center; }
+.psk-wrap .rounded { border-radius: 0.25rem; }
+.psk-wrap .rounded-sm { border-radius: 0.125rem; }
+.psk-wrap .rounded-full { border-radius: 9999px; }
+.psk-wrap .border { border-width: 1px; border-style: solid; }
+.psk-wrap .border-b { border-bottom-width: 1px; border-bottom-style: solid; }
+.psk-wrap .border-dashed { border-style: dashed; }
+.psk-wrap .border-y-transparent { border-top-color: transparent; border-bottom-color: transparent; }
+.psk-wrap .border-y-\[3px\] { border-top-width: 3px; border-bottom-width: 3px; border-style: solid; }
+.psk-wrap .border-y-\[4px\] { border-top-width: 4px; border-bottom-width: 4px; border-style: solid; }
+.psk-wrap .border-l-\[6px\] { border-left-width: 6px; border-style: solid; }
+.psk-wrap .border-l-\[7px\] { border-left-width: 7px; border-style: solid; }
+.psk-wrap .border-l-gray-500 { border-left-color: #6b7280; }
+.psk-wrap .border-gray-400 { border-color: #9ca3af; }
+.psk-wrap .border-gray-500 { border-color: #6b7280; }
+.psk-wrap .border-gray-600 { border-color: #4b5563; }
+.psk-wrap .border-gray-700 { border-color: #374151; }
+.psk-wrap .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+.psk-wrap .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+.psk-wrap .text-xs { font-size: 0.75rem; line-height: 1rem; }
+.psk-wrap .text-\[0px\] { font-size: 0px; }
+.psk-wrap .text-gray-500 { color: #6b7280; }
+.psk-wrap .text-gray-600 { color: #4b5563; }
+.psk-wrap .opacity-50 { opacity: 0.5; }
+</style>
+
+<div class="psk-wrap space-y-1.5 text-[0px]">
 
     @if (empty($blocks))
         <div class="flex flex-col items-center justify-center py-10 text-center text-gray-500 text-sm">

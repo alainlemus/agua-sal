@@ -4,7 +4,7 @@
         {{-- Aviso si hay visitas sin geolocalizar --}}
         @if ($totalVisitas > 0 && $totalGeo < $totalVisitas)
             <div class="mb-4 flex items-start gap-3 rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-400">
-                <svg class="mt-0.5 h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="mt-0.5 h-4 w-4 shrink-0" width="16" height="16" style="width:16px;height:16px;flex-shrink:0;margin-top:0.125rem" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20A10 10 0 0012 2z"/>
                 </svg>
                 <span>
@@ -37,7 +37,7 @@
                 </h3>
                 @if ($topPaises->isEmpty())
                     <div class="flex flex-col items-center justify-center py-10 text-center text-gray-500">
-                        <svg class="w-10 h-10 mb-3 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-10 h-10 mb-3 opacity-30" width="40" height="40" style="width:2.5rem;height:2.5rem;margin-bottom:0.75rem;opacity:0.3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064"/>
                         </svg>
                         <p class="text-sm">Sin datos de países aún.</p>

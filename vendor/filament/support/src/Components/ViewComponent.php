@@ -3,17 +3,16 @@
 namespace Filament\Support\Components;
 
 use Closure;
-use Exception;
+use Filament\Support\Components\Contracts\HasEmbeddedView;
+use Filament\Support\View\ComponentAttributeBag as FilamentComponentAttributeBag;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
-use Illuminate\View\ComponentAttributeBag;
+use Illuminate\Support\HtmlString;
+use LogicException;
 
 abstract class ViewComponent extends Component implements Htmlable
 {
-    /**
-     * @var view-string
-     */
     protected string $view;
 
     /**
@@ -27,6 +26,18 @@ abstract class ViewComponent extends Component implements Htmlable
     protected array $viewData = [];
 
     protected string $viewIdentifier;
+
+    /**
+     * @var array<view-string, View>
+     */
+    protected array $viewInstances = [];
+
+    protected ?string $publishedViewOverrideCheckPath = null;
+
+    /**
+     * @var array<string, bool>
+     */
+    private static array $hasPublishedEmbeddedViewOverrideCache = [];
 
     /**
      * @param  view-string | null  $view
@@ -88,7 +99,12 @@ abstract class ViewComponent extends Component implements Htmlable
             return $defaultView;
         }
 
-        throw new Exception('Class [' . static::class . '] extends [' . ViewComponent::class . '] but does not have a [$view] property defined.');
+        throw new LogicException('Class [' . static::class . '] extends [' . ViewComponent::class . '] but does not have a [$view] property defined.');
+    }
+
+    public function hasView(): bool
+    {
+        return isset($this->view) || $this->getDefaultView();
     }
 
     /**
@@ -112,19 +128,78 @@ abstract class ViewComponent extends Component implements Htmlable
 
     public function toHtml(): string
     {
-        return $this->render()->render();
+        if ((! ($this instanceof HasEmbeddedView)) || $this->hasView()) {
+            return $this->render()->render();
+        }
+
+        $publishedViewOverrideCheckPath = $this->getPublishedViewOverrideCheckPath();
+
+        if (filled($publishedViewOverrideCheckPath) && static::hasPublishedEmbeddedViewOverride($publishedViewOverrideCheckPath)) {
+            return $this->renderView($publishedViewOverrideCheckPath)->render();
+        }
+
+        return $this->toEmbeddedHtml();
+    }
+
+    public function getPublishedViewOverrideCheckPath(): ?string
+    {
+        return $this->publishedViewOverrideCheckPath;
+    }
+
+    public static function hasPublishedEmbeddedViewOverride(string $view): bool
+    {
+        return self::$hasPublishedEmbeddedViewOverrideCache[$view] ??= self::checkForPublishedEmbeddedViewOverride($view);
+    }
+
+    protected static function checkForPublishedEmbeddedViewOverride(string $view): bool
+    {
+        if (! str_contains($view, '::')) {
+            return false;
+        }
+
+        [$namespace, $name] = explode('::', $view, 2);
+
+        return file_exists(resource_path('views/vendor/' . $namespace . '/' . str_replace('.', '/', $name) . '.blade.php'));
+    }
+
+    public function toHtmlString(): ?HtmlString
+    {
+        $html = $this->toHtml();
+
+        if (blank($html)) {
+            return null;
+        }
+
+        return new HtmlString($html);
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function getExtraViewData(): array
+    {
+        return [];
     }
 
     public function render(): View
     {
-        return view(
-            $this->getView(),
-            [
-                'attributes' => new ComponentAttributeBag,
-                ...$this->extractPublicMethods(),
-                ...(isset($this->viewIdentifier) ? [$this->viewIdentifier => $this] : []),
-                ...$this->getViewData(),
-            ],
-        );
+        return $this->renderView($this->getView());
+    }
+
+    /**
+     * @param  view-string  $view
+     */
+    protected function renderView(string $view): View
+    {
+        $this->viewInstances[$view] ??= view($view, [
+            ...$this->extractPublicMethods(),
+            ...(isset($this->viewIdentifier) ? [$this->viewIdentifier => $this] : []),
+        ]);
+
+        return $this->viewInstances[$view]->with([
+            'attributes' => new FilamentComponentAttributeBag,
+            ...$this->getExtraViewData(),
+            ...$this->getViewData(),
+        ]);
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -11,8 +13,8 @@ return [
     'column.guard_name' => 'Guard-navn',
     'column.team' => 'Team',
     'column.roles' => 'Roller',
-    'column.permissions' => 'Tilladelser',
-    'column.updated_at' => 'Opdateret',
+    'column.permissions' => 'Rettigheder',
+    'column.updated_at' => 'Opdateret den',
 
     /*
     |--------------------------------------------------------------------------
@@ -22,11 +24,11 @@ return [
 
     'field.name' => 'Navn',
     'field.guard_name' => 'Guard-navn',
-    'field.permissions' => 'Tilladelser',
+    'field.permissions' => 'Rettigheder',
     'field.team' => 'Team',
     'field.team.placeholder' => 'Vælg et team ...',
     'field.select_all.name' => 'Vælg alle',
-    'field.select_all.message' => 'Aktiverer/deaktiverer alle tilladelser for denne rolle',
+    'field.select_all.message' => 'Aktiverer/deaktiverer alle rettigheder for denne rolle',
 
     /*
     |--------------------------------------------------------------------------
@@ -50,7 +52,7 @@ return [
     'resources' => 'Ressourcer',
     'widgets' => 'Widgets',
     'pages' => 'Sider',
-    'custom' => 'Brugerdefinerede tilladelser',
+    'custom' => 'Brugerdefinerede rettigheder',
 
     /*
     |--------------------------------------------------------------------------
@@ -76,8 +78,8 @@ return [
         'force_delete' => 'Slet permanent',
         'force_delete_any' => 'Slet alle permanent',
         'restore' => 'Gendan',
-        'reorder' => 'Ændr rækkefølge',
+        'reorder' => 'Sorter',
         'restore_any' => 'Gendan alle',
-        'replicate' => 'Kopiér',
+        'replicate' => 'Kopier',
     ],
 ];

@@ -51,6 +51,26 @@ final class ContactForm extends Component
         }
 
         $fields = $this->blockData['fields'] ?? [];
+
+        $rules = [];
+        $attributes = [];
+
+        foreach ($fields as $i => $field) {
+            $type = $field['type'] ?? 'text';
+            $fieldRules = [($field['required'] ?? true) ? 'required' : 'nullable', 'string'];
+
+            if ($type === 'email') {
+                $fieldRules[] = 'email';
+            }
+
+            $fieldRules[] = $type === 'textarea' ? 'max:5000' : 'max:255';
+
+            $rules["formValues.{$i}"] = $fieldRules;
+            $attributes["formValues.{$i}"] = $field['label'] ?? 'Campo';
+        }
+
+        $this->validate($rules, attributes: $attributes);
+
         $data = [];
 
         foreach ($fields as $i => $field) {

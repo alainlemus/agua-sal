@@ -7,9 +7,11 @@ use App\Models\ReviewCampaign;
 use App\Models\ReviewToken;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Components;
+use Filament\Schemas\Schema;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
+use Filament\Actions;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
@@ -20,16 +22,17 @@ class ReviewCampaignResource extends Resource
     protected static ?string $model = ReviewCampaign::class;
 
     protected static ?string $modelLabel       = 'Campaña de Reseñas';
+    protected static ?string $recordTitleAttribute = 'name';
     protected static ?string $pluralModelLabel = 'Campañas de Reseñas';
     protected static ?string $navigationLabel  = 'Campañas QR';
-    protected static ?string $navigationIcon   = 'heroicon-o-qr-code';
-    protected static ?string $navigationGroup  = 'Reseñas & QR';
+    protected static string | \BackedEnum | null $navigationIcon   = 'heroicon-o-qr-code';
+    protected static string | \UnitEnum | null $navigationGroup  = 'Reseñas & QR';
     protected static ?int    $navigationSort   = 1;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $form): Schema
     {
         return $form->schema([
-            Forms\Components\Section::make('Campaña')->schema([
+            Components\Section::make('Campaña')->schema([
                 Forms\Components\TextInput::make('name')
                     ->label('Nombre interno')
                     ->required()
@@ -56,7 +59,7 @@ class ReviewCampaignResource extends Resource
                     ->helperText('Dejar vacío = sin límite'),
             ])->columns(2),
 
-            Forms\Components\Section::make('Regalo')->schema([
+            Components\Section::make('Regalo')->schema([
                 Forms\Components\TextInput::make('gift_title')
                     ->label('Título del regalo')
                     ->required()
@@ -115,9 +118,9 @@ class ReviewCampaignResource extends Resource
                     ->alignCenter(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Actions\EditAction::make(),
 
-                Tables\Actions\Action::make('generate_token')
+                Actions\Action::make('generate_token')
                     ->label('Generar enlace')
                     ->icon('heroicon-o-link')
                     ->color('warning')
@@ -164,7 +167,7 @@ class ReviewCampaignResource extends Resource
                     })
                     ->modalSubmitActionLabel('Generar enlace'),
 
-                Tables\Actions\Action::make('show_permanent_qr')
+                Actions\Action::make('show_permanent_qr')
                     ->label('QR Permanente')
                     ->icon('heroicon-o-qr-code')
                     ->color('info')
@@ -187,8 +190,8 @@ class ReviewCampaignResource extends Resource
                             ->send();
                     }),
 
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\Action::make('download_qr_permanent_pdf')
+                Actions\ActionGroup::make([
+                    Actions\Action::make('download_qr_permanent_pdf')
                         ->label('PDF QR Permanente')
                         ->icon('heroicon-o-document-arrow-down')
                         ->color('info')
@@ -213,7 +216,7 @@ class ReviewCampaignResource extends Resource
                             );
                         }),
 
-                    Tables\Actions\Action::make('download_qr_permanent_png')
+                    Actions\Action::make('download_qr_permanent_png')
                         ->label('PNG QR Permanente')
                         ->icon('heroicon-o-photo')
                         ->color('info')
@@ -229,7 +232,7 @@ class ReviewCampaignResource extends Resource
                             );
                         }),
 
-                    Tables\Actions\Action::make('download_qr_review_pdf')
+                    Actions\Action::make('download_qr_review_pdf')
                         ->label('PDF QR por Token')
                         ->icon('heroicon-o-document-arrow-down')
                         ->color('success')
@@ -253,7 +256,7 @@ class ReviewCampaignResource extends Resource
                             );
                         }),
 
-                    Tables\Actions\Action::make('download_qr_review_png')
+                    Actions\Action::make('download_qr_review_png')
                         ->label('PNG QR por Token')
                         ->icon('heroicon-o-photo')
                         ->color('success')
@@ -270,7 +273,7 @@ class ReviewCampaignResource extends Resource
 
                 ])->icon('heroicon-o-qr-code')->color('gray')->label('QR'),
 
-                Tables\Actions\Action::make('view_submissions')
+                Actions\Action::make('view_submissions')
                     ->label('Ver reseñas')
                     ->icon('heroicon-o-star')
                     ->color('warning')
@@ -279,8 +282,8 @@ class ReviewCampaignResource extends Resource
                     ])),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                Actions\BulkActionGroup::make([
+                    Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }

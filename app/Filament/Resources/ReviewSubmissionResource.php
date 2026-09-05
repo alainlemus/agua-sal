@@ -5,11 +5,11 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ReviewSubmissionResource\Pages;
 use App\Models\ReviewSubmission;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Infolists;
-use Filament\Infolists\Infolist;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
+use Filament\Actions;
 use Filament\Tables;
 use Filament\Tables\Table;
 
@@ -18,10 +18,11 @@ class ReviewSubmissionResource extends Resource
     protected static ?string $model = ReviewSubmission::class;
 
     protected static ?string $modelLabel       = 'Reseña';
+    protected static ?string $recordTitleAttribute = 'customer_name';
     protected static ?string $pluralModelLabel = 'Reseñas de Clientes';
     protected static ?string $navigationLabel  = 'Reseñas';
-    protected static ?string $navigationIcon   = 'heroicon-o-star';
-    protected static ?string $navigationGroup  = 'Reseñas & QR';
+    protected static string | \BackedEnum | null $navigationIcon   = 'heroicon-o-star';
+    protected static string | \UnitEnum | null $navigationGroup  = 'Reseñas & QR';
     protected static ?int    $navigationSort   = 2;
 
     /** Badge de regalos sin canjear */
@@ -36,7 +37,7 @@ class ReviewSubmissionResource extends Resource
         return 'warning';
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $form): Schema
     {
         return $form->schema([
             Forms\Components\Placeholder::make('readonly_note')
@@ -45,11 +46,11 @@ class ReviewSubmissionResource extends Resource
         ]);
     }
 
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $infolist): Schema
     {
         return $infolist->schema([
-            Infolists\Components\Section::make('Datos del Cliente')->schema([
-                Infolists\Components\Grid::make(2)->schema([
+            \Filament\Schemas\Components\Section::make('Datos del Cliente')->schema([
+                \Filament\Schemas\Components\Grid::make(2)->schema([
                     Infolists\Components\TextEntry::make('customer_name')->label('Nombre'),
                     Infolists\Components\TextEntry::make('customer_email')->label('Correo')->copyable(),
                     Infolists\Components\TextEntry::make('campaign.name')->label('Campaña'),
@@ -57,15 +58,15 @@ class ReviewSubmissionResource extends Resource
                 ]),
             ]),
 
-            Infolists\Components\Section::make('Reseña')->schema([
+            \Filament\Schemas\Components\Section::make('Reseña')->schema([
                 Infolists\Components\TextEntry::make('rating')
                     ->label('Calificación')
                     ->formatStateUsing(fn ($state) => str_repeat('⭐', $state) . " ({$state}/5)"),
                 Infolists\Components\TextEntry::make('comment')->label('Comentario')->default('Sin comentario.')->columnSpanFull(),
             ]),
 
-            Infolists\Components\Section::make('Regalo')->schema([
-                Infolists\Components\Grid::make(3)->schema([
+            \Filament\Schemas\Components\Section::make('Regalo')->schema([
+                \Filament\Schemas\Components\Grid::make(3)->schema([
                     Infolists\Components\TextEntry::make('gift_code')
                         ->label('Código')
                         ->weight('bold')
@@ -142,9 +143,9 @@ class ReviewSubmissionResource extends Resource
                     ->options([1=>'⭐',2=>'⭐⭐',3=>'⭐⭐⭐',4=>'⭐⭐⭐⭐',5=>'⭐⭐⭐⭐⭐']),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make()->label('Ver'),
+                Actions\ViewAction::make()->label('Ver'),
 
-                Tables\Actions\Action::make('redeem')
+                Actions\Action::make('redeem')
                     ->label('Canjear regalo')
                     ->icon('heroicon-o-gift')
                     ->color('success')
@@ -167,7 +168,7 @@ class ReviewSubmissionResource extends Resource
                             ->send();
                     }),
 
-                Tables\Actions\Action::make('unredeem')
+                Actions\Action::make('unredeem')
                     ->label('Deshacer canje')
                     ->icon('heroicon-o-arrow-uturn-left')
                     ->color('gray')
@@ -178,11 +179,11 @@ class ReviewSubmissionResource extends Resource
                         Notification::make()->title('Canje deshecho')->warning()->send();
                     }),
 
-                Tables\Actions\DeleteAction::make(),
+                Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                Actions\BulkActionGroup::make([
+                    Actions\DeleteBulkAction::make(),
                 ]),
             ])
             ->striped()

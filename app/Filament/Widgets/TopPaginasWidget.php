@@ -15,7 +15,7 @@ class TopPaginasWidget extends BaseWidget
     protected int | string | array $columnSpan = 'full';
 
     // Filament necesita una clave única por fila; la generamos del slug compuesto
-    public function getTableRecordKey(Model $record): string
+    public function getTableRecordKey(Model | array $record): string
     {
         return md5($record->type . '|' . $record->slug);
     }
@@ -60,6 +60,7 @@ class TopPaginasWidget extends BaseWidget
                     ->sortable(),
             ])
             ->paginated(false)
+            ->defaultKeySort(false)
             ->striped();
     }
 }

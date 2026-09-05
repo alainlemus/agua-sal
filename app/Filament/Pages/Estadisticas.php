@@ -6,9 +6,9 @@ use Filament\Pages\Dashboard as BaseDashboard;
 
 class Estadisticas extends BaseDashboard
 {
-    protected static ?string $navigationIcon  = 'heroicon-o-chart-bar';
+    protected static string | \BackedEnum | null $navigationIcon  = 'heroicon-o-chart-bar';
     protected static ?string $navigationLabel = 'Estadísticas';
-    protected static ?string $navigationGroup = 'Estadísticas';
+    protected static string | \UnitEnum | null $navigationGroup = 'Estadísticas';
     protected static ?string $title           = 'Estadísticas';
     protected static ?int    $navigationSort  = 0;
 
@@ -25,7 +25,7 @@ class Estadisticas extends BaseDashboard
         ];
     }
 
-    public function getColumns(): int | string | array
+    public function getColumns(): array | int
     {
         return 2;
     }

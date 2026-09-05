@@ -5,11 +5,11 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ContactSubmissionResource\Pages;
 use App\Models\ContactSubmission;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Infolists;
-use Filament\Infolists\Infolist;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
+use Filament\Actions;
 use Filament\Tables;
 use Filament\Tables\Table;
 
@@ -20,8 +20,9 @@ class ContactSubmissionResource extends Resource
     protected static ?string $modelLabel        = 'Mensaje';
     protected static ?string $pluralModelLabel  = 'Mensajes de Contacto';
     protected static ?string $navigationLabel   = 'Mensajes';
-    protected static ?string $navigationIcon    = 'heroicon-o-envelope';
-    protected static ?string $navigationGroup   = 'Comunicación';
+    protected static ?string $recordTitleAttribute = 'sender_name';
+    protected static string | \BackedEnum | null $navigationIcon    = 'heroicon-o-envelope';
+    protected static string | \UnitEnum | null $navigationGroup   = 'Comunicación';
     protected static ?int    $navigationSort    = 1;
 
     /** Badge rojo con conteo de no atendidos */
@@ -37,7 +38,7 @@ class ContactSubmissionResource extends Resource
     }
 
     // Solo lectura en Infolist — no editamos campos del mensaje recibido
-    public static function form(Form $form): Form
+    public static function form(Schema $form): Schema
     {
         return $form->schema([
             Forms\Components\Textarea::make('admin_notes')
@@ -47,13 +48,13 @@ class ContactSubmissionResource extends Resource
         ]);
     }
 
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $infolist): Schema
     {
         return $infolist->schema([
-            Infolists\Components\Section::make('Información del Mensaje')
+            \Filament\Schemas\Components\Section::make('Información del Mensaje')
                 ->icon('heroicon-o-envelope-open')
                 ->schema([
-                    Infolists\Components\Grid::make(3)->schema([
+                    \Filament\Schemas\Components\Grid::make(3)->schema([
                         Infolists\Components\TextEntry::make('form_title')
                             ->label('Formulario'),
                         Infolists\Components\TextEntry::make('form_page_slug')
@@ -63,7 +64,7 @@ class ContactSubmissionResource extends Resource
                             ->label('Recibido el')
                             ->dateTime('d/m/Y H:i'),
                     ]),
-                    Infolists\Components\Grid::make(2)->schema([
+                    \Filament\Schemas\Components\Grid::make(2)->schema([
                         Infolists\Components\TextEntry::make('sender_name')
                             ->label('Nombre del remitente')
                             ->default('—'),
@@ -74,7 +75,7 @@ class ContactSubmissionResource extends Resource
                     ]),
                 ]),
 
-            Infolists\Components\Section::make('Respuestas del Formulario')
+            \Filament\Schemas\Components\Section::make('Respuestas del Formulario')
                 ->icon('heroicon-o-chat-bubble-left-right')
                 ->schema([
                     Infolists\Components\RepeatableEntry::make('fields_data')
@@ -92,10 +93,10 @@ class ContactSubmissionResource extends Resource
                         ->columnSpanFull(),
                 ]),
 
-            Infolists\Components\Section::make('Estado de Atención')
+            \Filament\Schemas\Components\Section::make('Estado de Atención')
                 ->icon('heroicon-o-check-badge')
                 ->schema([
-                    Infolists\Components\Grid::make(3)->schema([
+                    \Filament\Schemas\Components\Grid::make(3)->schema([
                         Infolists\Components\IconEntry::make('is_attended')
                             ->label('¿Atendido?')
                             ->boolean(),
@@ -172,10 +173,10 @@ class ContactSubmissionResource extends Resource
                     ),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make()
+                Actions\ViewAction::make()
                     ->label('Ver'),
 
-                Tables\Actions\Action::make('mark_attended')
+                Actions\Action::make('mark_attended')
                     ->label('Marcar atendido')
                     ->icon('heroicon-o-check')
                     ->color('success')
@@ -191,7 +192,7 @@ class ContactSubmissionResource extends Resource
                             ->send();
                     }),
 
-                Tables\Actions\Action::make('mark_unattended')
+                Actions\Action::make('mark_unattended')
                     ->label('Marcar pendiente')
                     ->icon('heroicon-o-arrow-uturn-left')
                     ->color('warning')
@@ -204,15 +205,15 @@ class ContactSubmissionResource extends Resource
                             ->send();
                     }),
 
-                Tables\Actions\EditAction::make()
+                Actions\EditAction::make()
                     ->label('Notas')
                     ->icon('heroicon-o-pencil-square'),
 
-                Tables\Actions\DeleteAction::make(),
+                Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\BulkAction::make('bulk_attended')
+                Actions\BulkActionGroup::make([
+                    Actions\BulkAction::make('bulk_attended')
                         ->label('Marcar seleccionados como atendidos')
                         ->icon('heroicon-o-check')
                         ->color('success')
@@ -220,7 +221,7 @@ class ContactSubmissionResource extends Resource
                             $records->each(fn ($r) => $r->markAsAttended(auth()->user()?->name ?? 'admin'));
                             Notification::make()->title('Mensajes marcados como atendidos')->success()->send();
                         }),
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Actions\DeleteBulkAction::make(),
                 ]),
             ])
             ->striped()

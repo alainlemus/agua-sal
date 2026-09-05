@@ -8,11 +8,16 @@ use Illuminate\Support\Carbon;
 
 class VisitasTendenciaWidget extends ChartWidget
 {
-    protected static ?string $heading     = 'Visitas de los últimos 14 días';
+    // Desactivado: con lazy loading, la mecánica x-load de Chart.js entra en
+    // carrera con el montaje diferido de Livewire y el canvas queda vacío
+    // de forma intermitente.
+    protected static bool $isLazy = false;
+
+    protected ?string $heading     = 'Visitas de los últimos 14 días';
     protected static ?int    $sort        = 2;
     protected int | string | array $columnSpan  = 'full';
-    protected static ?string $maxHeight   = '280px';
-    protected static ?string $pollingInterval = '30s';
+    protected ?string $maxHeight   = '280px';
+    protected ?string $pollingInterval = '30s';
 
     protected function getData(): array
     {

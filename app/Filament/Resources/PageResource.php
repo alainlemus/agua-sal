@@ -6,8 +6,13 @@ use App\Filament\Resources\PageResource\Pages;
 use App\Filament\Resources\PageResource\RelationManagers;
 use App\Models\Page;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Components;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
+use Filament\Schemas\Schema;
+use Guava\IconPicker\Forms\Components\IconPicker;
 use Filament\Resources\Resource;
+use Filament\Actions;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -21,23 +26,24 @@ class PageResource extends Resource
     protected static ?string $modelLabel = 'Página Dinámica (CMS)';
     protected static ?string $pluralModelLabel = 'Constructor de Páginas';
     protected static ?string $navigationLabel = 'Páginas';
-    protected static ?string $navigationGroup = 'Sitio Web';
-    protected static ?string $navigationIcon = 'heroicon-o-document-duplicate';
+    protected static ?string $recordTitleAttribute = 'title';
+    protected static string | \UnitEnum | null $navigationGroup = 'Sitio Web';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-document-duplicate';
     protected static ?int    $navigationSort = 1;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $form): Schema
     {
         return $form
             ->schema([
                 // ── Columna izquierda: todos los campos ──────────────────
-                Forms\Components\Group::make()->schema([
+                Components\Group::make()->schema([
 
-                        Forms\Components\Group::make()->schema([
+                        Components\Group::make()->schema([
                             Forms\Components\TextInput::make('title')
                                 ->label('Título de la Página')
                                 ->required()
                                 ->live(onBlur: true)
-                                ->afterStateUpdated(fn (string $operation, $state, Forms\Set $set) => $operation === 'create' ? $set('slug', \Illuminate\Support\Str::slug($state)) : null),
+                                ->afterStateUpdated(fn (string $operation, $state, Set $set) => $operation === 'create' ? $set('slug', \Illuminate\Support\Str::slug($state)) : null),
 
                             Forms\Components\TextInput::make('slug')
                                 ->label('Slug / Enlace URL')
@@ -49,7 +55,7 @@ class PageResource extends Resource
                                 ->default(true),
                         ])->columns(3),
 
-                        Forms\Components\Section::make('Configuración de Navegación')
+                        Components\Section::make('Configuración de Navegación')
                             ->description('Controla si esta página aparece en el menú principal del sitio.')
                             ->icon('heroicon-o-bars-3')
                             ->schema([
@@ -64,11 +70,11 @@ class PageResource extends Resource
                                     ->placeholder('Ej. Tostadas y Mariscos')
                                     ->maxLength(60),
 
-                                Forms\Components\TextInput::make('nav_icon')
-                                    ->label('Emoji / Ícono (opcional)')
-                                    ->helperText('Agrega un emoji que aparecerá junto al link. Ej: 🔥 🌮 🥩')
-                                    ->placeholder('🔥')
-                                    ->maxLength(10),
+                                IconPicker::make('nav_icon')
+                                    ->label('Ícono (opcional)')
+                                    ->helperText('Aparecerá junto al link en el menú de navegación.')
+                                    ->sets(['heroicons'])
+                                    ->iconsSearchResults(),
 
                                 Forms\Components\TextInput::make('nav_order')
                                     ->label('Orden en el menú')
@@ -76,9 +82,9 @@ class PageResource extends Resource
                                     ->numeric()
                                     ->default(0)
                                     ->minValue(0),
-                            ])->columns(4)->collapsible(),
+                            ])->columns(2)->collapsible(),
 
-                        Forms\Components\Section::make('Modal al cargar la página')
+                        Components\Section::make('Modal al cargar la página')
                             ->description('Muestra un modal emergente cuando el visitante abre esta página.')
                             ->icon('heroicon-o-chat-bubble-bottom-center-text')
                             ->collapsible()
@@ -189,6 +195,8 @@ class PageResource extends Resource
                             ->label('Contenido de la Página')
                             ->live()
                             ->collapsible()
+                            ->blockPickerColumns(2)
+                            ->blockPickerWidth('3xl')
                             ->blocks([
 
                                 // ══════════════════════════════════════════════
@@ -500,7 +508,7 @@ class PageResource extends Resource
                                                 Forms\Components\TextInput::make('label')->label('Etiqueta del campo')->required()->placeholder('Ej: Tu nombre, Email, Teléfono...'),
                                                 Forms\Components\Select::make('type')->label('Tipo de input')->options(['text' => 'Texto corto', 'email' => 'Email', 'tel' => 'Teléfono', 'textarea' => 'Texto largo', 'select' => 'Lista desplegable', 'number' => 'Número'])->default('text')->required()->live(),
                                                 Forms\Components\TextInput::make('placeholder')->label('Placeholder (opcional)')->nullable(),
-                                                Forms\Components\Textarea::make('options')->label('Opciones (solo para Lista desplegable)')->helperText('Una opción por línea')->rows(3)->nullable()->visible(fn (Forms\Get $get) => $get('type') === 'select'),
+                                                Forms\Components\Textarea::make('options')->label('Opciones (solo para Lista desplegable)')->helperText('Una opción por línea')->rows(3)->nullable()->visible(fn (Get $get) => $get('type') === 'select'),
                                                 Forms\Components\Toggle::make('required')->label('¿Campo obligatorio?')->default(true),
                                                 Forms\Components\Toggle::make('is_name')->label('¿Es el campo "Nombre"?')->helperText('Se usará para identificar al remitente en el admin')->default(false),
                                                 Forms\Components\Toggle::make('is_email')->label('¿Es el campo "Email"?')->helperText('Se usará para responder directamente al remitente')->default(false),
@@ -547,13 +555,13 @@ class PageResource extends Resource
                 ])->columnSpan(['default' => 1, 'lg' => 2]),
 
                 // ── Columna derecha: esqueleto visual ────────────────────
-                Forms\Components\Section::make('Esqueleto de la página')
+                Components\Section::make('Esqueleto de la página')
                     ->description('Se actualiza al agregar o quitar bloques.')
                     ->icon('heroicon-o-squares-2x2')
                     ->schema([
                         Forms\Components\Placeholder::make('skeleton_preview')
                             ->label('')
-                            ->content(function (Forms\Get $get): \Illuminate\Support\HtmlString {
+                            ->content(function (Get $get): \Illuminate\Support\HtmlString {
                                 $blocks = $get('builder_content') ?? [];
                                 return new \Illuminate\Support\HtmlString(
                                     view('filament.page-skeleton-preview', ['blocks' => $blocks])->render()
@@ -579,7 +587,7 @@ class PageResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\Action::make('preview')
+                Actions\Action::make('preview')
                     ->label('Vista previa')
                     ->icon('heroicon-o-eye')
                     ->color('info')
@@ -589,11 +597,11 @@ class PageResource extends Resource
                         now()->addMinutes(30),
                     ))
                     ->openUrlInNewTab(),
-                Tables\Actions\EditAction::make(),
+                Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                Actions\BulkActionGroup::make([
+                    Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
