@@ -20,6 +20,7 @@ class ContactSubmissionResource extends Resource
     protected static ?string $modelLabel        = 'Mensaje';
     protected static ?string $pluralModelLabel  = 'Mensajes de Contacto';
     protected static ?string $navigationLabel   = 'Mensajes';
+    protected static ?string $recordTitleAttribute = 'sender_name';
     protected static string | \BackedEnum | null $navigationIcon    = 'heroicon-o-envelope';
     protected static string | \UnitEnum | null $navigationGroup   = 'Comunicación';
     protected static ?int    $navigationSort    = 1;

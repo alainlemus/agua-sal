@@ -23,6 +23,7 @@ class MenuResource extends Resource
     protected static ?string $model = Menu::class;
 
     protected static ?string $modelLabel       = 'Menú';
+    protected static ?string $recordTitleAttribute = 'name';
     protected static ?string $pluralModelLabel = 'Menús';
     protected static ?string $navigationLabel  = 'Menús';
     protected static string | \BackedEnum | null $navigationIcon   = 'heroicon-o-book-open';

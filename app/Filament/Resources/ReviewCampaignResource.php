@@ -22,6 +22,7 @@ class ReviewCampaignResource extends Resource
     protected static ?string $model = ReviewCampaign::class;
 
     protected static ?string $modelLabel       = 'Campaña de Reseñas';
+    protected static ?string $recordTitleAttribute = 'name';
     protected static ?string $pluralModelLabel = 'Campañas de Reseñas';
     protected static ?string $navigationLabel  = 'Campañas QR';
     protected static string | \BackedEnum | null $navigationIcon   = 'heroicon-o-qr-code';

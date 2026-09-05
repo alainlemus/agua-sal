@@ -18,6 +18,7 @@ class ReviewSubmissionResource extends Resource
     protected static ?string $model = ReviewSubmission::class;
 
     protected static ?string $modelLabel       = 'Reseña';
+    protected static ?string $recordTitleAttribute = 'customer_name';
     protected static ?string $pluralModelLabel = 'Reseñas de Clientes';
     protected static ?string $navigationLabel  = 'Reseñas';
     protected static string | \BackedEnum | null $navigationIcon   = 'heroicon-o-star';

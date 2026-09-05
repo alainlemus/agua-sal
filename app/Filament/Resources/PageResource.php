@@ -26,6 +26,7 @@ class PageResource extends Resource
     protected static ?string $modelLabel = 'Página Dinámica (CMS)';
     protected static ?string $pluralModelLabel = 'Constructor de Páginas';
     protected static ?string $navigationLabel = 'Páginas';
+    protected static ?string $recordTitleAttribute = 'title';
     protected static string | \UnitEnum | null $navigationGroup = 'Sitio Web';
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-document-duplicate';
     protected static ?int    $navigationSort = 1;

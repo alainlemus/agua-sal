@@ -22,6 +22,7 @@ class ProductResource extends Resource
     protected static ?string $pluralModelLabel = 'Menú & Productos';
     protected static string | \UnitEnum | null $navigationGroup  = 'Menú & Productos';
     protected static ?string $navigationLabel = 'Platillos';
+    protected static ?string $recordTitleAttribute = 'name';
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-fire';
     protected static ?int    $navigationSort  = 3;
 
