@@ -60,6 +60,7 @@ class TopPaginasWidget extends BaseWidget
                     ->sortable(),
             ])
             ->paginated(false)
+            ->defaultKeySort(false)
             ->striped();
     }
 }

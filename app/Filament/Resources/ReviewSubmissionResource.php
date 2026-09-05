@@ -9,6 +9,7 @@ use Filament\Schemas\Schema;
 use Filament\Infolists;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
+use Filament\Actions;
 use Filament\Tables;
 use Filament\Tables\Table;
 
@@ -141,9 +142,9 @@ class ReviewSubmissionResource extends Resource
                     ->options([1=>'⭐',2=>'⭐⭐',3=>'⭐⭐⭐',4=>'⭐⭐⭐⭐',5=>'⭐⭐⭐⭐⭐']),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make()->label('Ver'),
+                Actions\ViewAction::make()->label('Ver'),
 
-                Tables\Actions\Action::make('redeem')
+                Actions\Action::make('redeem')
                     ->label('Canjear regalo')
                     ->icon('heroicon-o-gift')
                     ->color('success')
@@ -166,7 +167,7 @@ class ReviewSubmissionResource extends Resource
                             ->send();
                     }),
 
-                Tables\Actions\Action::make('unredeem')
+                Actions\Action::make('unredeem')
                     ->label('Deshacer canje')
                     ->icon('heroicon-o-arrow-uturn-left')
                     ->color('gray')
@@ -177,11 +178,11 @@ class ReviewSubmissionResource extends Resource
                         Notification::make()->title('Canje deshecho')->warning()->send();
                     }),
 
-                Tables\Actions\DeleteAction::make(),
+                Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                Actions\BulkActionGroup::make([
+                    Actions\DeleteBulkAction::make(),
                 ]),
             ])
             ->striped()

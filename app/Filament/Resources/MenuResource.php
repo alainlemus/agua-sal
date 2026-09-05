@@ -7,8 +7,12 @@ use App\Models\Category;
 use App\Models\Menu;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Forms;
+use Filament\Schemas\Components;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
+use Filament\Actions;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
@@ -30,14 +34,14 @@ class MenuResource extends Resource
         $categoryOptions = Category::orderBy('name')->pluck('name', 'id')->toArray();
 
         return $form->schema([
-            Forms\Components\Section::make('Información del Menú')->schema([
+            Components\Section::make('Información del Menú')->schema([
                 Forms\Components\TextInput::make('name')
                     ->label('Nombre del menú')
                     ->required()
                     ->maxLength(255)
                     ->placeholder('ej. Menú Ahumado')
                     ->live(onBlur: true)
-                    ->afterStateUpdated(fn ($state, Forms\Set $set) =>
+                    ->afterStateUpdated(fn ($state, Set $set) =>
                         $set('slug', Str::slug($state))
                     ),
 
@@ -80,7 +84,7 @@ class MenuResource extends Resource
 
             ])->columns(2),
 
-            Forms\Components\Section::make('Secciones del Menú')
+            Components\Section::make('Secciones del Menú')
                 ->description('Agrega las categorías de productos que pertenecen a este menú, en el orden que quieras mostrarlas.')
                 ->schema([
                     Forms\Components\Repeater::make('sections')
@@ -143,10 +147,10 @@ class MenuResource extends Resource
                     ->alignCenter(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Actions\EditAction::make(),
 
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\Action::make('download_qr_pdf')
+                Actions\ActionGroup::make([
+                    Actions\Action::make('download_qr_pdf')
                         ->label('PDF QR')
                         ->icon('heroicon-o-document-arrow-down')
                         ->color('success')
@@ -166,7 +170,7 @@ class MenuResource extends Resource
                             );
                         }),
 
-                    Tables\Actions\Action::make('download_qr_png')
+                    Actions\Action::make('download_qr_png')
                         ->label('Imagen QR (PNG)')
                         ->icon('heroicon-o-photo')
                         ->color('success')
@@ -181,7 +185,7 @@ class MenuResource extends Resource
                             );
                         }),
 
-                    Tables\Actions\Action::make('download_qr_all_pdf')
+                    Actions\Action::make('download_qr_all_pdf')
                         ->label('PDF QR (todos los menús)')
                         ->icon('heroicon-o-squares-2x2')
                         ->color('info')
@@ -202,7 +206,7 @@ class MenuResource extends Resource
                             );
                         }),
 
-                    Tables\Actions\Action::make('download_qr_all_png')
+                    Actions\Action::make('download_qr_all_png')
                         ->label('Imagen QR (todos los menús)')
                         ->icon('heroicon-o-photo')
                         ->color('info')
@@ -219,11 +223,11 @@ class MenuResource extends Resource
                         }),
                 ])->icon('heroicon-o-qr-code')->color('success')->label('QR'),
 
-                Tables\Actions\DeleteAction::make(),
+                Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                Actions\BulkActionGroup::make([
+                    Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }

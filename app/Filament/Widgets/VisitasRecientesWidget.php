@@ -4,6 +4,7 @@ namespace App\Filament\Widgets;
 
 use App\Filament\Resources\PageViewResource;
 use App\Models\PageView;
+use Filament\Actions;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
@@ -22,7 +23,7 @@ class VisitasRecientesWidget extends BaseWidget
                 PageView::query()->latest()->limit(10)
             )
             ->headerActions([
-                \Filament\Tables\Actions\Action::make('ver_todas')
+                \Filament\Actions\Action::make('ver_todas')
                     ->label('Ver todas')
                     ->icon('heroicon-o-arrow-top-right-on-square')
                     ->url(PageViewResource::getUrl('index'))

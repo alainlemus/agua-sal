@@ -9,6 +9,7 @@ use Filament\Schemas\Schema;
 use Filament\Infolists;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
+use Filament\Actions;
 use Filament\Tables;
 use Filament\Tables\Table;
 
@@ -171,10 +172,10 @@ class ContactSubmissionResource extends Resource
                     ),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make()
+                Actions\ViewAction::make()
                     ->label('Ver'),
 
-                Tables\Actions\Action::make('mark_attended')
+                Actions\Action::make('mark_attended')
                     ->label('Marcar atendido')
                     ->icon('heroicon-o-check')
                     ->color('success')
@@ -190,7 +191,7 @@ class ContactSubmissionResource extends Resource
                             ->send();
                     }),
 
-                Tables\Actions\Action::make('mark_unattended')
+                Actions\Action::make('mark_unattended')
                     ->label('Marcar pendiente')
                     ->icon('heroicon-o-arrow-uturn-left')
                     ->color('warning')
@@ -203,15 +204,15 @@ class ContactSubmissionResource extends Resource
                             ->send();
                     }),
 
-                Tables\Actions\EditAction::make()
+                Actions\EditAction::make()
                     ->label('Notas')
                     ->icon('heroicon-o-pencil-square'),
 
-                Tables\Actions\DeleteAction::make(),
+                Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\BulkAction::make('bulk_attended')
+                Actions\BulkActionGroup::make([
+                    Actions\BulkAction::make('bulk_attended')
                         ->label('Marcar seleccionados como atendidos')
                         ->icon('heroicon-o-check')
                         ->color('success')
@@ -219,7 +220,7 @@ class ContactSubmissionResource extends Resource
                             $records->each(fn ($r) => $r->markAsAttended(auth()->user()?->name ?? 'admin'));
                             Notification::make()->title('Mensajes marcados como atendidos')->success()->send();
                         }),
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Actions\DeleteBulkAction::make(),
                 ]),
             ])
             ->striped()

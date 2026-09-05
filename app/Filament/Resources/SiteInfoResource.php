@@ -6,8 +6,10 @@ use App\Filament\Resources\SiteInfoResource\Pages;
 use App\Filament\Resources\SiteInfoResource\RelationManagers;
 use App\Models\SiteInfo;
 use Filament\Forms;
+use Filament\Schemas\Components;
 use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
+use Filament\Actions;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Cache;
@@ -29,7 +31,7 @@ class SiteInfoResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Información General')
+                Components\Section::make('Información General')
                     ->description('Nombre, identidad y tipo de cocina del restaurante.')
                     ->schema([
                         Forms\Components\TextInput::make('site_name')
@@ -52,7 +54,7 @@ class SiteInfoResource extends Resource
                     ->collapsible()
                     ->collapsed(),
 
-                Forms\Components\Section::make('Logo e Identidad')
+                Components\Section::make('Logo e Identidad')
                     ->description('Logo del sitio y favicon para el navegador.')
                     ->schema([
                         Forms\Components\FileUpload::make('site_logo')
@@ -84,7 +86,7 @@ class SiteInfoResource extends Resource
                     ->collapsible()
                     ->collapsed(),
 
-                Forms\Components\Section::make('Contacto y Horarios')
+                Components\Section::make('Contacto y Horarios')
                     ->description('Dirección, teléfono y horarios del restaurante.')
                     ->schema([
                         Forms\Components\TextInput::make('address')
@@ -114,7 +116,7 @@ class SiteInfoResource extends Resource
                     ->collapsible()
                     ->collapsed(),
 
-                Forms\Components\Section::make('Música de Fondo')
+                Components\Section::make('Música de Fondo')
                     ->description('Configura una canción de fondo que se reproducirá en el sitio web.')
                     ->icon('heroicon-o-musical-note')
                     ->schema([
@@ -131,7 +133,7 @@ class SiteInfoResource extends Resource
                     ])
                     ->collapsible(),
 
-                Forms\Components\Section::make('Efectos Visuales')
+                Components\Section::make('Efectos Visuales')
                     ->description('Configura los efectos animados del sitio (burbujas, sal cayendo, olas).')
                     ->icon('heroicon-o-sparkles')
                     ->schema([
@@ -172,7 +174,7 @@ class SiteInfoResource extends Resource
                     ])
                     ->collapsible(),
 
-                Forms\Components\Section::make('Acerca de Nosotros')
+                Components\Section::make('Acerca de Nosotros')
                     ->description('Texto e imagen para la sección "Acerca de" y valores fallback del hero.')
                     ->schema([
                         Forms\Components\Textarea::make('about_text')
@@ -195,7 +197,7 @@ class SiteInfoResource extends Resource
                     ->collapsible()
                     ->collapsed(),
 
-                Forms\Components\Section::make('Redes Sociales')
+                Components\Section::make('Redes Sociales')
                     ->description('Agrega los perfiles de redes sociales que aparecerán en el footer del sitio.')
                     ->schema([
                         Forms\Components\Repeater::make('social_links')
@@ -247,7 +249,7 @@ class SiteInfoResource extends Resource
                     ->collapsible()
                     ->collapsed(),
 
-                Forms\Components\Section::make('Aviso de Privacidad')
+                Components\Section::make('Aviso de Privacidad')
                     ->description('Contenido que se mostrará en la página /aviso-de-privacidad del sitio.')
                     ->icon('heroicon-o-shield-check')
                     ->schema([
@@ -272,7 +274,7 @@ class SiteInfoResource extends Resource
                     ->collapsible()
                     ->collapsed(),
 
-                Forms\Components\Section::make('SEO & Redes Sociales')
+                Components\Section::make('SEO & Redes Sociales')
                     ->description('Estos datos controlan cómo aparece el sitio en Google y cuando se comparte en redes sociales (Open Graph / Twitter Card).')
                     ->icon('heroicon-o-magnifying-glass')
                     ->schema([
@@ -365,11 +367,11 @@ class SiteInfoResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                Actions\BulkActionGroup::make([
+                    Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
