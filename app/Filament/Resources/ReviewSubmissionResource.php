@@ -40,7 +40,7 @@ class ReviewSubmissionResource extends Resource
     public static function form(Schema $form): Schema
     {
         return $form->schema([
-            Forms\Components\Placeholder::make('readonly_note')
+            Forms\Components\Placeholder::make('readonly_note')->label('Aviso')
                 ->content('Las reseñas son de solo lectura. Usa las acciones de la tabla para canjear regalos.')
                 ->columnSpanFull(),
         ]);
@@ -125,6 +125,7 @@ class ReviewSubmissionResource extends Resource
                     ->color('gray'),
 
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Creado')
                     ->label('Fecha')
                     ->dateTime('d/m/Y H:i')
                     ->sortable(),

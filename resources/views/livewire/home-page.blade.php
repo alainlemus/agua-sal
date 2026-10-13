@@ -42,6 +42,7 @@
                     </div>
 
                     <div class="relative z-10 text-center px-4 max-w-4xl mx-auto mt-20">
+                        <x-open-status class="mb-6 opacity-0 animate-fade-in-up" />
                         @if(!empty($block['data']['hero_heading']))
                             <h1 class="text-6xl md:text-8xl font-['Anton'] text-[var(--text_primary)] uppercase tracking-widest mb-6 drop-shadow-2xl opacity-0 animate-fade-in-up">
                                 {{ $block['data']['hero_heading'] }}
@@ -523,6 +524,12 @@
                                 <p class="text-[var(--text_secondary)] mb-8 text-lg">{{ $block['data']['description'] }}</p>
                                 @endif
 
+                                <a href="https://www.google.com/maps/dir/?api=1&destination={{ urlencode((string) $__si?->address) }}" target="_blank" rel="noopener"
+                                   class="mb-8 inline-flex items-center gap-2 rounded-full bg-[var(--accent)] px-6 py-3 text-sm font-bold uppercase tracking-widest text-white transition hover:brightness-110">
+                                    Cómo llegar
+                                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-6-6l6 6-6 6"/></svg>
+                                </a>
+
                                 <ul class="space-y-6">
                                     @if ($__si?->address)
                                     <li class="flex items-start gap-4 text-[var(--text_secondary)]">
@@ -609,6 +616,10 @@
             @endif
 
             {{-- ═══════ CTA BANNER ═══════ --}}
+            @if($block['type'] === 'reservation')
+                <x-blocks.reservation :data="$block['data'] ?? []" />
+            @endif
+
             @if($block['type'] === 'cta_banner')
                 @php $bg = $block['data']['bg_color'] ?? '#E52B2B'; $tc = $block['data']['text_color'] ?? '#ffffff'; @endphp
                 <section class="py-20 relative overflow-hidden" style="background-color: {{ $bg }}">

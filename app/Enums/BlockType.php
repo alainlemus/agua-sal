@@ -19,6 +19,7 @@ enum BlockType: string
     case CtaBanner = 'cta_banner';
     case Faq = 'faq';
     case Pricing = 'pricing';
+    case Reservation = 'reservation';
 
     public function label(): string
     {
@@ -36,6 +37,7 @@ enum BlockType: string
             self::CtaBanner => 'Banner CTA',
             self::Faq => 'Preguntas Frecuentes',
             self::Pricing => 'Precios',
+            self::Reservation => 'Reservación por WhatsApp',
         };
     }
 }

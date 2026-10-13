@@ -590,6 +590,10 @@
             @endif
 
             {{-- ═══════ BANNER CTA ═══════ --}}
+            @if($block['type'] === 'reservation')
+                <x-blocks.reservation :data="$block['data'] ?? []" />
+            @endif
+
             @if ($block['type'] === 'cta_banner')
                 @php
                     $bg   = $block['data']['bg_color']   ?? '#E52B2B';

@@ -189,7 +189,11 @@
         <link rel="icon" type="image/png" href="{{ asset('storage/' . $__seo->favicon) }}">
         <link rel="apple-touch-icon" href="{{ asset('storage/' . $__seo->favicon) }}">
     @else
-        <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+        <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="48x48">
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('icons/favicon-32.png') }}">
+        <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('icons/favicon-192.png') }}">
+        <link rel="apple-touch-icon" href="{{ asset('icons/apple-touch-icon.png') }}">
+        <meta name="theme-color" content="#0a1628">
     @endif
 
     <!-- View Transitions API -->

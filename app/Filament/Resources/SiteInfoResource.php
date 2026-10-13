@@ -354,12 +354,14 @@ class SiteInfoResource extends Resource
                 Tables\Columns\TextColumn::make('hero_subheading')
                     ->label('Subtítulo')
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('about_image'),
+                Tables\Columns\ImageColumn::make('about_image')->label('Imagen Nosotros'),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Creado')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Actualizado')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

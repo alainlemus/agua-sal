@@ -238,6 +238,15 @@ class PageResource extends Resource
                                             ->addActionLabel('+ Agregar característica'),
                                     ]),
 
+                                Forms\Components\Builder\Block::make('reservation')
+                                    ->label('Reservación por WhatsApp')
+                                    ->icon('heroicon-o-calendar-days')
+                                    ->schema([
+                                        Forms\Components\TextInput::make('heading')->label('Título')->default('Reserva tu mesa'),
+                                        Forms\Components\TextInput::make('subtitle')->label('Subtítulo')->default('Cuéntanos cuándo vienes y te confirmamos por WhatsApp.'),
+                                        Forms\Components\TextInput::make('max_people')->label('Máximo de personas')->numeric()->minValue(2)->maxValue(40)->default(12),
+                                    ]),
+
                                 Forms\Components\Builder\Block::make('cta_banner')
                                     ->label('Banner CTA (Llamada a la acción)')
                                     ->icon('heroicon-o-megaphone')
