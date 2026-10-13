@@ -84,7 +84,14 @@ trait HasColumnManager
             }
         }
 
-        if ($this->hasReorderableTableColumns() && session()->get($this->getHasReorderedTableColumnsSessionKey())) {
+        if (
+            $this->hasReorderableTableColumns() &&
+            (
+                $this->getTable()->persistsColumnsInSession()
+                    ? session()->get($this->getHasReorderedTableColumnsSessionKey())
+                    : ($wasReordered || $this->hasReorderedTableColumns())
+            )
+        ) {
             $this->syncReorderableColumnsFromDefaultTableColumnState();
         } else {
             $this->syncStaticColumnsFromTableColumnState();
@@ -159,16 +166,12 @@ trait HasColumnManager
 
     public function getTableColumnsSessionKey(): string
     {
-        $table = md5($this::class);
-
-        return "tables.{$table}_columns";
+        return $this->getTableSessionKey('columns');
     }
 
     public function getHasReorderedTableColumnsSessionKey(): string
     {
-        $table = md5($this::class);
-
-        return "tables.{$table}_has_reordered_columns";
+        return $this->getTableSessionKey('has_reordered_columns');
     }
 
     /**
@@ -176,6 +179,10 @@ trait HasColumnManager
      */
     protected function loadTableColumnsFromSession(): array
     {
+        if (! $this->getTable()->persistsColumnsInSession()) {
+            return $this->getDefaultTableColumnState();
+        }
+
         return session()->get(
             $this->getTableColumnsSessionKey(),
             $this->getDefaultTableColumnState(),
@@ -194,6 +201,10 @@ trait HasColumnManager
 
     protected function persistHasReorderedTableColumns(bool $wasReordered = false): void
     {
+        if (! $this->getTable()->persistsColumnsInSession()) {
+            return;
+        }
+
         session()->put(
             $this->getHasReorderedTableColumnsSessionKey(),
             $wasReordered || $this->hasReorderedTableColumns()

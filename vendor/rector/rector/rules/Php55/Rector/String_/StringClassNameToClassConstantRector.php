@@ -15,7 +15,7 @@ use Rector\ValueObject\PhpVersionFeature;
 use Rector\VersionBonding\Contract\MinPhpVersionInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use RectorPrefix202609\Webmozart\Assert\Assert;
+use RectorPrefix202610\Webmozart\Assert\Assert;
 /**
  * @see \Rector\Tests\Php55\Rector\String_\StringClassNameToClassConstantRector\StringClassNameToClassConstantRectorTest
  */
@@ -91,7 +91,7 @@ CODE_SAMPLE
         return new ClassConstFetch($fullyQualified, 'class');
     }
     /**
-     * @param array<string, mixed> $configuration
+     * @param string[] $configuration
      */
     public function configure(array $configuration): void
     {

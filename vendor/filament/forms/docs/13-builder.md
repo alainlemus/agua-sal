@@ -57,7 +57,7 @@ Builder::make('content')
     ])
 ```
 
-<AutoScreenshot name="forms/fields/builder/simple" alt="Builder" version="4.x" />
+<AutoScreenshot name="forms/fields/builder/simple" alt="Builder" version="5.x" />
 
 We recommend that you store builder data with a `JSON` column in your database. Additionally, if you're using Eloquent, make sure that column has an `array` cast.
 
@@ -116,9 +116,9 @@ Block::make('heading')
 
 Any fields that you use from `$state` should be `live()` if you wish to see the item label update live as you use the form.
 
-<UtilityInjection set="formFields" version="4.x" extras="Key;;string;;$key;;The key for the current block.||Index;;int;;$index;;The zero-based index of the current block.||State;;array<string, mixed>;;$state;;The raw unvalidated data for the current block.">You can inject various utilities into the function passed to `label()` as parameters.</UtilityInjection>
+<UtilityInjection set="formFields" version="5.x" extras="Key;;string;;$key;;The key for the current block.||Index;;int;;$index;;The zero-based index of the current block.||State;;array<string, mixed>;;$state;;The raw unvalidated data for the current block.">You can inject various utilities into the function passed to `label()` as parameters.</UtilityInjection>
 
-<AutoScreenshot name="forms/fields/builder/labelled" alt="Builder with labelled blocks based on the content" version="4.x" />
+<AutoScreenshot name="forms/fields/builder/labelled" alt="Builder with labelled blocks based on the content" version="5.x" />
 
 ### Numbering builder items
 
@@ -134,7 +134,7 @@ Builder::make('content')
     ->blockNumbers(false)
 ```
 
-<UtilityInjection set="formFields" version="4.x">As well as allowing a static value, the `blockNumbers()` method also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
+<UtilityInjection set="formFields" version="5.x">As well as allowing a static value, the `blockNumbers()` method also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
 
 ## Setting a block's icon
 
@@ -148,9 +148,9 @@ Block::make('paragraph')
     ->icon(Heroicon::Bars3BottomLeft)
 ```
 
-<UtilityInjection set="formFields" version="4.x">As well as allowing a static value, the `icon()` method also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
+<UtilityInjection set="formFields" version="5.x">As well as allowing a static value, the `icon()` method also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
 
-<AutoScreenshot name="forms/fields/builder/icons" alt="Builder with block icons in the dropdown" version="4.x" />
+<AutoScreenshot name="forms/fields/builder/icons" alt="Builder with block icons in the dropdown" version="5.x" />
 
 ### Adding icons to the header of blocks
 
@@ -178,9 +178,9 @@ Builder::make('content')
     ->blockIcons(FeatureFlag::active())
 ```
 
-<UtilityInjection set="formFields" version="4.x">As well as allowing a static value, the `blockIcons()` method also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
+<UtilityInjection set="formFields" version="5.x">As well as allowing a static value, the `blockIcons()` method also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
 
-<AutoScreenshot name="forms/fields/builder/block-icons" alt="Builder with icons in block headers" version="4.x" />
+<AutoScreenshot name="forms/fields/builder/block-icons" alt="Builder with icons in block headers" version="5.x" />
 
 ## Previewing blocks
 
@@ -223,9 +223,9 @@ Builder::make('content')
     ->blockPreviews(FeatureFlag::active())
 ```
 
-<UtilityInjection set="formFields" version="4.x">As well as allowing static values, the `blockPreviews()` and `preview()` methods also accept functions to dynamically calculate them. You can inject various utilities into the function as parameters.</UtilityInjection>
+<UtilityInjection set="formFields" version="5.x">As well as allowing static values, the `blockPreviews()` and `preview()` methods also accept functions to dynamically calculate them. You can inject various utilities into the function as parameters.</UtilityInjection>
 
-<AutoScreenshot name="forms/fields/builder/block-previews" alt="Builder with block previews" version="4.x" />
+<AutoScreenshot name="forms/fields/builder/block-previews" alt="Builder with block previews" version="5.x" />
 
 ### Interactive block previews
 
@@ -241,7 +241,7 @@ Builder::make('content')
     ])
 ```
 
-<UtilityInjection set="formFields" version="4.x">As well as allowing a static value, the `areInteractive` argument also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
+<UtilityInjection set="formFields" version="5.x">As well as allowing a static value, the `areInteractive` argument also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
 
 ## Adding items
 
@@ -261,7 +261,7 @@ Builder::make('content')
     ->addActionLabel('Add a new block')
 ```
 
-<UtilityInjection set="formFields" version="4.x">As well as allowing a static value, the `addActionLabel()` method also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
+<UtilityInjection set="formFields" version="5.x">As well as allowing a static value, the `addActionLabel()` method also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
 
 ### Aligning the add action button
 
@@ -278,9 +278,9 @@ Builder::make('content')
     ->addActionAlignment(Alignment::Start)
 ```
 
-<UtilityInjection set="formFields" version="4.x">As well as allowing a static value, the `addActionAlignment()` method also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
+<UtilityInjection set="formFields" version="5.x">As well as allowing a static value, the `addActionAlignment()` method also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
 
-<AutoScreenshot name="forms/fields/builder/add-action-alignment" alt="Builder with add action aligned to the start" version="4.x" />
+<AutoScreenshot name="forms/fields/builder/add-action-alignment" alt="Builder with add action aligned to the start" version="5.x" />
 
 ### Preventing the user from adding items
 
@@ -296,7 +296,7 @@ Builder::make('content')
     ->addable(false)
 ```
 
-<UtilityInjection set="formFields" version="4.x">As well as allowing a static value, the `addable()` method also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
+<UtilityInjection set="formFields" version="5.x">As well as allowing a static value, the `addable()` method also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
 
 ## Deleting items
 
@@ -316,7 +316,7 @@ Builder::make('content')
     ->deletable(false)
 ```
 
-<UtilityInjection set="formFields" version="4.x">As well as allowing a static value, the `deletable()` method also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
+<UtilityInjection set="formFields" version="5.x">As well as allowing a static value, the `deletable()` method also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
 
 ## Reordering items
 
@@ -336,7 +336,7 @@ Builder::make('content')
     ->reorderable(false)
 ```
 
-<UtilityInjection set="formFields" version="4.x">As well as allowing a static value, the `reorderable()` method also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
+<UtilityInjection set="formFields" version="5.x">As well as allowing a static value, the `reorderable()` method also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
 
 ### Reordering items with buttons
 
@@ -352,7 +352,7 @@ Builder::make('content')
     ->reorderableWithButtons()
 ```
 
-<AutoScreenshot name="forms/fields/builder/reorderable-with-buttons" alt="Builder that is reorderable with buttons" version="4.x" />
+<AutoScreenshot name="forms/fields/builder/reorderable-with-buttons" alt="Builder that is reorderable with buttons" version="5.x" />
 
 Optionally, you may pass a boolean value to control if the builder should be ordered with buttons or not:
 
@@ -366,7 +366,7 @@ Builder::make('content')
     ->reorderableWithButtons(FeatureFlag::active())
 ```
 
-<UtilityInjection set="formFields" version="4.x">As well as allowing a static value, the `reorderableWithButtons()` method also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
+<UtilityInjection set="formFields" version="5.x">As well as allowing a static value, the `reorderableWithButtons()` method also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
 
 ### Preventing reordering with drag and drop
 
@@ -382,7 +382,7 @@ Builder::make('content')
     ->reorderableWithDragAndDrop(false)
 ```
 
-<UtilityInjection set="formFields" version="4.x">As well as allowing a static value, the `reorderableWithDragAndDrop()` method also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
+<UtilityInjection set="formFields" version="5.x">As well as allowing a static value, the `reorderableWithDragAndDrop()` method also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
 
 ## Collapsing items
 
@@ -398,7 +398,7 @@ Builder::make('content')
     ->collapsible()
 ```
 
-<AutoScreenshot name="forms/fields/builder/collapsible" alt="Collapsible builder" version="4.x" />
+<AutoScreenshot name="forms/fields/builder/collapsible" alt="Collapsible builder" version="5.x" />
 
 You may also collapse all items by default:
 
@@ -412,7 +412,7 @@ Builder::make('content')
     ->collapsed()
 ```
 
-<AutoScreenshot name="forms/fields/builder/collapsed" alt="Collapsed builder" version="4.x" />
+<AutoScreenshot name="forms/fields/builder/collapsed" alt="Collapsed builder" version="5.x" />
 
 Optionally, the `collapsible()` and `collapsed()` methods accept a boolean value to control if the builder should be collapsible and collapsed or not:
 
@@ -427,7 +427,38 @@ Builder::make('content')
     ->collapsed(FeatureFlag::active())
 ```
 
-<UtilityInjection set="formFields" version="4.x">As well as allowing static values, the `collapsible()` and `collapsed()` methods also accept functions to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
+<UtilityInjection set="formFields" version="5.x">As well as allowing static values, the `collapsible()` and `collapsed()` methods also accept functions to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
+
+If collapsed items contain components that are expensive to render, you can [defer the loading of their block schemas](#deferring-the-loading-of-block-schemas) until they are expanded.
+
+## Deferring the loading of block schemas
+
+If a block's schema is expensive to render, you can pass a `Schema` object to `schema()` and use `deferLoading()`. This is particularly useful when items are [collapsed](#collapsing-items) by default. Each block item schema will be loaded independently when its item is expanded and enters the viewport:
+
+```php
+use Filament\Forms\Components\Builder;
+use Filament\Forms\Components\Builder\Block;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Schema;
+
+Builder::make('content')
+    ->blocks([
+        Block::make('heading')
+            ->schema(
+                Schema::make()
+                    ->components([
+                        TextInput::make('content')
+                            ->label('Heading')
+                            ->required(),
+                    ])
+                    ->deferLoading(),
+            ),
+        // ...
+    ])
+    ->collapsed()
+```
+
+Builder block item schemas automatically receive unique keys from their item state paths. You can learn more about deferred schemas in the [schema overview](../schemas/overview#deferring-the-loading-of-a-child-schema).
 
 ## Cloning items
 
@@ -443,7 +474,7 @@ Builder::make('content')
     ->cloneable()
 ```
 
-<AutoScreenshot name="forms/fields/builder/cloneable" alt="Cloneable repeater" version="4.x" />
+<AutoScreenshot name="forms/fields/builder/cloneable" alt="Cloneable repeater" version="5.x" />
 
 ## Customizing the block picker
 
@@ -468,9 +499,9 @@ This method can be used in a couple of different ways:
 
 Breakpoints (`sm`, `md`, `lg`, `xl`, `2xl`) are defined by Tailwind, and can be found in the [Tailwind documentation](https://tailwindcss.com/docs/responsive-design#overview).
 
-<UtilityInjection set="formFields" version="4.x">As well as allowing a static value, the `blockPickerColumns()` method also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
+<UtilityInjection set="formFields" version="5.x">As well as allowing a static value, the `blockPickerColumns()` method also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
 
-<AutoScreenshot name="forms/fields/builder/block-picker-columns" alt="Builder with 2 block picker columns" version="4.x" />
+<AutoScreenshot name="forms/fields/builder/block-picker-columns" alt="Builder with 2 block picker columns" version="5.x" />
 
 ### Increasing the width of the block picker
 
@@ -487,7 +518,56 @@ Builder::make()
     ])
 ```
 
-<UtilityInjection set="formFields" version="4.x">As well as allowing a static value, the `blockPickerWidth()` method also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
+<UtilityInjection set="formFields" version="5.x">As well as allowing a static value, the `blockPickerWidth()` method also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
+
+### Searching blocks
+
+If you have many blocks, you may allow users to search them in the block picker using the `searchable()` method:
+
+```php
+use Filament\Forms\Components\Builder;
+
+Builder::make('content')
+    ->searchable()
+    ->blocks([
+        // ...
+    ])
+```
+
+The search matches block labels in the browser, without making a server request, and is case-insensitive. You may customize the placeholder of the search field using the `searchPrompt()` method, and the message displayed when no blocks match the search using the `noSearchResultsMessage()` method:
+
+```php
+use Filament\Forms\Components\Builder;
+
+Builder::make('content')
+    ->searchable()
+    ->searchPrompt('Search for a block')
+    ->noSearchResultsMessage('No blocks found.')
+    ->blocks([
+        // ...
+    ])
+```
+
+<UtilityInjection set="formFields" version="5.x">As well as allowing static values, the `searchable()`, `searchPrompt()` and `noSearchResultsMessage()` methods also accept functions to dynamically calculate them. You can inject various utilities into the functions as parameters.</UtilityInjection>
+
+The search prompt is displayed as plain text. If you pass an `HtmlString` to `searchPrompt()`, its tags are removed and its HTML entities are decoded.
+
+#### Tweaking the search debounce
+
+By default, the block picker filters blocks immediately as the user types. You may debounce the search using the `searchDebounce()` method, which accepts the number of milliseconds to wait:
+
+```php
+use Filament\Forms\Components\Builder;
+
+Builder::make('content')
+    ->searchable()
+    ->searchDebounce(500)
+    ->blocks([
+        // ...
+    ])
+```
+
+<UtilityInjection set="formFields" version="5.x">As well as allowing a static value, the `searchDebounce()` method also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
 
 ## Limiting the number of times a block can be used
 
@@ -503,7 +583,7 @@ Block::make('heading')
     ->maxItems(1)
 ```
 
-<UtilityInjection set="formFields" version="4.x">As well as allowing a static value, the `maxItems()` method also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
+<UtilityInjection set="formFields" version="5.x">As well as allowing a static value, the `maxItems()` method also accepts a function to dynamically calculate it. You can inject various utilities into the function as parameters.</UtilityInjection>
 
 ## Using `$get()` to access parent field values
 
@@ -554,7 +634,7 @@ Builder::make('content')
     ->maxItems(5)
 ```
 
-<UtilityInjection set="formFields" version="4.x">As well as allowing static values, the `minItems()` and `maxItems()` methods also accept a function to dynamically calculate them. You can inject various utilities into the function as parameters.</UtilityInjection>
+<UtilityInjection set="formFields" version="5.x">As well as allowing static values, the `minItems()` and `maxItems()` methods also accept a function to dynamically calculate them. You can inject various utilities into the function as parameters.</UtilityInjection>
 
 ## Customizing the builder item actions
 
@@ -587,7 +667,7 @@ Builder::make('content')
     )
 ```
 
-<UtilityInjection set="formFields" version="4.x" extras="Action;;Filament\Actions\Action;;$action;;The action object to customize.">The action registration methods can inject various utilities into the function as parameters.</UtilityInjection>
+<UtilityInjection set="formFields" version="5.x" extras="Action;;Filament\Actions\Action;;$action;;The action object to customize.">The action registration methods can inject various utilities into the function as parameters.</UtilityInjection>
 
 ### Confirming builder actions with a modal
 

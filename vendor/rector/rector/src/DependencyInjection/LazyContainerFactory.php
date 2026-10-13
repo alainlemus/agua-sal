@@ -3,8 +3,8 @@
 declare (strict_types=1);
 namespace Rector\DependencyInjection;
 
-use RectorPrefix202609\Doctrine\Inflector\Inflector;
-use RectorPrefix202609\Doctrine\Inflector\Rules\English\InflectorFactory;
+use RectorPrefix202610\Doctrine\Inflector\Inflector;
+use RectorPrefix202610\Doctrine\Inflector\Rules\English\InflectorFactory;
 use PhpParser\Lexer;
 use PHPStan\Analyser\NodeScopeResolver;
 use PHPStan\Analyser\ScopeFactory;
@@ -36,6 +36,7 @@ use Rector\Console\Command\CustomRuleCommand;
 use Rector\Console\Command\ListRulesCommand;
 use Rector\Console\Command\ProcessCommand;
 use Rector\Console\Command\SetupCICommand;
+use Rector\Console\Command\ValidateConfigCommand;
 use Rector\Console\Command\WorkerCommand;
 use Rector\Console\ConsoleApplication;
 use Rector\Console\Style\SymfonyStyleFactory;
@@ -70,9 +71,9 @@ use Rector\PostRector\Application\PostFileProcessor;
 use Rector\Rector\AbstractRector;
 use Rector\Skipper\Skipper\Skipper;
 use Rector\Skipper\Skipper\UsedSkipCollector;
-use RectorPrefix202609\Symfony\Component\Console\Application;
-use RectorPrefix202609\Symfony\Component\Console\Style\SymfonyStyle;
-use RectorPrefix202609\Webmozart\Assert\Assert;
+use RectorPrefix202610\Symfony\Component\Console\Application;
+use RectorPrefix202610\Symfony\Component\Console\Style\SymfonyStyle;
+use RectorPrefix202610\Webmozart\Assert\Assert;
 final class LazyContainerFactory
 {
     /**
@@ -123,6 +124,7 @@ final class LazyContainerFactory
         $rectorConfig->singleton(ConfigurationRuleFilter::class);
         $rectorConfig->singleton(ProcessCommand::class);
         $rectorConfig->singleton(WorkerCommand::class);
+        $rectorConfig->singleton(ValidateConfigCommand::class);
         $rectorConfig->singleton(SetupCICommand::class);
         $rectorConfig->singleton(ListRulesCommand::class);
         $rectorConfig->singleton(CustomRuleCommand::class);

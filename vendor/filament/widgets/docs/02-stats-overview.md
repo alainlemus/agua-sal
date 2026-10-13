@@ -38,7 +38,7 @@ class StatsOverview extends BaseWidget
 
 Now, check out your widget in the dashboard.
 
-<AutoScreenshot name="widgets/stats-overview/simple" alt="Stats overview" version="4.x" />
+<AutoScreenshot name="widgets/stats-overview/simple" alt="Stats overview" version="5.x" />
 
 ## Adding a description and icon to a stat
 
@@ -74,7 +74,7 @@ Stat::make('Unique views', '192.1k')
     ->descriptionIcon('heroicon-m-arrow-trending-up', IconPosition::Before)
 ```
 
-<AutoScreenshot name="widgets/stats-overview/description" alt="Stats overview with descriptions" version="4.x" />
+<AutoScreenshot name="widgets/stats-overview/description" alt="Stats overview with descriptions" version="5.x" />
 
 ## Changing the color of the stat
 
@@ -102,7 +102,7 @@ protected function getStats(): array
 }
 ```
 
-<AutoScreenshot name="widgets/stats-overview/color" alt="Stats overview with colors" version="4.x" />
+<AutoScreenshot name="widgets/stats-overview/color" alt="Stats overview with colors" version="5.x" />
 
 ## Adding extra HTML attributes to a stat
 
@@ -127,6 +127,33 @@ protected function getStats(): array
 
 In this example, we are deliberately escaping the `$` in `$dispatch()` since this needs to be passed directly to the HTML, it is not a PHP variable.
 
+## Setting a placeholder for a stat
+
+Sometimes a stat's value may not be available — for example, when a dashboard has nothing to show for a specific period. You can use `placeholder()` to define what should be displayed instead when the value is blank:
+
+```php
+use Filament\Widgets\StatsOverviewWidget\Stat;
+
+Stat::make('Unique views', $uniqueViews)
+    ->placeholder('-')
+```
+
+A value is considered blank according to Laravel's `blank()` helper. For example, `null` and empty strings are blank, while `0` and `'0'` are not.
+
+### Setting a default placeholder globally
+
+If you'd like every stat in your app to fall back to the same placeholder by default, you can use the static `configureUsing()` method in a service provider's `boot()` method:
+
+```php
+use Filament\Widgets\StatsOverviewWidget\Stat;
+
+Stat::configureUsing(function (Stat $component): void {
+    $component->placeholder('-');
+});
+```
+
+Individual stats can still override this by calling `placeholder()` themselves.
+
 ## Adding a chart to a stat
 
 You may also add or chain a `chart()` to each stat to provide historical data. The `chart()` method accepts an array of data points to plot:
@@ -147,7 +174,7 @@ protected function getStats(): array
 }
 ```
 
-<AutoScreenshot name="widgets/stats-overview/chart" alt="Stats overview with charts" version="4.x" />
+<AutoScreenshot name="widgets/stats-overview/chart" alt="Stats overview with charts" version="5.x" />
 
 ## Styling stat charts in a theme
 
@@ -229,4 +256,4 @@ protected function getDescription(): ?string
 }
 ```
 
-<AutoScreenshot name="widgets/stats-overview/heading" alt="Stats overview with heading and description" version="4.x" />
+<AutoScreenshot name="widgets/stats-overview/heading" alt="Stats overview with heading and description" version="5.x" />

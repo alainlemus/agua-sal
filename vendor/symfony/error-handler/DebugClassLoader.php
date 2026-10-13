@@ -897,18 +897,13 @@ class DebugClassLoader
                     default => $definingClass,
                 };
 
-                // don't autoload here: the class that holds the constant might extend a class that is still being loaded
-                if (!class_exists($definingClass, false) && !interface_exists($definingClass, false)) {
-                    return;
-                }
-
                 if (!\defined($definingClass.'::'.$constantName)) {
                     return;
                 }
 
                 $constant = new \ReflectionClassConstant($definingClass, $constantName);
 
-                if (\PHP_VERSION_ID >= 80300 && $constantType = $constant->getType()) {
+                if ($constantType = $constant->getType()) {
                     if ($constantType instanceof \ReflectionNamedType) {
                         $n = $constantType->getName();
                     } else {

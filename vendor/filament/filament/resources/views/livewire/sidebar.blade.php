@@ -1,11 +1,18 @@
 <div>
     @php
+        use Filament\Enums\GlobalSearchPosition;
+        use Illuminate\Support\Facades\Vite;
+
         $navigation = filament()->getNavigation();
         $isRtl = __('filament-panels::layout.direction') === 'rtl';
         $isSidebarCollapsibleOnDesktop = filament()->isSidebarCollapsibleOnDesktop();
         $isSidebarFullyCollapsibleOnDesktop = filament()->isSidebarFullyCollapsibleOnDesktop();
         $hasNavigation = filament()->hasNavigation();
         $hasTopbar = filament()->hasTopbar();
+        $hasTenantMenu = filament()->hasTenancy() && filament()->hasTenantMenu();
+        $hasGlobalSearchInSidebar = filament()->isGlobalSearchEnabled() && filament()->getGlobalSearchPosition() === GlobalSearchPosition::Sidebar;
+
+        $cspNonce = Vite::cspNonce();
     @endphp
 
     {{-- format-ignore-start --}}
@@ -97,17 +104,26 @@
             </header>
         </div>
 
-        @if (filament()->hasTenancy() && filament()->hasTenantMenu())
-            <x-filament-panels::tenant-menu />
-        @endif
-
-        @if (filament()->isGlobalSearchEnabled() && filament()->getGlobalSearchPosition() === \Filament\Enums\GlobalSearchPosition::Sidebar)
+        @if ($hasTenantMenu || $hasGlobalSearchInSidebar)
             <div
-                @if ($isSidebarCollapsibleOnDesktop || $isSidebarFullyCollapsibleOnDesktop)
+                @if ((! $hasTenantMenu) && ($isSidebarCollapsibleOnDesktop || $isSidebarFullyCollapsibleOnDesktop))
                     x-show="$store.sidebar.isOpen"
                 @endif
+                class="fi-sidebar-header-controls"
             >
-                @livewire(Filament\Livewire\GlobalSearch::class)
+                @if ($hasTenantMenu)
+                    <x-filament-panels::tenant-menu />
+                @endif
+
+                @if ($hasGlobalSearchInSidebar)
+                    <div
+                        @if ($isSidebarCollapsibleOnDesktop || $isSidebarFullyCollapsibleOnDesktop)
+                            x-show="$store.sidebar.isOpen"
+                        @endif
+                    >
+                        @livewire(Filament\Livewire\GlobalSearch::class)
+                    </div>
+                @endif
             </div>
         @endif
 
@@ -139,7 +155,7 @@
                 @endforeach
             </ul>
 
-            <script>
+            <script @if (filled($cspNonce)) nonce="{{ $cspNonce }}" @endif>
                 var collapsedGroups = JSON.parse(
                     localStorage.getItem('collapsedGroups'),
                 )

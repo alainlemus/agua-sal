@@ -9,7 +9,7 @@ use Rector\Configuration\VendorMissAnalyseGuard;
 use Rector\Contract\Rector\RectorInterface;
 use Rector\PostRector\Contract\Rector\PostRectorInterface;
 use Rector\ValueObject\ProcessResult;
-use RectorPrefix202609\Symfony\Component\Console\Style\SymfonyStyle;
+use RectorPrefix202610\Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * @see \Rector\Tests\Reporting\MissConfigurationReporterTest
  */
@@ -48,7 +48,7 @@ final class MissConfigurationReporter
         $spacedUnusedSkips = array_map(static fn(string $unusedSkip): string => $unusedSkip . "\n", $unusedSkips);
         $this->symfonyStyle->listing($spacedUnusedSkips);
     }
-    public function reportSkippedNeverRegisteredRules(): void
+    public function reportSkippedNeverRegisteredRules(): int
     {
         $registeredRules = SimpleParameterProvider::provideArrayParameter(Option::REGISTERED_RECTOR_RULES);
         $skippedRules = SimpleParameterProvider::provideArrayParameter(Option::SKIPPED_RECTOR_RULES);
@@ -56,18 +56,20 @@ final class MissConfigurationReporter
         // remove special PostRectorInterface rules, they are registered in a different way
         $neverRegisteredSkippedRules = array_filter($neverRegisteredSkippedRules, fn($skippedRule): bool => !is_a($skippedRule, PostRectorInterface::class, \true));
         if ($neverRegisteredSkippedRules === []) {
-            return;
+            return 0;
         }
         $this->symfonyStyle->warning(sprintf('%s never registered. You can remove %s from "->withSkip()"', count($neverRegisteredSkippedRules) > 1 ? 'These skipped rules are' : 'This skipped rule is', count($neverRegisteredSkippedRules) > 1 ? 'them' : 'it'));
         $this->symfonyStyle->listing($neverRegisteredSkippedRules);
+        return count($neverRegisteredSkippedRules);
     }
-    public function reportSkippedNonRectorClasses(): void
+    public function reportSkippedNonRectorClasses(): int
     {
         $skippedNonRectorClasses = SimpleParameterProvider::provideArrayParameter(Option::SKIPPED_NON_RECTOR_CLASSES);
         if ($skippedNonRectorClasses === []) {
-            return;
+            return 0;
         }
         $this->symfonyStyle->warning(sprintf('%s "%s" %s not a Rector rule, so %s never be skipped. Only classes that implement "%s" can be used in "->withSkip()"', count($skippedNonRectorClasses) > 1 ? 'These skipped classes' : 'This skipped class', implode('", "', $skippedNonRectorClasses), count($skippedNonRectorClasses) > 1 ? 'are' : 'is', count($skippedNonRectorClasses) > 1 ? 'they can' : 'it can', RectorInterface::class));
+        return count($skippedNonRectorClasses);
     }
     /**
      * @param string[] $filePaths

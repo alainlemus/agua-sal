@@ -10,6 +10,22 @@ export default (Alpine) => {
 
         transitionEasing: null,
 
+        closeTimeout: null,
+
+        durationTimeout: null,
+
+        remainingDuration: null,
+
+        durationStartedAt: null,
+
+        isHovered: false,
+
+        isFocusedWithin: false,
+
+        isClosing: false,
+
+        focusOrigin: null,
+
         unsubscribeLivewireHook: null,
 
         init() {
@@ -27,18 +43,116 @@ export default (Alpine) => {
                 notification.duration &&
                 notification.duration !== 'persistent'
             ) {
-                setTimeout(() => {
-                    if (!this.$el.matches(':hover')) {
-                        this.close()
+                if (this.$root.classList.contains('fi-inline')) {
+                    this.durationTimeout = setTimeout(() => {
+                        if (!this.$el.matches(':hover')) {
+                            this.close()
 
-                        return
+                            return
+                        }
+
+                        this.$el.addEventListener('mouseleave', () =>
+                            this.close(),
+                        )
+                    }, notification.duration)
+                } else {
+                    this.remainingDuration = notification.duration
+                    this.isHovered = this.$el.matches(':hover')
+                    this.isFocusedWithin = this.$el.contains(
+                        document.activeElement,
+                    )
+
+                    if (!this.isHovered && !this.isFocusedWithin) {
+                        this.resumeDuration()
                     }
-
-                    this.$el.addEventListener('mouseleave', () => this.close())
-                }, notification.duration)
+                }
             }
 
             this.isShown = true
+        },
+
+        pauseDuration(reason) {
+            if (this.isClosing) {
+                return
+            }
+
+            const wasPaused = this.isHovered || this.isFocusedWithin
+
+            if (reason === 'hover') {
+                this.isHovered = true
+            } else {
+                this.isFocusedWithin = true
+            }
+
+            if (wasPaused || !this.durationTimeout) {
+                return
+            }
+
+            this.remainingDuration = Math.max(
+                0,
+                this.remainingDuration -
+                    (performance.now() - this.durationStartedAt),
+            )
+
+            clearTimeout(this.durationTimeout)
+            this.durationTimeout = null
+            this.durationStartedAt = null
+        },
+
+        resumeDuration(reason = null) {
+            if (reason === 'hover') {
+                this.isHovered = false
+            } else if (reason === 'focus') {
+                this.isFocusedWithin = false
+            }
+
+            if (
+                this.isClosing ||
+                this.isHovered ||
+                this.isFocusedWithin ||
+                this.remainingDuration === null ||
+                this.durationTimeout
+            ) {
+                return
+            }
+
+            this.durationStartedAt = performance.now()
+            this.durationTimeout = setTimeout(() => {
+                this.durationTimeout = null
+                this.durationStartedAt = null
+                this.remainingDuration = 0
+                this.close()
+            }, this.remainingDuration)
+        },
+
+        handleFocusIn(event) {
+            if (!this.$el.contains(event.relatedTarget)) {
+                this.focusOrigin =
+                    event.relatedTarget instanceof HTMLElement
+                        ? event.relatedTarget
+                        : null
+            }
+
+            this.pauseDuration('focus')
+        },
+
+        handleFocusOut(event) {
+            if (this.$el.contains(event.relatedTarget)) {
+                return
+            }
+
+            this.resumeDuration('focus')
+        },
+
+        handleEscape(event) {
+            if (!this.$el.contains(document.activeElement)) {
+                return
+            }
+
+            event.preventDefault()
+            event.stopImmediatePropagation()
+
+            this.dismiss()
         },
 
         configureTransitions() {
@@ -82,11 +196,10 @@ export default (Alpine) => {
                 return
             }
 
-            this.unsubscribeLivewireHook = Livewire.hook(
-                'commit',
-                ({ component, succeed }) => {
+            this.unsubscribeLivewireHook = Livewire.interceptMessage(
+                ({ message, onSuccess }) => {
                     if (
-                        !component.snapshot.data
+                        !message.component.snapshot.data
                             .isFilamentNotificationsComponent
                     ) {
                         return
@@ -99,60 +212,54 @@ export default (Alpine) => {
                             this.$el.getBoundingClientRect().top
                         const oldTop = getTop()
 
-                        succeed(() => {
-                            // `succeed` runs before Livewire morphs the DOM, which it
-                            // defers using two nested `queueMicrotask()` calls, so the
-                            // animation is deferred in the same way to run once the DOM
-                            // has been morphed, before the browser paints, so the new
-                            // position can be measured and the animation started without
-                            // the notification flashing in its final position.
-                            queueMicrotask(() =>
-                                queueMicrotask(() => {
-                                    if (!this.isShown) {
-                                        return
-                                    }
+                        onSuccess(({ onRender }) => {
+                            // `onRender` runs once the DOM has been morphed, inside a
+                            // `requestAnimationFrame()` before the browser paints, so the
+                            // new position can be measured and the animation started
+                            // without the notification flashing in its final position.
+                            onRender(() => {
+                                if (!this.isShown) {
+                                    return
+                                }
 
-                                    // Finish any running animations so they do not distort
-                                    // the measurement of the new position.
-                                    this.$el
-                                        .getAnimations()
-                                        .forEach((animation) =>
-                                            animation.finish(),
-                                        )
+                                // Finish any running animations so they do not distort
+                                // the measurement of the new position.
+                                this.$el
+                                    .getAnimations()
+                                    .forEach((animation) => animation.finish())
 
-                                    const newTop = getTop()
+                                const newTop = getTop()
 
-                                    if (oldTop === newTop) {
-                                        return
-                                    }
+                                if (oldTop === newTop) {
+                                    return
+                                }
 
-                                    // Honor `prefers-reduced-motion`: `element.animate()`
-                                    // (the Web Animations API) is not covered by the CSS
-                                    // reduced-motion reset, so skip the FLIP reposition
-                                    // entirely — the element is already at its final
-                                    // position after the morph.
-                                    if (
-                                        window.matchMedia(
-                                            '(prefers-reduced-motion: reduce)',
-                                        ).matches
-                                    ) {
-                                        return
-                                    }
+                                // Honor `prefers-reduced-motion`: `element.animate()`
+                                // (the Web Animations API) is not covered by the CSS
+                                // reduced-motion reset, so skip the FLIP reposition
+                                // entirely — the element is already at its final
+                                // position after the morph.
+                                if (
+                                    window.matchMedia(
+                                        '(prefers-reduced-motion: reduce)',
+                                    ).matches
+                                ) {
+                                    return
+                                }
 
-                                    this.$el.animate(
-                                        [
-                                            {
-                                                transform: `translateY(${oldTop - newTop}px)`,
-                                            },
-                                            { transform: 'translateY(0px)' },
-                                        ],
+                                this.$el.animate(
+                                    [
                                         {
-                                            duration: this.transitionDuration,
-                                            easing: this.transitionEasing,
+                                            transform: `translateY(${oldTop - newTop}px)`,
                                         },
-                                    )
-                                }),
-                            )
+                                        { transform: 'translateY(0px)' },
+                                    ],
+                                    {
+                                        duration: this.transitionDuration,
+                                        easing: this.transitionEasing,
+                                    },
+                                )
+                            })
                         })
                     })
                 },
@@ -160,6 +267,17 @@ export default (Alpine) => {
         },
 
         close(isImmediate = false) {
+            if (this.isClosing) {
+                return
+            }
+
+            this.isClosing = true
+
+            clearTimeout(this.closeTimeout)
+            clearTimeout(this.durationTimeout)
+            this.durationTimeout = null
+            this.durationStartedAt = null
+
             const dispatchClosedEvent = () =>
                 window.dispatchEvent(
                     new CustomEvent('notificationClosed', {
@@ -188,7 +306,27 @@ export default (Alpine) => {
 
             this.isShown = false
 
-            setTimeout(dispatchClosedEvent, this.transitionDuration)
+            this.closeTimeout = setTimeout(
+                dispatchClosedEvent,
+                this.transitionDuration,
+            )
+        },
+
+        dismiss() {
+            const element = this.focusOrigin
+
+            this.focusOrigin = null
+
+            if (
+                this.$el.contains(document.activeElement) &&
+                element instanceof HTMLElement &&
+                element.isConnected &&
+                !this.$el.contains(element)
+            ) {
+                element.focus({ preventScroll: true })
+            }
+
+            this.close()
         },
 
         markAsRead() {
@@ -212,7 +350,12 @@ export default (Alpine) => {
         },
 
         destroy() {
+            clearTimeout(this.closeTimeout)
+            clearTimeout(this.durationTimeout)
+            this.closeTimeout = null
+            this.durationTimeout = null
             this.unsubscribeLivewireHook?.()
+            this.unsubscribeLivewireHook = null
         },
     }))
 }

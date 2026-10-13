@@ -6,7 +6,7 @@ namespace Rector\ChangesReporting\ValueObject;
 use Rector\Contract\Rector\RectorInterface;
 use Rector\Parallel\Contract\SerializableInterface;
 use Rector\PostRector\Contract\Rector\PostRectorInterface;
-use RectorPrefix202609\Webmozart\Assert\Assert;
+use RectorPrefix202610\Webmozart\Assert\Assert;
 final class RectorWithLineChange implements SerializableInterface
 {
     /**
@@ -40,6 +40,10 @@ final class RectorWithLineChange implements SerializableInterface
     public function getRectorClass(): string
     {
         return $this->rectorClass;
+    }
+    public function getLine(): int
+    {
+        return $this->line;
     }
     /**
      * @param array<string, mixed> $json

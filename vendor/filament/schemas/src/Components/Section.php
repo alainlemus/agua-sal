@@ -63,6 +63,8 @@ class Section extends Component implements CanEntangleWithSingularRelationships,
 
     protected bool | Closure $isFormBefore = false;
 
+    protected ?Closure $contentSchemaExtraAttributes = null;
+
     const AFTER_HEADER_SCHEMA_KEY = 'after_header';
 
     const FOOTER_SCHEMA_KEY = 'footer';
@@ -222,6 +224,13 @@ class Section extends Component implements CanEntangleWithSingularRelationships,
     {
         $schema = parent::configureChildSchema($schema, $key);
 
+        if ($key === 'default') {
+            $schema->extraAttributes(
+                $this->contentSchemaExtraAttributes ??= static fn (): array => ['class' => 'fi-section-content'],
+                merge: true,
+            );
+        }
+
         if (in_array($key, [
             static::AFTER_HEADER_SCHEMA_KEY,
             static::FOOTER_SCHEMA_KEY,
@@ -307,7 +316,7 @@ class Section extends Component implements CanEntangleWithSingularRelationships,
         $collapseId = $id;
 
         // Render child schema content
-        $contentHtml = $this->getChildSchema()?->extraAttributes(['class' => 'fi-section-content'])->toHtml();
+        $contentHtml = $this->getChildSchema()?->toHtml();
         $hasContent = ! is_slot_empty(filled($contentHtml) ? new HtmlString($contentHtml) : null);
         $hasFooter = ! is_slot_empty($footer);
 
@@ -416,7 +425,6 @@ class Section extends Component implements CanEntangleWithSingularRelationships,
                                 $collapseButtonAttributes = (new FilamentComponentAttributeBag)
                                     ->merge([
                                         'type' => 'button',
-                                        'wire:loading.attr' => 'disabled',
                                         'x-on:click.stop' => 'isCollapsed = ! isCollapsed',
                                         // The button only contains a decorative chevron, so give it an accessible
                                         // name. Static values cover the pre-Alpine/no-JS render; `x-bind` keeps the

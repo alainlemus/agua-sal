@@ -1,24 +1,18 @@
 <?php
 
 declare (strict_types=1);
-namespace RectorPrefix202609\Entropy\Console\Output;
+namespace RectorPrefix202610\Entropy\Console\Output;
 
-use RectorPrefix202609\Entropy\Console\Enum\Color;
-use RectorPrefix202609\Entropy\Console\Terminal\Terminal;
-use RectorPrefix202609\Webmozart\Assert\Assert;
+use RectorPrefix202610\Entropy\Console\Enum\Color;
+use RectorPrefix202610\Entropy\Console\Terminal\Terminal;
+use RectorPrefix202610\Entropy\Validation\Assert;
 /**
  * @api used in many ways
  */
 final class OutputPrinter
 {
-    /**
-     * @readonly
-     */
-    private OutputColorizer $outputColorizer;
-    /**
-     * @readonly
-     */
     private bool $isSilent;
+    private OutputColorizer $outputColorizer;
     public function __construct(OutputColorizer $outputColorizer)
     {
         $this->outputColorizer = $outputColorizer;
@@ -130,7 +124,7 @@ final class OutputPrinter
     private function block(string $text, string $color): void
     {
         // reserve 2 chars for the single space padding the background() adds on each side
-        $contentWidth = Terminal::getWidth() - 2;
+        $contentWidth = max(0, Terminal::getWidth() - 2);
         $emptyLine = str_repeat(' ', $contentWidth);
         $paddedText = Terminal::padVisibleRight($text, $contentWidth);
         $this->newline();

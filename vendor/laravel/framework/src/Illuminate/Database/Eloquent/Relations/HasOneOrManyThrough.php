@@ -12,6 +12,9 @@ use Illuminate\Database\Eloquent\Relations\Concerns\InteractsWithDictionary;
 use Illuminate\Database\Query\Grammars\MySqlGrammar;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection as BaseCollection;
+
+use function Illuminate\Support\enum_value;
 
 /**
  * @template TRelatedModel of \Illuminate\Database\Eloquent\Model
@@ -201,6 +204,22 @@ abstract class HasOneOrManyThrough extends Relation
     }
 
     /**
+     * Find a related model by its primary key or return a new instance of the related model.
+     *
+     * @param  mixed  $id
+     * @param  array  $columns
+     * @return ($id is (\Illuminate\Contracts\Support\Arrayable<array-key, mixed>|array<mixed>) ? \Illuminate\Database\Eloquent\Collection<int, TRelatedModel> : TRelatedModel)
+     */
+    public function findOrNew($id, $columns = ['*'])
+    {
+        if (is_null($instance = $this->find($id, $columns))) {
+            $instance = $this->related->newInstance();
+        }
+
+        return $instance;
+    }
+
+    /**
      * Get the first related model record matching the attributes or instantiate it.
      *
      * @param  array  $attributes
@@ -238,6 +257,8 @@ abstract class HasOneOrManyThrough extends Relation
      * @param  array  $attributes
      * @param  (\Closure(): array)|array  $values
      * @return TRelatedModel
+     *
+     * @throws \Illuminate\Database\UniqueConstraintViolationException
      */
     public function createOrFirst(array $attributes = [], Closure|array $values = [])
     {
@@ -403,6 +424,8 @@ abstract class HasOneOrManyThrough extends Relation
         $id = $id instanceof Arrayable ? $id->toArray() : $id;
 
         if (is_array($id)) {
+            $id = array_map(enum_value(...), $id);
+
             if (count($result) === count(array_unique($id))) {
                 return $result;
             }
@@ -440,6 +463,8 @@ abstract class HasOneOrManyThrough extends Relation
         $id = $id instanceof Arrayable ? $id->toArray() : $id;
 
         if (is_array($id)) {
+            $id = array_map(enum_value(...), $id);
+
             if (count($result) === count(array_unique($id))) {
                 return $result;
             }
@@ -591,9 +616,9 @@ abstract class HasOneOrManyThrough extends Relation
      */
     public function eachById(callable $callback, $count = 1000, $column = null, $alias = null)
     {
-        $column = $column ?? $this->getRelated()->getQualifiedKeyName();
+        $column ??= $this->getRelated()->getQualifiedKeyName();
 
-        $alias = $alias ?? $this->getRelated()->getKeyName();
+        $alias ??= $this->getRelated()->getKeyName();
 
         return $this->prepareQueryBuilder()->eachById($callback, $count, $column, $alias);
     }
@@ -624,6 +649,28 @@ abstract class HasOneOrManyThrough extends Relation
                 }
             }
         });
+    }
+
+    /**
+     * Run a map over each item while chunking.
+     *
+     * @template TReturn
+     *
+     * @param  callable(TRelatedModel): TReturn  $callback
+     * @param  int  $count
+     * @return \Illuminate\Support\Collection<int, TReturn>
+     */
+    public function chunkMap(callable $callback, $count = 1000)
+    {
+        $collection = new BaseCollection;
+
+        $this->chunk($count, function ($items) use ($collection, $callback) {
+            $items->each(function ($item) use ($collection, $callback) {
+                $collection->push($callback($item));
+            });
+        });
+
+        return $collection;
     }
 
     /**

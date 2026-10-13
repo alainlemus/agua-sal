@@ -14,7 +14,7 @@ use Rector\Contract\Rector\RectorInterface;
 use Rector\Exception\ShouldNotHappenException;
 use Rector\VersionBonding\ComposerPackageConstraintFilter;
 use Rector\VersionBonding\PhpVersionedFilter;
-use RectorPrefix202609\Webmozart\Assert\Assert;
+use RectorPrefix202610\Webmozart\Assert\Assert;
 /**
  *  Based on native NodeTraverser class, but heavily customized for Rector needs.
  *
@@ -184,7 +184,7 @@ final class RectorNodeTraverser implements NodeTraverserInterface
         }
     }
     /**
-     * @param Node[] $nodes
+     * @param array<Node|null> $nodes The null can be in case of empty list(, , )
      * @return Node[]
      */
     private function traverseArray(array $nodes): array
