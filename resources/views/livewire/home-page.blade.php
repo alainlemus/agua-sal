@@ -11,7 +11,7 @@
                                      class="w-full h-full object-cover"
                                      onerror="this.src='https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&q=80'">
                         @elseif(!empty($block['data']['hero_video']))
-                            <video autoplay loop muted playsinline class="w-full h-full object-cover">
+                            <video autoplay loop muted playsinline preload="auto" disablepictureinpicture class="w-full h-full object-cover object-center">
                                 <source src="{{ asset('storage/' . $block['data']['hero_video']) }}" type="video/mp4">
                             </video>
                         @endif
