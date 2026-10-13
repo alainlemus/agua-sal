@@ -20,7 +20,7 @@ use Illuminate\Support\Str;
 final class MenuFromGoogleSeeder extends Seeder
 {
     /** @var list<string> */
-    private const FEATURED = ['Ceviche Chuy', 'Tiradito de Salmón', 'Burrito de Marlin']; // los que ya tienen foto real
+    private const FEATURED = ['Aguachile Verde', 'Aguachile Rojo', 'Tiradito de Salmón']; // los que ya tienen foto real
 
     public function run(): void
     {

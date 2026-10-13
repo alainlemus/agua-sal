@@ -39,7 +39,7 @@
                                  class="w-full h-full object-cover"
                                  onerror="this.src='https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&q=80'">
                         @else
-                            <video autoplay loop muted playsinline preload="auto" disablepictureinpicture class="w-full h-full object-cover object-center">
+                            <video autoplay loop muted playsinline preload="auto" poster="{{ asset('storage/pro/hero-poster.webp') }}" disablepictureinpicture class="w-full h-full object-cover object-center">
                                 @if (!empty($block['data']['hero_video']))
                                     <source src="{{ asset('storage/' . $block['data']['hero_video']) }}"
                                         type="video/mp4">
@@ -78,7 +78,7 @@
                         <div class="absolute inset-0 bg-gradient-to-br from-[#1a0800] via-[#0f0f0f] to-[var(--bg_primary)]"></div>
                     @endif
                     <div class="absolute inset-0 opacity-5"
-                        style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23E52B2B\' fill-opacity=\'0.4\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');">
+                        style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23FDA317\' fill-opacity=\'0.4\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');">
                     </div>
 
                     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -109,7 +109,7 @@
                                 @foreach ($block['data']['items'] as $i => $item)
                                     <div x-data="{ shown: false }" x-intersect.once="shown = true"
                                         :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'"
-                                        class="transition-all duration-700 group relative bg-[var(--bg_card)] rounded-2xl overflow-hidden border border-[var(--border)] hover:border-[var(--accent)] shadow-2xl hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(229,43,43,0.2)]"
+                                        class="transition-all duration-700 group relative bg-[var(--bg_card)] rounded-2xl overflow-hidden border border-[var(--border)] hover:border-[var(--accent)] shadow-2xl hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(253,163,23,0.2)]"
                                         style="transition-delay: {{ $i * 100 }}ms">
                                         <div class="relative h-52 overflow-hidden">
                                             <img src="{{ !empty($item['image']) ? (Str::startsWith($item['image'], 'http') ? $item['image'] : asset('storage/' . $item['image'])) : 'https://images.unsplash.com/photo-1544025162-8111f440536d?auto=format&fit=crop&q=80' }}"
@@ -276,7 +276,7 @@
                             @foreach($mosaic as $index => $item)
                                 @php
                                     $img = $item['image'] ?? '';
-                                    $borderColors = ['border-[var(--border)]', 'border-[#E52B2B]', 'border-[#18833b]'];
+                                    $borderColors = ['border-[var(--border)]', 'border-[#FDA317]', 'border-[#18833b]'];
                                     $border = $borderColors[$index % 3] ?? 'border-[var(--border)]';
                                 @endphp
                                 @if($img)
@@ -596,7 +596,7 @@
 
             @if ($block['type'] === 'cta_banner')
                 @php
-                    $bg   = $block['data']['bg_color']   ?? '#E52B2B';
+                    $bg   = $block['data']['bg_color']   ?? '#FDA317';
                     $tc   = $block['data']['text_color'] ?? '#ffffff';
                 @endphp
                 <section class="py-20 px-4" style="background-color: {{ $bg }};">
@@ -678,9 +678,9 @@
                         @endif
                         <div class="grid grid-cols-1 md:grid-cols-{{ count($block['data']['plans'] ?? []) > 2 ? '3' : '2' }} gap-8">
                             @foreach ($block['data']['plans'] ?? [] as $plan)
-                                @php $hl = !empty($plan['highlighted']); $accent = $plan['accent_color'] ?? '#E52B2B'; @endphp
+                                @php $hl = !empty($plan['highlighted']); $accent = $plan['accent_color'] ?? '#FDA317'; @endphp
                                 <div class="relative flex flex-col rounded-2xl border p-6 sm:p-8 transition-transform hover:-translate-y-1 duration-300
-                                    {{ $hl ? 'border-[#E52B2B] bg-[var(--bg_card)] shadow-2xl sm:scale-105' : 'border-[var(--border_light)] bg-[var(--bg_card)]' }}">
+                                    {{ $hl ? 'border-[#FDA317] bg-[var(--bg_card)] shadow-2xl sm:scale-105' : 'border-[var(--border_light)] bg-[var(--bg_card)]' }}">
                                     @if ($hl)
                                         <span class="absolute -top-3 left-1/2 -translate-x-1/2 text-xs font-bold uppercase tracking-widest px-4 py-1 rounded-full text-[var(--text_primary)]" style="background:{{ $accent }}">
                                             Recomendado
@@ -795,7 +795,7 @@
                         @endif
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-{{ $cols }} gap-8">
                             @foreach ($block['data']['items'] ?? [] as $feat)
-                                @php $ic = $feat['icon_color'] ?? '#E52B2B'; @endphp
+                                @php $ic = $feat['icon_color'] ?? '#FDA317'; @endphp
                                 <div class="bg-[var(--bg_primary)] border border-[var(--border)] rounded-2xl p-6 hover:border-[var(--accent)] transition-all duration-300"
                                     x-data="{ shown: false }" x-intersect.once="shown = true"
                                     :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'"
@@ -985,7 +985,7 @@
                         @endif
                         <div class="grid grid-cols-2 md:grid-cols-{{ min(4, count($block['data']['items'] ?? [])) }} gap-8 text-center">
                             @foreach ($block['data']['items'] ?? [] as $stat)
-                                @php $vc = $stat['value_color'] ?? '#E52B2B'; @endphp
+                                @php $vc = $stat['value_color'] ?? '#FDA317'; @endphp
                                 <div x-data="{ shown: false }" x-intersect.once="shown = true"
                                     :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'"
                                     class="transition-all duration-700">

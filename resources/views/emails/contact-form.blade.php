@@ -7,18 +7,18 @@
     <style>
         body { background: #0f0f0f; margin: 0; padding: 0; font-family: 'Inter', Arial, sans-serif; color: #e5e7eb; }
         .container { max-width: 600px; margin: 32px auto; background: #1c1c1c; border-radius: 12px; overflow: hidden; border: 1px solid #2a2a2a; }
-        .header { background: #E52B2B; padding: 28px 32px; }
+        .header { background: #FDA317; padding: 28px 32px; }
         .header h1 { margin: 0; color: #fff; font-size: 22px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; }
         .header p { margin: 6px 0 0; color: rgba(255,255,255,0.8); font-size: 13px; }
         .body { padding: 32px; }
-        .badge { display: inline-block; background: #E52B2B20; border: 1px solid #E52B2B40; color: #E52B2B; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 4px 12px; border-radius: 999px; margin-bottom: 20px; }
-        .field { margin-bottom: 20px; padding: 16px; background: #111; border-radius: 8px; border-left: 3px solid #E52B2B; }
+        .badge { display: inline-block; background: #FDA31720; border: 1px solid #FDA31740; color: #FDA317; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 4px 12px; border-radius: 999px; margin-bottom: 20px; }
+        .field { margin-bottom: 20px; padding: 16px; background: #111; border-radius: 8px; border-left: 3px solid #FDA317; }
         .field-label { font-size: 11px; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
         .field-value { font-size: 15px; color: #f3f4f6; line-height: 1.6; white-space: pre-wrap; }
         .meta { margin-top: 28px; padding-top: 20px; border-top: 1px solid #2a2a2a; font-size: 12px; color: #6b7280; }
         .meta span { color: #9ca3af; }
         .footer { background: #111; padding: 18px 32px; text-align: center; font-size: 11px; color: #4b5563; border-top: 1px solid #1a1a1a; }
-        .btn { display: inline-block; margin-top: 20px; background: #E52B2B; color: #fff; padding: 12px 28px; border-radius: 6px; font-weight: 700; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; text-decoration: none; }
+        .btn { display: inline-block; margin-top: 20px; background: #FDA317; color: #fff; padding: 12px 28px; border-radius: 6px; font-weight: 700; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; text-decoration: none; }
     </style>
 </head>
 <body>

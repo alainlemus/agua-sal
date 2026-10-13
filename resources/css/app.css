@@ -18,7 +18,7 @@
     --color-bg-card: #1a1a1a;
     --color-bg-card-hover: #2a2a2a;
 
-    --color-accent-red: #E52B2B;
+    --color-accent-red: #FDA317;
     --color-accent-red-hover: #b91c1c;
     --color-accent-green: #006847;
     --color-accent-green-hover: #005236;
@@ -179,13 +179,13 @@ input[type="radio"] {
     text-transform: uppercase;
     letter-spacing: 0.05em;
     transition: all 0.3s ease;
-    box-shadow: 0 0 20px rgba(229, 43, 43, 0.4);
+    box-shadow: 0 0 20px rgba(253,163,23, 0.4);
 }
 
 .btn-primary:hover {
     background-color: var(--color-accent-red-hover);
     transform: translateY(-0.125rem);
-    box-shadow: 0 0 30px rgba(229, 43, 43, 0.6);
+    box-shadow: 0 0 30px rgba(253,163,23, 0.6);
 }
 
 .btn-secondary {
@@ -344,7 +344,7 @@ main section:first-of-type video { will-change: transform; transform-origin: cen
     position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 70;
     transform-origin: 0 50%;
     transform: scaleX(var(--scroll-progress, 0));
-    background: linear-gradient(90deg, #22d3ee, var(--accent, #E52B2B));
+    background: linear-gradient(90deg, #8ccfb9, var(--accent, #FDA317));
     pointer-events: none;
 }
 
@@ -352,7 +352,7 @@ main section:first-of-type video { will-change: transform; transform-origin: cen
 .cursor-glow {
     position: fixed; top: 0; left: 0; width: 520px; height: 520px; margin: -260px 0 0 -260px;
     z-index: 1; pointer-events: none; opacity: 0; transition: opacity .5s;
-    background: radial-gradient(circle, rgba(34, 211, 238, .10), transparent 62%);
+    background: radial-gradient(circle, rgba(253, 163, 23, .10), transparent 62%);
     mix-blend-mode: screen;
 }
 
@@ -370,3 +370,8 @@ main section .group img { transition: transform 1.2s cubic-bezier(.16, 1, .3, 1)
     html { scroll-behavior: auto; }
     .cursor-glow, .scroll-progress { display: none; }
 }
+
+/* Texto oscuro sobre botones naranja de la marca (contraste AA) */
+.bg-\[var\(--button_primary\)\],
+.bg-\[var\(--accent\)\] { color: #1a1208 !important; }
+.scroll-progress { background: linear-gradient(90deg, var(--accent_secondary, #8ccfb9), var(--accent, #FDA317)); }

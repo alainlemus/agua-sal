@@ -1,6 +1,35 @@
 <?php
 
 return [
+    'aguaysal' => [
+        'name' => 'Agua y SAL',
+        'description' => 'Verde bosque con naranja, crema y menta (paleta de la marca)',
+        'colors' => [
+            'bg_primary'   => '#0d1a10',
+            'bg_secondary' => '#12241a',
+            'bg_section'   => '#142b1c',
+            'bg_dark'      => '#08110a',
+            'bg_card'      => '#17301f',
+            'bg_card_hover' => '#1f3d29',
+            'text_primary' => '#fff8ec',
+            'text_secondary' => '#d9cfba',
+            'text_muted'   => '#9aa08d',
+            'accent'       => '#FDA317',
+            'accent_secondary' => '#8ccfb9',
+            'accent_green' => '#3fa66a',
+            'accent_green_btn' => '#1f7a45',
+            'button_primary' => '#FDA317',
+            'button_hover'   => '#e38d0c',
+            'button_green'   => '#1f7a45',
+            'button_green_hover' => '#18623a',
+            'border'       => '#25422e',
+            'border_light' => '#2c4d36',
+            'border_hover' => '#3a6a47',
+            'overlay_dark' => 'rgba(13, 26, 16, 0.4)',
+            'shadow'       => 'rgba(0, 0, 0, 0.9)',
+        ],
+    ],
+
     'default' => [
         'name' => 'Océano Profundo',
         'description' => 'Azul noche con acentos coral',

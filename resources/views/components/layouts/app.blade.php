@@ -227,7 +227,7 @@
             'x'         => 'hover:text-white',
             'youtube'   => 'hover:text-[#FF0000]',
             'whatsapp'  => 'hover:text-[#25D366]',
-            'other'     => 'hover:text-[#E52B2B]',
+            'other'     => 'hover:text-[#FDA317]',
         ];
     @endphp
 
@@ -255,12 +255,12 @@
                     <a href="/" class="flex items-center gap-2 transition-transform hover:scale-105 duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg_primary)] rounded">
                         @if ($globalSiteInfo?->site_logo)
                             <img src="{{ asset('storage/' . $globalSiteInfo->site_logo) }}" alt="{{ siteName() }} - Inicio"
-                                class="object-contain rounded drop-shadow-lg transition-all duration-300"
-                                :class="scrolled ? 'h-12 lg:h-16' : 'h-28 lg:h-32'" width="144" height="48">
+                                class="w-auto object-contain drop-shadow-lg transition-all duration-300"
+                                :class="scrolled ? 'h-9 lg:h-11' : 'h-12 lg:h-16'" width="144" height="48">
                         @else
                             <img src="{{ asset('images/logo.png') }}" alt="{{ siteName() }} - Inicio"
-                                class="object-contain rounded drop-shadow-lg transition-all duration-300"
-                                :class="scrolled ? 'h-12 lg:h-16' : 'h-28 lg:h-32'" width="144" height="48">
+                                class="w-auto object-contain drop-shadow-lg transition-all duration-300"
+                                :class="scrolled ? 'h-9 lg:h-11' : 'h-12 lg:h-16'" width="144" height="48">
                         @endif
                     </a>
                 </div>
@@ -272,7 +272,7 @@
                             $isActive = $navPage->slug === 'home' ? request()->is('/') : request()->is($navPage->slug);
                         @endphp
                         <a href="{{ $navPage->url }}"
-                            class="flex items-center gap-1 transition-colors duration-200 uppercase text-sm tracking-widest font-semibold {{ $isActive ? 'text-white border-b-2 border-[#E52B2B] pb-0.5' : 'text-gray-300 hover:text-white' }}"
+                            class="flex items-center gap-1 transition-colors duration-200 uppercase text-sm tracking-widest font-semibold {{ $isActive ? 'text-white border-b-2 border-[#FDA317] pb-0.5' : 'text-gray-300 hover:text-white' }}"
                             role="listitem" @if ($isActive) aria-current="page" @endif>
                             @if ($navPage->nav_icon)
                                 @if(\Illuminate\Support\Str::startsWith($navPage->nav_icon, 'heroicon-'))
@@ -308,7 +308,7 @@
                             @foreach ($navSocials as $social)
                                 @php
                                     $p  = $social['platform'] ?? 'other';
-                                    $hc = $hoverColors[$p] ?? 'hover:text-[#E52B2B]';
+                                    $hc = $hoverColors[$p] ?? 'hover:text-[#FDA317]';
                                     $label = $social['label'] ?? ucfirst($p);
                                 @endphp
                                 <a href="{{ $social['url'] ?? '#' }}" target="_blank" rel="noopener"
@@ -324,7 +324,7 @@
 
                 <!-- Mobile Hamburger -->
                 <button @click="open = !open"
-                    class="md:hidden text-gray-300 hover:text-white p-2 rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E52B2B] focus-visible:ring-offset-2 focus-visible:ring-offset-[#1c1c1c]"
+                    class="md:hidden text-gray-300 hover:text-white p-2 rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FDA317] focus-visible:ring-offset-2 focus-visible:ring-offset-[#1c1c1c]"
                     :aria-expanded="open.toString()" aria-controls="mobile-menu" aria-label="Abrir menú de navegación">
                     <svg x-show="!open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -336,7 +336,7 @@
 
                 <!-- Desktop Overflow Trigger -->
                 <button x-show="showMobileTrigger && !open" @click="open = !open"
-                    class="hidden md:flex items-center text-gray-300 hover:text-white p-2 rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E52B2B] focus-visible:ring-offset-2 focus-visible:ring-offset-[#1c1c1c] border border-gray-600"
+                    class="hidden md:flex items-center text-gray-300 hover:text-white p-2 rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FDA317] focus-visible:ring-offset-2 focus-visible:ring-offset-[#1c1c1c] border border-gray-600"
                     aria-expanded="open.toString()" aria-controls="mobile-menu" aria-label="Ver más opciones">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8M4 18h16" />
@@ -357,7 +357,7 @@
                 {{-- Páginas CMS dinámicas con show_in_nav = true --}}
                 @foreach ($navPages as $navPage)
                     <a href="{{ $navPage->url }}" @click="open=false"
-                        class="flex items-center gap-3 px-4 py-3 rounded-lg uppercase text-sm tracking-widest font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E52B2B] {{ ($navPage->slug === 'home' ? request()->is('/') : request()->is($navPage->slug)) ? 'text-white bg-white/10' : 'text-gray-300 hover:text-white hover:bg-white/5' }}">
+                        class="flex items-center gap-3 px-4 py-3 rounded-lg uppercase text-sm tracking-widest font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FDA317] {{ ($navPage->slug === 'home' ? request()->is('/') : request()->is($navPage->slug)) ? 'text-white bg-white/10' : 'text-gray-300 hover:text-white hover:bg-white/5' }}">
                         @if ($navPage->nav_icon)
                             @if(\Illuminate\Support\Str::startsWith($navPage->nav_icon, 'heroicon-'))
                                 @svg($navPage->nav_icon, 'w-5 h-5')
@@ -391,12 +391,12 @@
                             @foreach ($navSocials as $social)
                                 @php
                                     $p = $social['platform'] ?? 'other';
-                                    $hc = $hoverColors[$p] ?? 'hover:text-[#E52B2B]';
+                                    $hc = $hoverColors[$p] ?? 'hover:text-[#FDA317]';
                                     $label = $social['label'] ?? ucfirst($p);
                                 @endphp
                                 <a href="{{ $social['url'] ?? '#' }}" target="_blank" rel="noopener"
                                     aria-label="{{ $label }}"
-                                    class="text-gray-400 {{ $hc }} transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E52B2B] focus-visible:ring-offset-2 focus-visible:ring-offset-[#111]">
+                                    class="text-gray-400 {{ $hc }} transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FDA317] focus-visible:ring-offset-2 focus-visible:ring-offset-[#111]">
                                     @include('components.social-icon', ['platform' => $p])
                                 </a>
                             @endforeach
@@ -421,11 +421,11 @@
                     <div class="mb-6">
                         @if ($globalSiteInfo?->site_logo)
                             <img src="{{ asset('storage/' . $globalSiteInfo->site_logo) }}"
-                                alt="{{ siteName() }} Logo" class="h-24 w-auto object-contain rounded drop-shadow-lg"
+                                alt="{{ siteName() }} Logo" class="h-16 w-auto object-contain drop-shadow-lg"
                                 width="96" height="96">
                         @else
                             <img src="{{ asset('images/logo.png') }}" alt="{{ siteName() }} Logo"
-                                class="h-24 w-auto object-contain rounded drop-shadow-lg" width="96"
+                                class="h-16 w-auto object-contain drop-shadow-lg" width="96"
                                 height="96">
                         @endif
                     </div>
@@ -443,7 +443,7 @@
                             'x' => 'hover:text-white',
                             'youtube' => 'hover:text-[#FF0000]',
                             'whatsapp' => 'hover:text-[#25D366]',
-                            'other' => 'hover:text-[#E52B2B]',
+                            'other' => 'hover:text-[#FDA317]',
                         ];
                     @endphp
                     @if (count($socials) > 0)
@@ -452,7 +452,7 @@
                             @foreach ($socials as $social)
                                 @php
                                     $platform = $social['platform'] ?? 'other';
-                                    $color = $hoverColors[$platform] ?? 'hover:text-[#E52B2B]';
+                                    $color = $hoverColors[$platform] ?? 'hover:text-[#FDA317]';
                                     $label = $social['label'] ?? ucfirst($platform);
                                 @endphp
                                 <a href="{{ $social['url'] ?? '#' }}" target="_blank" rel="noopener"
@@ -473,7 +473,7 @@
                     <ul class="text-gray-400 space-y-3">
                         @if ($globalSiteInfo?->address)
                             <li class="flex items-start gap-3">
-                                <svg class="w-5 h-5 shrink-0 mt-0.5 text-[#E52B2B]" fill="none"
+                                <svg class="w-5 h-5 shrink-0 mt-0.5 text-[#FDA317]" fill="none"
                                     stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -485,7 +485,7 @@
                         @endif
                         @if ($globalSiteInfo?->phone)
                             <li class="flex items-start gap-3">
-                                <svg class="w-5 h-5 shrink-0 mt-0.5 text-[#E52B2B]" fill="none"
+                                <svg class="w-5 h-5 shrink-0 mt-0.5 text-[#FDA317]" fill="none"
                                     stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
@@ -496,7 +496,7 @@
                         @endif
                         @if ($globalSiteInfo?->email)
                             <li class="flex items-start gap-3">
-                                <svg class="w-5 h-5 shrink-0 mt-0.5 text-[#E52B2B]" fill="none"
+                                <svg class="w-5 h-5 shrink-0 mt-0.5 text-[#FDA317]" fill="none"
                                     stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -592,8 +592,8 @@
             }
         }" class="fixed bottom-6 left-6 z-50">
             <button @click="toggle"
-                class="bg-[#1c1c1c] hover:bg-[#2a2a2a] text-white p-3 rounded-full shadow-lg transition-all hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E52B2B] flex items-center justify-center"
-                :class="playing ? 'ring-2 ring-[#E52B2B]' : ''"
+                class="bg-[#1c1c1c] hover:bg-[#2a2a2a] text-white p-3 rounded-full shadow-lg transition-all hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FDA317] flex items-center justify-center"
+                :class="playing ? 'ring-2 ring-[#FDA317]' : ''"
                 :aria-label="playing ? 'Pausar música' : 'Reproducir música'">
                 <svg x-show="!playing" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M8 5v14l11-7z" />
@@ -641,21 +641,21 @@
     {{-- Burbujas Effect --}}
     @if ($globalSiteInfo?->enable_bubbles !== false)
     <div class="bubbles-container pointer-events-none fixed inset-0 overflow-hidden z-30" aria-hidden="true">
-        <div class="bubble absolute w-3 h-3 rounded-full bg-cyan-400/30 animate-bubble" style="left: 5%; animation-duration: 8s; animation-delay: 0s;"></div>
-        <div class="bubble absolute w-5 h-5 rounded-full bg-cyan-300/25 animate-bubble" style="left: 12%; animation-duration: 10s; animation-delay: 1s;"></div>
-        <div class="bubble absolute w-4 h-4 rounded-full bg-cyan-500/35 animate-bubble" style="left: 18%; animation-duration: 7s; animation-delay: 2s;"></div>
-        <div class="bubble absolute w-6 h-6 rounded-full bg-cyan-400/20 animate-bubble" style="left: 25%; animation-duration: 9s; animation-delay: 0.5s;"></div>
-        <div class="bubble absolute w-3 h-3 rounded-full bg-cyan-300/30 animate-bubble" style="left: 32%; animation-duration: 11s; animation-delay: 3s;"></div>
-        <div class="bubble absolute w-5 h-5 rounded-full bg-cyan-500/25 animate-bubble" style="left: 38%; animation-duration: 8s; animation-delay: 1.5s;"></div>
-        <div class="bubble absolute w-4 h-4 rounded-full bg-cyan-400/35 animate-bubble" style="left: 45%; animation-duration: 10s; animation-delay: 2.5s;"></div>
-        <div class="bubble absolute w-7 h-7 rounded-full bg-cyan-300/20 animate-bubble" style="left: 52%; animation-duration: 9s; animation-delay: 0.8s;"></div>
-        <div class="bubble absolute w-4 h-4 rounded-full bg-cyan-400/30 animate-bubble" style="left: 58%; animation-duration: 12s; animation-delay: 3.5s;"></div>
-        <div class="bubble absolute w-5 h-5 rounded-full bg-cyan-500/25 animate-bubble" style="left: 65%; animation-duration: 7s; animation-delay: 1.2s;"></div>
-        <div class="bubble absolute w-3 h-3 rounded-full bg-cyan-300/35 animate-bubble" style="left: 72%; animation-duration: 10s; animation-delay: 2.2s;"></div>
-        <div class="bubble absolute w-6 h-6 rounded-full bg-cyan-400/25 animate-bubble" style="left: 78%; animation-duration: 8s; animation-delay: 0.3s;"></div>
-        <div class="bubble absolute w-4 h-4 rounded-full bg-cyan-500/30 animate-bubble" style="left: 85%; animation-duration: 11s; animation-delay: 4s;"></div>
-        <div class="bubble absolute w-5 h-5 rounded-full bg-cyan-300/20 animate-bubble" style="left: 90%; animation-duration: 9s; animation-delay: 1.8s;"></div>
-        <div class="bubble absolute w-3 h-3 rounded-full bg-cyan-400/35 animate-bubble" style="left: 95%; animation-duration: 10s; animation-delay: 2.8s;"></div>
+        <div class="bubble absolute w-3 h-3 rounded-full bg-amber-400/30 animate-bubble" style="left: 5%; animation-duration: 8s; animation-delay: 0s;"></div>
+        <div class="bubble absolute w-5 h-5 rounded-full bg-amber-300/25 animate-bubble" style="left: 12%; animation-duration: 10s; animation-delay: 1s;"></div>
+        <div class="bubble absolute w-4 h-4 rounded-full bg-amber-500/35 animate-bubble" style="left: 18%; animation-duration: 7s; animation-delay: 2s;"></div>
+        <div class="bubble absolute w-6 h-6 rounded-full bg-amber-400/20 animate-bubble" style="left: 25%; animation-duration: 9s; animation-delay: 0.5s;"></div>
+        <div class="bubble absolute w-3 h-3 rounded-full bg-amber-300/30 animate-bubble" style="left: 32%; animation-duration: 11s; animation-delay: 3s;"></div>
+        <div class="bubble absolute w-5 h-5 rounded-full bg-amber-500/25 animate-bubble" style="left: 38%; animation-duration: 8s; animation-delay: 1.5s;"></div>
+        <div class="bubble absolute w-4 h-4 rounded-full bg-amber-400/35 animate-bubble" style="left: 45%; animation-duration: 10s; animation-delay: 2.5s;"></div>
+        <div class="bubble absolute w-7 h-7 rounded-full bg-amber-300/20 animate-bubble" style="left: 52%; animation-duration: 9s; animation-delay: 0.8s;"></div>
+        <div class="bubble absolute w-4 h-4 rounded-full bg-amber-400/30 animate-bubble" style="left: 58%; animation-duration: 12s; animation-delay: 3.5s;"></div>
+        <div class="bubble absolute w-5 h-5 rounded-full bg-amber-500/25 animate-bubble" style="left: 65%; animation-duration: 7s; animation-delay: 1.2s;"></div>
+        <div class="bubble absolute w-3 h-3 rounded-full bg-amber-300/35 animate-bubble" style="left: 72%; animation-duration: 10s; animation-delay: 2.2s;"></div>
+        <div class="bubble absolute w-6 h-6 rounded-full bg-amber-400/25 animate-bubble" style="left: 78%; animation-duration: 8s; animation-delay: 0.3s;"></div>
+        <div class="bubble absolute w-4 h-4 rounded-full bg-amber-500/30 animate-bubble" style="left: 85%; animation-duration: 11s; animation-delay: 4s;"></div>
+        <div class="bubble absolute w-5 h-5 rounded-full bg-amber-300/20 animate-bubble" style="left: 90%; animation-duration: 9s; animation-delay: 1.8s;"></div>
+        <div class="bubble absolute w-3 h-3 rounded-full bg-amber-400/35 animate-bubble" style="left: 95%; animation-duration: 10s; animation-delay: 2.8s;"></div>
     </div>
     @endif
 
@@ -795,7 +795,7 @@
             <span id="cookie-banner-title" class="font-bold text-white">Usamos cookies.</span>
             <span id="cookie-banner-desc">Más info en nuestra</span>
             <a href="/aviso-de-privacidad"
-                class="underline text-[#E52B2B] hover:text-red-400 ml-1 focus:outline-none focus-visible:text-red-300">Política
+                class="underline text-[#FDA317] hover:text-red-400 ml-1 focus:outline-none focus-visible:text-red-300">Política
                 de Privacidad</a>.
         </div>
         <div class="flex gap-2 sm:gap-3 shrink-0">
