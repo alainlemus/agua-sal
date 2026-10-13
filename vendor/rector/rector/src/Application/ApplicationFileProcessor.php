@@ -3,7 +3,7 @@
 declare (strict_types=1);
 namespace Rector\Application;
 
-use RectorPrefix202609\Nette\Utils\FileSystem as UtilsFileSystem;
+use RectorPrefix202610\Nette\Utils\FileSystem as UtilsFileSystem;
 use PHPStan\Parser\ParserErrorsException;
 use Rector\Application\Provider\CurrentFileProvider;
 use Rector\Caching\Detector\ChangedFilesDetector;
@@ -25,8 +25,8 @@ use Rector\ValueObject\Error\SystemError;
 use Rector\ValueObject\FileProcessResult;
 use Rector\ValueObject\ProcessResult;
 use Rector\ValueObject\Reporting\FileDiff;
-use RectorPrefix202609\Symfony\Component\Console\Input\InputInterface;
-use RectorPrefix202609\Symfony\Component\Console\Style\SymfonyStyle;
+use RectorPrefix202610\Symfony\Component\Console\Input\InputInterface;
+use RectorPrefix202610\Symfony\Component\Console\Style\SymfonyStyle;
 use Throwable;
 final class ApplicationFileProcessor
 {
@@ -99,7 +99,7 @@ final class ApplicationFileProcessor
     public function run(Configuration $configuration, InputInterface $input): ProcessResult
     {
         // scope the cache to this run's --only / --only-suffix selection before any cache read/write
-        $this->changedFilesDetector->setActiveScope($configuration->getOnlyRule(), $configuration->getOnlySuffix(), $configuration->getFilters());
+        $this->changedFilesDetector->setActiveScope($configuration->getOnlyRules(), $configuration->getOnlySuffix(), $configuration->getFilters());
         $filePaths = $this->filesFinder->findFilesInPaths($configuration->getPaths(), $configuration);
         // no files found
         if ($filePaths === []) {
@@ -150,12 +150,13 @@ final class ApplicationFileProcessor
     public function processFiles(array $filePaths, Configuration $configuration, ?callable $preFileCallback = null, ?callable $postFileCallback = null): ProcessResult
     {
         // also set here: parallel workers reach processFiles() via WorkerCommand, bypassing run()
-        $this->changedFilesDetector->setActiveScope($configuration->getOnlyRule(), $configuration->getOnlySuffix(), $configuration->getFilters());
+        $this->changedFilesDetector->setActiveScope($configuration->getOnlyRules(), $configuration->getOnlySuffix(), $configuration->getFilters());
         /** @var SystemError[] $systemErrors */
         $systemErrors = [];
         /** @var FileDiff[] $fileDiffs */
         $fileDiffs = [];
         $totalChanged = 0;
+        $totalChangeCount = 0;
         foreach ($filePaths as $filePath) {
             if ($preFileCallback !== null) {
                 $preFileCallback($filePath);
@@ -167,6 +168,7 @@ final class ApplicationFileProcessor
                 $currentFileDiff = $fileProcessResult->getFileDiff();
                 if ($currentFileDiff instanceof FileDiff) {
                     $fileDiffs[] = $currentFileDiff;
+                    $totalChangeCount += count($currentFileDiff->getRectorChanges());
                 }
                 // progress bar on parallel handled on runParallel()
                 if (is_callable($postFileCallback)) {
@@ -174,6 +176,11 @@ final class ApplicationFileProcessor
                 }
                 if ($fileProcessResult->hasChanged()) {
                     ++$totalChanged;
+                }
+                // stop once the requested number of changes is reached, leaving the rest untouched
+                $maxChanges = $configuration->getMaxChanges();
+                if ($maxChanges !== null && $totalChangeCount >= $maxChanges) {
+                    break;
                 }
             } catch (Throwable $throwable) {
                 $this->changedFilesDetector->invalidateFile($filePath);
@@ -191,7 +198,9 @@ final class ApplicationFileProcessor
         $fileProcessResult = $this->fileProcessor->processFile($file, $configuration);
         if ($fileProcessResult->getSystemErrors() !== []) {
             $this->changedFilesDetector->invalidateFile($file->getFilePath());
-        } elseif (!$configuration->isDryRun() || !$fileProcessResult->getFileDiff() instanceof FileDiff) {
+        } elseif (!$configuration->isDryRun() || !$fileProcessResult->hasChanged()) {
+            // gate on the actual content change, not on FileDiff: a FileDiff also carries reported line changes
+            // that print identically, and such files would otherwise be re-processed on every dry run
             // selective runs are safe to cache now — the key is scoped to the rule selection
             $this->changedFilesDetector->cacheFile($file->getFilePath());
         }

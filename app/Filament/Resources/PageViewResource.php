@@ -119,6 +119,7 @@ class PageViewResource extends Resource
                     ->toggle(),
 
                 Tables\Filters\Filter::make('created_at')
+                    ->label('Fecha')
                     ->form([
                         \Filament\Forms\Components\DatePicker::make('desde')->label('Desde'),
                         \Filament\Forms\Components\DatePicker::make('hasta')->label('Hasta'),

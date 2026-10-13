@@ -117,6 +117,7 @@ export class Select {
         this.searchTimeout = null
         this.isSearching = false
         this.maxItemsMessageElement = null
+        this.badgesSortable = null
         // Version token to prevent race conditions when updating the selected display
         this.selectedDisplayVersion = 0
 
@@ -643,9 +644,15 @@ export class Select {
 
             // Commit if still current
             if (renderVersion === this.selectedDisplayVersion) {
+                if (
+                    !fragment.querySelector('.fi-select-input-value-badges-ctn')
+                ) {
+                    this.destroyBadgesSortable()
+                }
+
                 this.selectedDisplay.replaceChildren(fragment)
                 if (this.isOpen) {
-                    this.positionDropdown()
+                    this.deferPositionDropdown()
                 }
             }
             return
@@ -659,6 +666,7 @@ export class Select {
             fragment.appendChild(placeholderSpan)
 
             if (renderVersion === this.selectedDisplayVersion) {
+                this.destroyBadgesSortable()
                 this.selectedDisplay.replaceChildren(fragment)
 
                 // Remove the remove button since there's no selection
@@ -679,6 +687,7 @@ export class Select {
         this.addSingleSelectionDisplay(selectedLabel, fragment)
 
         if (renderVersion === this.selectedDisplayVersion) {
+            this.destroyBadgesSortable()
             this.selectedDisplay.replaceChildren(fragment)
         }
     }
@@ -881,7 +890,9 @@ export class Select {
                 event.stopPropagation()
             })
 
-            new Sortable(badgesContainer, {
+            this.destroyBadgesSortable()
+
+            this.badgesSortable = new Sortable(badgesContainer, {
                 animation: 150,
                 onEnd: () => {
                     const newState = []
@@ -897,6 +908,11 @@ export class Select {
                 },
             })
         }
+    }
+
+    destroyBadgesSortable() {
+        this.badgesSortable?.destroy()
+        this.badgesSortable = null
     }
 
     // Helper method to get label for single selection
@@ -1065,6 +1081,17 @@ export class Select {
             this.handleDropdownKeydown(event)
         }
 
+        this.dropdownEscapeListener = (event) => {
+            if (!this.isOpen) {
+                return
+            }
+
+            this.closeDropdown()
+            this.selectButton.focus()
+            event.preventDefault()
+            event.stopPropagation()
+        }
+
         // Toggle dropdown when button is clicked
         this.selectButton.addEventListener('click', this.buttonClickListener)
 
@@ -1079,6 +1106,10 @@ export class Select {
 
         // Keyboard navigation within dropdown
         this.dropdown.addEventListener('keydown', this.dropdownKeydownListener)
+        this.element.addEventListener(
+            'dropdown-escape',
+            this.dropdownEscapeListener,
+        )
 
         // Add event listener for refreshing selected option labels (only for non-multiple selects)
         if (
@@ -1592,6 +1623,25 @@ export class Select {
         })
     }
 
+    // Queue a dropdown position update to run after the DOM has painted.
+    // This avoids incorrect measurements right after async render/update cycles
+    // (e.g., after `getSearchResultsUsing()`) where layout isn't stable yet.
+    deferPositionDropdown() {
+        if (!this.isOpen) return
+
+        // Coalesce multiple rapid calls
+        if (this.positioningRequestAnimationFrame) {
+            cancelAnimationFrame(this.positioningRequestAnimationFrame)
+            this.positioningRequestAnimationFrame = null
+        }
+
+        this.positioningRequestAnimationFrame = requestAnimationFrame(() => {
+            this.positionDropdown()
+
+            this.positioningRequestAnimationFrame = null
+        })
+    }
+
     closeDropdown() {
         this.dropdown.style.display = 'none'
         this.selectButton.setAttribute('aria-expanded', 'false')
@@ -1797,6 +1847,8 @@ export class Select {
 
         // If query is empty, restore original options and exit early
         if (query === '') {
+            this.activeSearchId++
+            this.isSearching = false
             this.options = JSON.parse(JSON.stringify(this.originalOptions))
             this.renderOptions()
             return
@@ -1852,7 +1904,7 @@ export class Select {
 
                 // Reevaluate dropdown position after search results are updated
                 if (this.isOpen) {
-                    this.positionDropdown()
+                    this.deferPositionDropdown()
                 }
 
                 // If no results found, show "No results" message
@@ -1896,9 +1948,12 @@ export class Select {
             : this.loadingMessage
         this.dropdown.appendChild(loadingItem)
 
-        // Announce the message to screen readers, unless the dropdown is closed,
-        // such as when rendering the initial options on page load
+        // Reposition the dropdown after DOM changes, and announce the message to
+        // screen readers, unless the dropdown is closed, such as when rendering
+        // the initial options on page load
         if (this.isOpen) {
+            this.deferPositionDropdown()
+
             this.statusRegion.textContent = loadingItem.textContent
         }
     }
@@ -1930,9 +1985,12 @@ export class Select {
         noOptionsItem.textContent = this.noOptionsMessage
         this.dropdown.appendChild(noOptionsItem)
 
-        // Announce the message to screen readers, unless the dropdown is closed,
-        // such as when rendering the initial options on page load
+        // Reposition the dropdown after DOM changes, and announce the message to
+        // screen readers, unless the dropdown is closed, such as when rendering
+        // the initial options on page load
         if (this.isOpen) {
+            this.deferPositionDropdown()
+
             this.statusRegion.textContent = this.noOptionsMessage
         }
     }
@@ -1952,9 +2010,12 @@ export class Select {
         noResultsItem.textContent = this.noSearchResultsMessage
         this.dropdown.appendChild(noResultsItem)
 
-        // Announce the message to screen readers, unless the dropdown is closed,
-        // such as when rendering the initial options on page load
+        // Reposition the dropdown after DOM changes, and announce the message to
+        // screen readers, unless the dropdown is closed, such as when rendering
+        // the initial options on page load
         if (this.isOpen) {
+            this.deferPositionDropdown()
+
             this.statusRegion.textContent = this.noSearchResultsMessage
         }
     }
@@ -1977,6 +2038,9 @@ export class Select {
         } else {
             this.dropdown.appendChild(this.maxItemsMessageElement)
         }
+
+        // Reposition the dropdown after DOM changes
+        this.deferPositionDropdown()
 
         // Announce the message to screen readers
         this.statusRegion.textContent = this.maxItemsMessage
@@ -2079,7 +2143,7 @@ export class Select {
         if (newState.includes(value)) {
             // Find and remove the badge directly from the DOM
             const badgeToRemove = this.selectedDisplay.querySelector(
-                `[data-value="${value}"]`,
+                `[data-value="${CSS.escape(value)}"]`,
             )
             if (filled(badgeToRemove)) {
                 // Check if this is the last badge
@@ -2114,7 +2178,7 @@ export class Select {
 
             // Reevaluate dropdown position after options are removed
             if (this.isOpen) {
-                this.positionDropdown()
+                this.deferPositionDropdown()
             }
 
             this.maintainFocusInMultipleMode()
@@ -2155,7 +2219,7 @@ export class Select {
 
         // Reevaluate dropdown position after options are added
         if (this.isOpen) {
-            this.positionDropdown()
+            this.deferPositionDropdown()
         }
 
         this.maintainFocusInMultipleMode()
@@ -2338,6 +2402,9 @@ export class Select {
     }
 
     destroy() {
+        this.selectedDisplayVersion++
+        this.destroyBadgesSortable()
+
         // Remove button click event listener
         if (this.selectButton && this.buttonClickListener) {
             this.selectButton.removeEventListener(
@@ -2364,6 +2431,13 @@ export class Select {
             this.dropdown.removeEventListener(
                 'keydown',
                 this.dropdownKeydownListener,
+            )
+        }
+
+        if (this.dropdownEscapeListener) {
+            this.element.removeEventListener(
+                'dropdown-escape',
+                this.dropdownEscapeListener,
             )
         }
 

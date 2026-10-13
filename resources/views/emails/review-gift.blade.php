@@ -13,7 +13,7 @@
 
                     {{-- Header --}}
                     <tr>
-                        <td style="background:#E52B2B;padding:28px 32px;text-align:center;">
+                        <td style="background:#FDA317;padding:28px 32px;text-align:center;">
                             <img src="{{ asset('storage/images/logo.png') }}" alt="{{ siteName() }}" width="120" style="display:block;margin:0 auto 8px;height:auto;">
                             <h1 style="margin:8px 0 0;color:#fff;font-size:26px;font-weight:900;letter-spacing:1px;">
                                 {{ strtoupper(siteName()) }}
@@ -39,7 +39,7 @@
                             </p>
 
                             {{-- Gift box --}}
-                            <table width="100%" cellpadding="0" cellspacing="0" style="background:#1c1c1c;border:2px solid #E52B2B;border-radius:10px;margin-bottom:24px;">
+                            <table width="100%" cellpadding="0" cellspacing="0" style="background:#1c1c1c;border:2px solid #FDA317;border-radius:10px;margin-bottom:24px;">
                                 <tr>
                                     <td style="padding:20px 24px;text-align:center;">
                                         <p style="margin:0 0 6px;font-size:28px;">🎁</p>

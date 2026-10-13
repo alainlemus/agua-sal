@@ -18,7 +18,7 @@
             align-items: center;
             justify-content: center;
             padding: 3rem 1.5rem;
-            background-color: #0a1628;
+            background-color: #0d1a10;
         }
 
         .login-split__form-wrap {
@@ -40,7 +40,7 @@
         .login-split__heading {
             font-size: 1.5rem;
             font-weight: 700;
-            color: #ffffff;
+            color: #1a1208;
             margin: 0 0 0.375rem;
         }
 
@@ -61,8 +61,8 @@
             padding: 0.625rem 1rem;
             border-radius: 0.5rem;
             border: none;
-            background-color: #00b4d8;
-            color: #ffffff;
+            background-color: #FDA317;
+            color: #1a1208;
             font-weight: 600;
             font-size: 0.875rem;
             cursor: pointer;
@@ -70,7 +70,7 @@
         }
 
         .login-split__submit:hover {
-            background-color: #0096c7;
+            background-color: #e38d0c;
         }
 
         @media (max-width: 1023px) {

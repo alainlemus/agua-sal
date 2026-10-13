@@ -29,7 +29,7 @@
                     <div class="{{ $isFullWidth ? 'md:col-span-2' : '' }}">
                         <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">
                             {{ $label }}
-                            @if($required)<span class="text-[#E52B2B] ml-0.5">*</span>@endif
+                            @if($required)<span class="text-[#FDA317] ml-0.5">*</span>@endif
                         </label>
 
                         @if($type === 'textarea')
@@ -105,7 +105,7 @@
                     type="submit"
                     wire:loading.attr="disabled"
                     wire:loading.class="opacity-60 cursor-wait"
-                    class="inline-flex items-center justify-center gap-3 bg-[var(--accent)] hover:bg-[var(--button_hover)] disabled:opacity-60 text-white px-8 py-4 rounded font-bold uppercase tracking-widest text-sm transition-all duration-300 shadow-[0_0_20px_rgba(229,43,43,0.3)] hover:shadow-[0_0_35px_rgba(229,43,43,0.5)] hover:-translate-y-0.5 min-w-48"
+                    class="inline-flex items-center justify-center gap-3 bg-[var(--accent)] hover:bg-[var(--button_hover)] disabled:opacity-60 text-white px-8 py-4 rounded font-bold uppercase tracking-widest text-sm transition-all duration-300 shadow-[0_0_20px_rgba(253,163,23,0.3)] hover:shadow-[0_0_35px_rgba(253,163,23,0.5)] hover:-translate-y-0.5 min-w-48"
                 >
                     <span wire:loading.remove>
                         {{ $this->blockData['submit_label'] ?? 'Enviar Mensaje' }}

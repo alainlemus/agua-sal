@@ -3,7 +3,7 @@
 declare (strict_types=1);
 namespace Rector\ChangesReporting\Output\Factory;
 
-use RectorPrefix202609\Nette\Utils\Json;
+use RectorPrefix202610\Nette\Utils\Json;
 use Rector\Parallel\ValueObject\Bridge;
 use Rector\ValueObject\Configuration;
 use Rector\ValueObject\Error\SystemError;
@@ -25,7 +25,11 @@ final class JsonOutputFactory
         foreach ($fileDiffs as $fileDiff) {
             $filePath = $configuration->isReportingWithRealPath() ? $fileDiff->getAbsoluteFilePath() ?? '' : $fileDiff->getRelativeFilePath();
             if ($configuration->shouldShowDiffs() && $fileDiff->getDiff() !== '') {
-                $errorsJson[Bridge::FILE_DIFFS][] = ['file' => $filePath, 'diff' => $fileDiff->getDiff(), 'applied_rectors' => $fileDiff->getRectorClasses()];
+                $changes = [];
+                foreach ($fileDiff->getRectorChanges() as $rectorWithLineChange) {
+                    $changes[] = ['rector' => $rectorWithLineChange->getRectorClass(), 'line' => $rectorWithLineChange->getLine()];
+                }
+                $errorsJson[Bridge::FILE_DIFFS][] = ['file' => $filePath, 'diff' => $fileDiff->getDiff(), 'applied_rectors' => $fileDiff->getRectorClasses(), 'changes' => $changes];
             }
             // for Rector CI
             $errorsJson['changed_files'][] = $filePath;

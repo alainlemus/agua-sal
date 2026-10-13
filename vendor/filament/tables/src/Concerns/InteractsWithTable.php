@@ -2,6 +2,7 @@
 
 namespace Filament\Tables\Concerns;
 
+use Filament\Facades\Filament;
 use Filament\Tables\Table;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\View\View;
@@ -91,8 +92,24 @@ trait InteractsWithTable
             );
         }
 
-        if ($this->getTable()->isDefaultGroupSelectable()) {
-            $this->tableGrouping = "{$this->getTable()->getDefaultGroup()->getId()}:asc";
+        $shouldPersistGroupInSession = $this->getTable()->persistsGroupInSession();
+        $groupingSessionKey = $this->getTableGroupingSessionKey();
+        $hasPersistedGroupInSession = $shouldPersistGroupInSession && session()->exists($groupingSessionKey);
+
+        if (blank($this->tableGrouping)) {
+            if ($hasPersistedGroupInSession) {
+                $sessionGrouping = session()->get($groupingSessionKey);
+                $this->tableGrouping = is_string($sessionGrouping) ? $sessionGrouping : null;
+            } elseif ($this->getTable()->isDefaultGroupSelectable()) {
+                $this->tableGrouping = "{$this->getTable()->getDefaultGroup()->getId()}:{$this->getTable()->getDefaultGroupDirection()}";
+            }
+        }
+
+        if ($shouldPersistGroupInSession) {
+            session()->put(
+                $groupingSessionKey,
+                $this->tableGrouping,
+            );
         }
 
         $shouldPersistSearchInSession = $this->getTable()->persistsSearchInSession();
@@ -236,6 +253,23 @@ trait InteractsWithTable
         }
 
         return $property;
+    }
+
+    public function getTableSessionKey(string $key, bool $isTenantScoped = false): string
+    {
+        $namespace = $this::class;
+
+        if ($isTenantScoped && class_exists(Filament::class) && filled($tenantKey = Filament::getTenant()?->getKey())) {
+            $namespace .= '|' . $tenantKey;
+        }
+
+        $table = md5($namespace);
+
+        if (filled($identifier = $this->getTable()->getIdentifier())) {
+            $table .= '.' . md5($identifier);
+        }
+
+        return "tables.{$table}_{$key}";
     }
 
     public function getActiveTableLocale(): ?string

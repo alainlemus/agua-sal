@@ -7,6 +7,8 @@ use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Asset;
 use Filament\Support\Facades\FilamentAsset;
 use Filament\Support\Facades\FilamentIcon;
+use Guava\IconPicker\Icons\IconManager;
+use Guava\IconPicker\Icons\IconSet;
 use Guava\IconPicker\Testing\TestsIconPicker;
 use Livewire\Features\SupportTesting\Testable;
 use Spatie\LaravelPackageTools\Package;
@@ -26,7 +28,10 @@ class IconPickerServiceProvider extends PackageServiceProvider
          *
          * More info: https://github.com/spatie/laravel-package-tools
          */
-        $package->name(static::$name);
+        $package->name(static::$name)
+            ->hasConfigFile()
+            ->hasRoute('web')
+        ;
 
         if (file_exists($package->basePath('/../resources/lang'))) {
             $package->hasTranslations();
@@ -39,13 +44,15 @@ class IconPickerServiceProvider extends PackageServiceProvider
 
     public function packageRegistered(): void
     {
-        $this->callAfterResolving(IconFactory::class, function (IconFactory $factory) {
-            Storage::disk('public')->makeDirectory('icon-picker-icons');
+        $this->app->singleton(IconManager::class);
 
-            $factory->add('icon-picker-icons', [
-                'path' => 'icon-picker-icons',
+        $this->callAfterResolving(IconFactory::class, function (IconFactory $factory) {
+            Storage::disk('public')->makeDirectory(IconSet::CUSTOM_DIRECTORY);
+
+            $factory->add(IconSet::CUSTOM_ID, [
+                'path' => IconSet::CUSTOM_DIRECTORY,
                 'disk' => 'public',
-                'prefix' => '_gfic_icons',
+                'prefix' => IconSet::CUSTOM_PREFIX,
             ]);
         });
     }
@@ -81,7 +88,7 @@ class IconPickerServiceProvider extends PackageServiceProvider
     protected function getAssets(): array
     {
         return [
-            AlpineComponent::make('icon-picker-component', __DIR__ . '/../resources/dist/components/icon-picker-component.js'),
+            AlpineComponent::make('icon-picker-component', __DIR__ . '/../dist/components/icon-picker-component.js'),
         ];
     }
 

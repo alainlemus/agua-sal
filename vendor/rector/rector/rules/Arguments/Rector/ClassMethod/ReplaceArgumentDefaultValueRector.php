@@ -15,7 +15,7 @@ use Rector\Rector\AbstractRector;
 use Rector\ValueObject\MethodName;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use RectorPrefix202609\Webmozart\Assert\Assert;
+use RectorPrefix202610\Webmozart\Assert\Assert;
 /**
  * @api used in rector-symfony
  * @see \Rector\Tests\Arguments\Rector\ClassMethod\ReplaceArgumentDefaultValueRector\ReplaceArgumentDefaultValueRectorTest
@@ -76,7 +76,7 @@ CODE_SAMPLE
                 continue;
             }
             $replacedNode = $this->argumentDefaultValueReplacer->processReplaces($currentNode, $replaceArgumentDefaultValue);
-            if ($replacedNode !== null && $replacedNode !== $currentNode) {
+            if ($replacedNode !== null) {
                 $currentNode = $replacedNode;
                 $hasChanged = \true;
             }
@@ -103,7 +103,7 @@ CODE_SAMPLE
                 continue;
             }
             $replacedNode = $this->argumentDefaultValueReplacer->processReplaces($currentNode, $replaceArgumentDefaultValue);
-            if ($replacedNode !== null && $replacedNode !== $currentNode) {
+            if ($replacedNode !== null) {
                 $currentNode = $replacedNode;
                 $hasChanged = \true;
             }

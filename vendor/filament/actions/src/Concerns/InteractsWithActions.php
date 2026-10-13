@@ -172,6 +172,9 @@ trait InteractsWithActions /** @phpstan-ignore trait.unused */
                 }
             }
 
+            // Keep a reference to this entry since the action's mount lifecycle may replace it.
+            $mountedActionState = &$this->mountedActions[$action->getNestingIndex()];
+
             try {
                 if (
                     $action->hasAuthorizationNotification() &&
@@ -211,6 +214,9 @@ trait InteractsWithActions /** @phpstan-ignore trait.unused */
 
                 throw $exception;
             }
+
+            $mountedActionState['hasUnsavedChangesAlert'] = $action->hasUnsavedChangesAlert();
+            unset($mountedActionState);
 
             if (! $this->mountedActionShouldOpenModal(mountedAction: $action)) {
                 if ($context['mountedFromUrl'] ?? false) {
@@ -261,9 +267,7 @@ trait InteractsWithActions /** @phpstan-ignore trait.unused */
 
             array_pop($this->mountedActions);
 
-            while (count($this->cachedMountedActions ?? []) > count($this->mountedActions)) {
-                array_pop($this->cachedMountedActions);
-            }
+            $this->truncateCachedMountedActions();
         }
     }
 
@@ -382,7 +386,7 @@ trait InteractsWithActions /** @phpstan-ignore trait.unused */
                 $action->arguments($originalActionArguments);
                 $action->resetData();
 
-                $this->unmountAction();
+                $this->unmountAction(cancelParentActions: false);
             }
 
             throw $exception;
@@ -460,6 +464,7 @@ trait InteractsWithActions /** @phpstan-ignore trait.unused */
     public function replaceMountedAction(string $name, array $arguments = [], array $context = []): void
     {
         $this->mountedActions = [];
+        $this->truncateCachedMountedActions();
         $this->cachedMountedActions = null;
 
         $this->forgetCachedMountedActionSchemas();
@@ -567,6 +572,13 @@ trait InteractsWithActions /** @phpstan-ignore trait.unused */
         return Arr::last($this->cachedMountedActions);
     }
 
+    public function isActionMounted(Action $action): bool
+    {
+        $actionNestingIndex = $action->getNestingIndex();
+
+        return ($actionNestingIndex !== null) && (($this->cachedMountedActions[$actionNestingIndex] ?? null) === $action);
+    }
+
     /**
      * @param  array<string, mixed>  $mountedActions
      * @return array<Action>
@@ -604,6 +616,8 @@ trait InteractsWithActions /** @phpstan-ignore trait.unused */
             if (! $resolvedAction) {
                 continue;
             }
+
+            $resolvedAction->mountedParentAction(Arr::last($resolvedActions));
 
             if (filled($action['arguments'] ?? [])) {
                 $resolvedAction->mergeArguments($action['arguments']);
@@ -855,9 +869,7 @@ trait InteractsWithActions /** @phpstan-ignore trait.unused */
 
         $this->syncActionModals();
 
-        while (count($this->cachedMountedActions ?? []) > count($this->mountedActions)) {
-            array_pop($this->cachedMountedActions);
-        }
+        $this->truncateCachedMountedActions();
 
         // The schemas of the actions that have just closed, which are cached by nesting index: an
         // action mounted at one of those indexes later in this request would otherwise be handed
@@ -878,6 +890,13 @@ trait InteractsWithActions /** @phpstan-ignore trait.unused */
         }
 
         $this->resetErrorBag();
+    }
+
+    protected function truncateCachedMountedActions(): void
+    {
+        while (count($this->cachedMountedActions ?? []) > count($this->mountedActions)) {
+            array_pop($this->cachedMountedActions)->mountedParentAction(null);
+        }
     }
 
     protected function syncActionModals(): void

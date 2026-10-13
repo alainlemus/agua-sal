@@ -19,10 +19,8 @@ use Symfony\Component\VarExporter\LazyObjectInterface;
  *
  * @author Alexander M. Turek <me@derrabus.de>
  * @author Nicolas Grekas <p@tchwork.com>
- *
- * @final since Symfony 7.2
  */
-class ServicesResetter implements ServicesResetterInterface
+final class ServicesResetter implements ServicesResetterInterface
 {
     /**
      * @param \Traversable<string, object>   $resettableServices
@@ -36,8 +34,6 @@ class ServicesResetter implements ServicesResetterInterface
 
     public function reset(): void
     {
-        $throwable = null;
-
         foreach ($this->resettableServices as $id => $service) {
             if ($service instanceof LazyObjectInterface && !$service->isLazyObjectInitialized(true)) {
                 continue;
@@ -47,7 +43,7 @@ class ServicesResetter implements ServicesResetterInterface
                 continue;
             }
 
-            if (\PHP_VERSION_ID >= 80400 && (new \ReflectionClass($service))->isUninitializedLazyObject($service)) {
+            if (new \ReflectionClass($service)->isUninitializedLazyObject($service)) {
                 continue;
             }
 
@@ -56,17 +52,8 @@ class ServicesResetter implements ServicesResetterInterface
                     continue;
                 }
 
-                try {
-                    $service->$resetMethod();
-                } catch (\Throwable $e) {
-                    // failing to reset one service should not prevent resetting the remaining ones
-                    $throwable ??= $e;
-                }
+                $service->$resetMethod();
             }
-        }
-
-        if (null !== $throwable) {
-            throw $throwable;
         }
     }
 }

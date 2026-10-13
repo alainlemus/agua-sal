@@ -68,7 +68,7 @@
 
         /* smoke text effect */
         .smoke-glow {
-            text-shadow: 0 0 40px rgba(229, 43, 43, 0.4), 0 0 80px rgba(229, 43, 43, 0.15);
+            text-shadow: 0 0 40px rgba(253,163,23, 0.4), 0 0 80px rgba(253,163,23, 0.15);
         }
     </style>
 </head>
@@ -111,7 +111,7 @@
             <!-- Don Papi illustration -->
             <div class="flex-shrink-0 animate-float animate-fade-in-up">
                 <img src="{{ asset('storage/images/papi.png') }}" alt="{{ siteName() }}"
-                    class="h-72 md:h-96 w-auto object-contain drop-shadow-[0_0_50px_rgba(229,43,43,0.3)] filter contrast-110">
+                    class="h-72 md:h-96 w-auto object-contain drop-shadow-[0_0_50px_rgba(253,163,23,0.3)] filter contrast-110">
             </div>
 
             <!-- Message box -->
@@ -119,7 +119,7 @@
 
                 <!-- 404 badge -->
                 <div
-                    class="opacity-0 animate-fade-in-up delay-200 inline-flex items-center gap-2 bg-[#E52B2B]/20 border border-[#E52B2B]/40 text-[#E52B2B] text-xs font-bold uppercase tracking-[0.3em] px-4 py-2 rounded-full mb-6">
+                    class="opacity-0 animate-fade-in-up delay-200 inline-flex items-center gap-2 bg-[#FDA317]/20 border border-[#FDA317]/40 text-[#FDA317] text-xs font-bold uppercase tracking-[0.3em] px-4 py-2 rounded-full mb-6">
                     <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd"
                             d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
@@ -133,7 +133,7 @@
                     class="opacity-0 animate-fade-in-up delay-200 font-display text-5xl md:text-7xl text-white uppercase tracking-widest leading-none mb-2 smoke-glow">
                     ¡Que rollo raza!
                 </h1>
-                <div class="opacity-0 animate-fade-in-up delay-400 h-1 w-20 bg-[#E52B2B] rounded mb-6 lg:mx-0 mx-auto">
+                <div class="opacity-0 animate-fade-in-up delay-400 h-1 w-20 bg-[#FDA317] rounded mb-6 lg:mx-0 mx-auto">
                 </div>
 
                 <!-- Subtitle -->
@@ -143,14 +143,14 @@
                 <p
                     class="opacity-0 animate-fade-in-up delay-400 text-gray-400 text-base md:text-lg leading-relaxed mb-10">
                     Esta página ya no existe o nunca existió.<br>
-                    Mejor regresate a lo mejor de <span class="text-[#E52B2B] font-semibold">{{ siteName() }}</span> 🔥
+                    Mejor regresate a lo mejor de <span class="text-[#FDA317] font-semibold">{{ siteName() }}</span> 🔥
                 </p>
 
                 <!-- CTA Button -->
                 <div
                     class="opacity-0 animate-fade-in-up delay-600 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                     <a href="/"
-                        class="inline-flex items-center justify-center gap-3 bg-[#E52B2B] hover:bg-red-700 text-white px-8 py-4 rounded font-bold uppercase tracking-widest text-sm transition-all duration-300 shadow-[0_0_25px_rgba(229,43,43,0.4)] hover:shadow-[0_0_40px_rgba(229,43,43,0.6)] hover:-translate-y-1">
+                        class="inline-flex items-center justify-center gap-3 bg-[#FDA317] hover:bg-red-700 text-white px-8 py-4 rounded font-bold uppercase tracking-widest text-sm transition-all duration-300 shadow-[0_0_25px_rgba(253,163,23,0.4)] hover:shadow-[0_0_40px_rgba(253,163,23,0.6)] hover:-translate-y-1">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />

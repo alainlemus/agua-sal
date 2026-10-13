@@ -1,11 +1,11 @@
 <?php
 
 declare (strict_types=1);
-namespace RectorPrefix202609\Entropy\Reflection;
+namespace RectorPrefix202610\Entropy\Reflection;
 
-use RectorPrefix202609\Entropy\Attributes\RelatedTest;
-use RectorPrefix202609\Entropy\Container\Exception\CreateServiceException;
-use RectorPrefix202609\Entropy\Tests\Reflection\ParameterTypesResolver\ParameterTypesResolverTest;
+use RectorPrefix202610\Entropy\Attribute\RelatedTest;
+use RectorPrefix202610\Entropy\Container\Exception\CreateServiceException;
+use RectorPrefix202610\Entropy\Tests\Reflection\ParameterTypesResolver\ParameterTypesResolverTest;
 use ReflectionMethod;
 use ReflectionNamedType;
 use ReflectionParameter;
@@ -31,7 +31,7 @@ final class ParameterTypesResolver
                 continue;
             } else {
                 // try resolving array of class types via docblock
-                if ($parameterType instanceof ReflectionNamedType && (string) $reflectionParameter->getType() === 'array') {
+                if ($parameterType instanceof ReflectionNamedType && $parameterType->getName() === 'array') {
                     $docComment = $reflectionMethod->getDocComment();
                     if ($docComment !== \false) {
                         $pattern = sprintf('/@param\s+%s\[\]\s+\$%s/', '([\\\\\\w]+)', $reflectionParameter->getName());

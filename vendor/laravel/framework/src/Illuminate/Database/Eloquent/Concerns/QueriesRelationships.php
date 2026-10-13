@@ -186,7 +186,7 @@ trait QueriesRelationships
     public function withWhereHas($relation, ?Closure $callback = null, $operator = '>=', $count = 1)
     {
         return $this->whereHas(Str::before($relation, ':'), $callback, $operator, $count)
-            ->with($callback ? [$relation => fn ($query) => $callback($query)] : $relation);
+            ->with($callback ? [$relation => static fn ($query) => $callback($query)] : $relation);
     }
 
     /**
@@ -314,6 +314,8 @@ trait QueriesRelationships
                 $relation->getOwnerKeyName()
             );
         });
+
+        $relation->replayMacros($belongsTo->getQuery());
 
         $belongsTo->getQuery()->mergeConstraintsFrom($relation->getQuery());
 
@@ -461,7 +463,7 @@ trait QueriesRelationships
     {
         return $this->whereRelation($relation, $column, $operator, $value)
             ->with([
-                $relation => fn ($query) => $column instanceof Closure
+                $relation => static fn ($query) => $column instanceof Closure
                     ? $column($query)
                     : $query->where($column, $operator, $value),
             ]);
@@ -648,7 +650,9 @@ trait QueriesRelationships
             $models->groupBy(fn ($model) => $model->getMorphClass())->each(function ($models) use ($query, $relation) {
                 $query->orWhere(function ($query) use ($relation, $models) {
                     $query->where($relation->qualifyColumn($relation->getMorphType()), $models->first()->getMorphClass())
-                        ->whereIn($relation->qualifyColumn($relation->getForeignKeyName()), $models->map->getKey());
+                        ->whereIn($relation->qualifyColumn($relation->getForeignKeyName()), $models->map(
+                            fn ($model) => $model->getAttribute($relation->getOwnerKeyName() ?? $model->getKeyName())
+                        ));
                 });
             });
         }, null, null, $boolean);
@@ -691,7 +695,9 @@ trait QueriesRelationships
             $models->groupBy(fn ($model) => $model->getMorphClass())->each(function ($models) use ($query, $relation) {
                 $query->orWhere(function ($query) use ($relation, $models) {
                     $query->whereNullSafeEquals($relation->qualifyColumn($relation->getMorphType()), $models->first()->getMorphClass())
-                        ->whereIn($relation->qualifyColumn($relation->getForeignKeyName()), $models->map->getKey());
+                        ->whereIn($relation->qualifyColumn($relation->getForeignKeyName()), $models->map(
+                            fn ($model) => $model->getAttribute($relation->getOwnerKeyName() ?? $model->getKeyName())
+                        ));
                 });
             });
         }, null, null, $boolean);
@@ -729,6 +735,7 @@ trait QueriesRelationships
      * @param  string  $boolean
      * @return $this
      *
+     * @throws \InvalidArgumentException
      * @throws \Illuminate\Database\Eloquent\RelationNotFoundException
      */
     public function whereBelongsTo($related, $relationshipName = null, $boolean = 'and')
@@ -774,8 +781,6 @@ trait QueriesRelationships
      * @param  \Illuminate\Database\Eloquent\Model  $related
      * @param  string|null  $relationshipName
      * @return $this
-     *
-     * @throws \RuntimeException
      */
     public function orWhereBelongsTo($related, $relationshipName = null)
     {
@@ -790,6 +795,7 @@ trait QueriesRelationships
      * @param  string  $boolean
      * @return $this
      *
+     * @throws \InvalidArgumentException
      * @throws \Illuminate\Database\Eloquent\RelationNotFoundException
      */
     public function whereAttachedTo($related, $relationshipName = null, $boolean = 'and')
@@ -1120,7 +1126,7 @@ trait QueriesRelationships
      */
     protected function getRelationWithoutConstraints($relation)
     {
-        return Relation::noConstraints(function () use ($relation) {
+        return Relation::noConstraintsForRelation(function () use ($relation) {
             return $this->getModel()->{$relation}();
         });
     }

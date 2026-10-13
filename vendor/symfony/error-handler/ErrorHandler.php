@@ -145,11 +145,6 @@ class ErrorHandler
                 $prev[0]->setExceptionHandler($p);
             }
         } else {
-            if (!$handlerIsRegistered && null === $prev) {
-                // another error handler is in charge and there is no exception handler to decorate
-                restore_exception_handler();
-            }
-
             $handler->setExceptionHandler($prev ?? [$handler, 'renderException']);
         }
 
@@ -186,11 +181,6 @@ class ErrorHandler
         ?BufferingLogger $bootstrappingLogger = null,
         private bool $debug = false,
     ) {
-        if (\PHP_VERSION_ID < 80400) {
-            $this->levels[\E_STRICT] = 'Runtime Notice';
-            $this->loggers[\E_STRICT] = [null, LogLevel::ERROR];
-        }
-
         if ($bootstrappingLogger) {
             $this->bootstrappingLogger = $bootstrappingLogger;
             $this->setDefaultLogger($bootstrappingLogger);
@@ -440,22 +430,6 @@ class ErrorHandler
                 return true;
             }
         } else {
-            if (\PHP_VERSION_ID < 80303 && str_contains($message, '@anonymous')) {
-                $backtrace = debug_backtrace(false, 5);
-
-                for ($i = 1; isset($backtrace[$i]); ++$i) {
-                    if (isset($backtrace[$i]['function'], $backtrace[$i]['args'][0])
-                        && ('trigger_error' === $backtrace[$i]['function'] || 'user_error' === $backtrace[$i]['function'])
-                    ) {
-                        if ($backtrace[$i]['args'][0] !== $message) {
-                            $message = $backtrace[$i]['args'][0];
-                        }
-
-                        break;
-                    }
-                }
-            }
-
             if (str_contains($message, "@anonymous\0")) {
                 $message = $this->parseAnonymousClass($message);
                 $logMessage = $this->levels[$type].': '.$message;

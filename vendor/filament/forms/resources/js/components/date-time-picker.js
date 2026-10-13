@@ -17,13 +17,12 @@ export default function dateTimePickerFormComponent({
     defaultFocusedDate,
     displayFormat,
     firstDayOfWeek,
+    hasDate = true,
     isAutofocused,
     locale,
     shouldCloseOnDateSelection,
     state,
 }) {
-    const timezone = dayjs.tz.guess()
-
     return {
         daysInFocusedMonth: [],
 
@@ -59,9 +58,10 @@ export default function dateTimePickerFormComponent({
             dayjs.locale(locales[locale] ?? locales['en'])
 
             this.$nextTick(() => {
-                this.focusedDate ??= (
-                    this.getDefaultFocusedDate() ?? dayjs()
-                ).tz(timezone)
+                const date = this.getDefaultFocusedDate()
+                this.focusedDate ??= hasDate
+                    ? (date ?? this.getToday())
+                    : (date ?? dayjs()).tz(dayjs.tz.guess())
                 this.focusedMonth ??= this.focusedDate.month()
                 this.focusedYear ??= this.focusedDate.year()
             })
@@ -69,14 +69,9 @@ export default function dateTimePickerFormComponent({
             let date =
                 this.getSelectedDate() ??
                 this.getDefaultFocusedDate() ??
-                dayjs().tz(timezone).hour(0).minute(0).second(0)
+                this.getToday().hour(0).minute(0).second(0)
 
-            if (this.getMaxDate() !== null && date.isAfter(this.getMaxDate())) {
-                date = null
-            } else if (
-                this.getMinDate() !== null &&
-                date.isBefore(this.getMinDate())
-            ) {
+            if (this.dateIsOutsideLimits(date)) {
                 date = null
             }
 
@@ -116,7 +111,7 @@ export default function dateTimePickerFormComponent({
                 let year = +this.focusedYear
 
                 if (!Number.isInteger(year)) {
-                    year = dayjs().tz(timezone).year()
+                    year = this.getToday().year()
 
                     this.focusedYear = year
                 }
@@ -222,16 +217,7 @@ export default function dateTimePickerFormComponent({
                     return
                 }
 
-                if (
-                    this.getMaxDate() !== null &&
-                    date?.isAfter(this.getMaxDate())
-                ) {
-                    date = null
-                }
-                if (
-                    this.getMinDate() !== null &&
-                    date?.isBefore(this.getMinDate())
-                ) {
+                if (this.dateIsOutsideLimits(date)) {
                     date = null
                 }
 
@@ -278,7 +264,17 @@ export default function dateTimePickerFormComponent({
                 this.$refs?.disabledDates &&
                 JSON.parse(this.$refs.disabledDates.value ?? []).some(
                     (disabledDate) => {
-                        disabledDate = dayjs(disabledDate)
+                        // Preserve browser-calendar projection for explicitly zoned and other non-canonical values.
+                        disabledDate = !hasDate
+                            ? dayjs(disabledDate)
+                            : typeof disabledDate === 'string' &&
+                                /^\d{4}-\d{2}-\d{2}(?:[ T]\d{2}:\d{2}(?::\d{2}(?:\.\d{1,6})?)?)?$/.test(
+                                    disabledDate,
+                                )
+                              ? dayjs.utc(disabledDate)
+                              : dayjs.utc(
+                                    dayjs(disabledDate).format('YYYY-MM-DD'),
+                                )
 
                         if (!disabledDate.isValid()) {
                             return false
@@ -291,10 +287,18 @@ export default function dateTimePickerFormComponent({
                 return true
             }
 
-            if (this.getMaxDate() && date.isAfter(this.getMaxDate(), 'day')) {
+            if (
+                hasDate &&
+                this.getMaxDate() &&
+                date.isAfter(this.getMaxDate(), 'day')
+            ) {
                 return true
             }
-            if (this.getMinDate() && date.isBefore(this.getMinDate(), 'day')) {
+            if (
+                hasDate &&
+                this.getMinDate() &&
+                date.isBefore(this.getMinDate(), 'day')
+            ) {
                 return true
             }
 
@@ -302,7 +306,7 @@ export default function dateTimePickerFormComponent({
         },
 
         dayIsDisabled(day) {
-            this.focusedDate ??= dayjs().tz(timezone)
+            this.focusedDate ??= this.getToday()
 
             return this.dateIsDisabled(this.focusedDate.date(day))
         },
@@ -314,7 +318,7 @@ export default function dateTimePickerFormComponent({
                 return false
             }
 
-            this.focusedDate ??= dayjs().tz(timezone)
+            this.focusedDate ??= this.getToday()
 
             return (
                 selectedDate.date() === day &&
@@ -324,7 +328,7 @@ export default function dateTimePickerFormComponent({
         },
 
         dayIsToday(day) {
-            let date = dayjs().tz(timezone)
+            let date = this.getToday()
             this.focusedDate ??= date
 
             return (
@@ -335,25 +339,25 @@ export default function dateTimePickerFormComponent({
         },
 
         focusPreviousDay() {
-            this.focusedDate ??= dayjs().tz(timezone)
+            this.focusedDate ??= this.getToday()
 
             this.focusedDate = this.focusedDate.subtract(1, 'day')
         },
 
         focusPreviousWeek() {
-            this.focusedDate ??= dayjs().tz(timezone)
+            this.focusedDate ??= this.getToday()
 
             this.focusedDate = this.focusedDate.subtract(1, 'week')
         },
 
         focusNextDay() {
-            this.focusedDate ??= dayjs().tz(timezone)
+            this.focusedDate ??= this.getToday()
 
             this.focusedDate = this.focusedDate.add(1, 'day')
         },
 
         focusNextWeek() {
-            this.focusedDate ??= dayjs().tz(timezone)
+            this.focusedDate ??= this.getToday()
 
             this.focusedDate = this.focusedDate.add(1, 'week')
         },
@@ -372,15 +376,34 @@ export default function dateTimePickerFormComponent({
         },
 
         getMaxDate() {
-            let date = dayjs(this.$refs.maxDate?.value)
+            return this.getDateLimit(this.$refs.maxDate?.value)
+        },
+
+        getMinDate() {
+            return this.getDateLimit(this.$refs.minDate?.value)
+        },
+
+        getDateLimit(value) {
+            const date = dayjs.utc(value)
 
             return date.isValid() ? date : null
         },
 
-        getMinDate() {
-            let date = dayjs(this.$refs.minDate?.value)
+        dateIsOutsideLimits(date) {
+            const minimum = this.getMinDate()
+            const maximum = this.getMaxDate()
 
-            return date.isValid() ? date : null
+            return (
+                (minimum !== null &&
+                    (hasDate
+                        ? date.isBefore(minimum)
+                        : date.format('HH:mm:ss') <
+                          minimum.format('HH:mm:ss'))) ||
+                (maximum !== null &&
+                    (hasDate
+                        ? date.isAfter(maximum)
+                        : date.format('HH:mm:ss') > maximum.format('HH:mm:ss')))
+            )
         },
 
         getSelectedDate() {
@@ -392,7 +415,7 @@ export default function dateTimePickerFormComponent({
                 return null
             }
 
-            let date = dayjs(this.state)
+            let date = dayjs.utc(this.state)
 
             if (!date.isValid()) {
                 return null
@@ -406,7 +429,7 @@ export default function dateTimePickerFormComponent({
                 return null
             }
 
-            let defaultFocusedDate = dayjs(this.defaultFocusedDate)
+            let defaultFocusedDate = dayjs.utc(this.defaultFocusedDate)
 
             if (!defaultFocusedDate.isValid()) {
                 return null
@@ -415,13 +438,20 @@ export default function dateTimePickerFormComponent({
             return defaultFocusedDate
         },
 
+        getToday() {
+            // Use UTC only as a neutral calendar, preserving the browser's local date.
+            return hasDate
+                ? dayjs.utc(dayjs().format('YYYY-MM-DD'))
+                : dayjs().tz(dayjs.tz.guess())
+        },
+
         togglePanelVisibility() {
             if (!this.isOpen()) {
                 this.focusedDate =
                     this.getSelectedDate() ??
                     this.focusedDate ??
                     this.getMinDate() ??
-                    dayjs().tz(timezone)
+                    this.getToday()
 
                 this.setupDaysGrid()
             }
@@ -434,7 +464,7 @@ export default function dateTimePickerFormComponent({
                 this.setFocusedDay(day)
             }
 
-            this.focusedDate ??= dayjs().tz(timezone)
+            this.focusedDate ??= this.getToday()
 
             this.setState(this.focusedDate)
 
@@ -444,9 +474,31 @@ export default function dateTimePickerFormComponent({
         },
 
         setDisplayText() {
-            this.displayText = this.getSelectedDate()
-                ? this.getSelectedDate().format(displayFormat)
-                : ''
+            const date = this.getSelectedDate()
+
+            if (!date) {
+                this.displayText = ''
+
+                return
+            }
+
+            if (!hasDate) {
+                this.displayText = date.format(displayFormat)
+
+                return
+            }
+
+            // Keep browser-based zone and epoch tokens without letting them normalize calendar components.
+            const browserDate = dayjs(this.state)
+            const format = (displayFormat || 'YYYY-MM-DDTHH:mm:ssZ').replace(
+                /\[[^\]]+]|ZZ|Z|zzz|z|X|x/g,
+                (token) =>
+                    token.startsWith('[')
+                        ? token
+                        : `[${browserDate.format(token)}]`,
+            )
+
+            this.displayText = date.format(format)
         },
 
         setMonths() {
@@ -458,7 +510,7 @@ export default function dateTimePickerFormComponent({
         },
 
         setupDaysGrid() {
-            this.focusedDate ??= dayjs().tz(timezone)
+            this.focusedDate ??= this.getToday()
 
             this.emptyDaysInFocusedMonth = Array.from(
                 {
@@ -476,9 +528,7 @@ export default function dateTimePickerFormComponent({
         },
 
         setFocusedDay(day) {
-            this.focusedDate = (this.focusedDate ?? dayjs().tz(timezone)).date(
-                day,
-            )
+            this.focusedDate = (this.focusedDate ?? this.getToday()).date(day)
         },
 
         setState(date) {
@@ -491,6 +541,10 @@ export default function dateTimePickerFormComponent({
 
             if (this.dateIsDisabled(date)) {
                 return
+            }
+
+            if (!hasDate) {
+                date = dayjs.utc(date.format('YYYY-MM-DD HH:mm:ss'))
             }
 
             this.state = date

@@ -13,6 +13,7 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Scalar\String_;
+use PHPStan\Type\IsSuperTypeOfResult;
 use PHPStan\Type\ObjectType;
 use Rector\Doctrine\Enum\DoctrineClass;
 use Rector\Rector\AbstractRector;
@@ -133,7 +134,7 @@ CODE_SAMPLE
             if ($item->value instanceof String_ && in_array($v = strtoupper($item->value->value), ['ASC', 'DESC'], \true)) {
                 $newItems[] = $this->buildArrayItem($v, $item->key);
                 $nodeHasChange = \true;
-            } elseif ($item->value instanceof ClassConstFetch && $item->value->class instanceof Name && $this->criteriaObjectType->isSuperTypeOf(new ObjectType($item->value->class->toString())) && $item->value->name instanceof Identifier && in_array($v = strtoupper((string) $item->value->name), ['ASC', 'DESC'], \true)) {
+            } elseif ($item->value instanceof ClassConstFetch && $item->value->class instanceof Name && $this->criteriaObjectType->isSuperTypeOf(new ObjectType($item->value->class->toString())) instanceof IsSuperTypeOfResult && $item->value->name instanceof Identifier && in_array($v = strtoupper((string) $item->value->name), ['ASC', 'DESC'], \true)) {
                 $newItems[] = $this->buildArrayItem($v, $item->key);
                 $nodeHasChange = \true;
             } else {

@@ -107,7 +107,7 @@ use Rector\NodeNameResolver\NodeNameResolver;
 use Rector\NodeTypeResolver\Node\AttributeKey;
 use Rector\PhpParser\Node\FileNode;
 use Rector\Util\Reflection\PrivatesAccessor;
-use RectorPrefix202609\Webmozart\Assert\Assert;
+use RectorPrefix202610\Webmozart\Assert\Assert;
 /**
  * @inspired by https://github.com/silverstripe/silverstripe-upgrader/blob/532182b23e854d02e0b27e68ebc394f436de0682/src/UpgradeRule/PHP/Visitor/PHPStanScopeVisitor.php
  * - https://github.com/silverstripe/silverstripe-upgrader/pull/57/commits/e5c7cfa166ad940d9d4ff69537d9f7608e992359#diff-5e0807bb3dc03d6a8d8b6ad049abd774
@@ -396,6 +396,7 @@ final class PHPStanNodeScopeResolver
      */
     private function nodeScopeResolverProcessNodes(array $stmts, MutatingScope $mutatingScope, callable $nodeCallback): void
     {
+        Assert::allIsInstanceOf($stmts, Stmt::class);
         try {
             $this->nodeScopeResolver->processNodes($stmts, $mutatingScope, $nodeCallback);
         } catch (ParserErrorsException|ParserException|ShouldNotHappenException|UndefinedVariableException $exception) {
@@ -519,7 +520,7 @@ final class PHPStanNodeScopeResolver
                 continue;
             }
             /** @var Stmt[] $stmts */
-            $stmts = $hook->body instanceof Expr ? [new Expression($hook->body)] : [$hook->body];
+            $stmts = $hook->body instanceof Expr ? [new Expression($hook->body)] : $hook->body;
             $this->nodeScopeResolverProcessNodes($stmts, $mutatingScope, $nodeCallback);
         }
     }
@@ -600,6 +601,8 @@ final class PHPStanNodeScopeResolver
         // before entering the class/trait again, we have to tell scope no class was set, otherwise it crashes
         $this->privatesAccessor->setPrivateProperty($traitContext, 'classReflection', $traitClassReflection);
         $this->privatesAccessor->setPrivateProperty($traitScope, self::CONTEXT, $traitContext);
+        // the cloned scope keeps node callback scope cached from former context, reset it to use the trait context
+        $this->privatesAccessor->setPrivateProperty($traitScope, 'nodeCallbackScope', null);
         $trait->setAttribute(AttributeKey::SCOPE, $traitScope);
         $this->nodeScopeResolverProcessNodes($trait->stmts, $traitScope, $nodeCallback);
         $this->decorateNodeAttrGroups($trait, $traitScope, $nodeCallback);
