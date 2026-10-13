@@ -20,6 +20,9 @@ enum BlockType: string
     case Faq = 'faq';
     case Pricing = 'pricing';
     case Reservation = 'reservation';
+    case Marquee = 'marquee';
+    case MenuCategories = 'menu_categories';
+    case SocialFollow = 'social_follow';
 
     public function label(): string
     {
@@ -38,6 +41,9 @@ enum BlockType: string
             self::Faq => 'Preguntas Frecuentes',
             self::Pricing => 'Precios',
             self::Reservation => 'Reservación por WhatsApp',
+            self::Marquee => 'Cinta animada de texto',
+            self::MenuCategories => 'Explora el menú (categorías)',
+            self::SocialFollow => 'Síguenos en redes',
         };
     }
 }

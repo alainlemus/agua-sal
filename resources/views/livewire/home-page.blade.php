@@ -616,6 +616,16 @@
             @endif
 
             {{-- ═══════ CTA BANNER ═══════ --}}
+            @if($block['type'] === 'marquee')
+                <x-blocks.marquee :data="$block['data'] ?? []" />
+            @endif
+            @if($block['type'] === 'menu_categories')
+                <x-blocks.menu-categories :data="$block['data'] ?? []" />
+            @endif
+            @if($block['type'] === 'social_follow')
+                <x-blocks.social-follow :data="$block['data'] ?? []" />
+            @endif
+
             @if($block['type'] === 'reservation')
                 <x-blocks.reservation :data="$block['data'] ?? []" />
             @endif

@@ -247,6 +247,33 @@ class PageResource extends Resource
                                         Forms\Components\TextInput::make('max_people')->label('Máximo de personas')->numeric()->minValue(2)->maxValue(40)->default(12),
                                     ]),
 
+                                Forms\Components\Builder\Block::make('marquee')
+                                    ->label('Cinta animada de texto')
+                                    ->icon('heroicon-o-arrows-right-left')
+                                    ->schema([
+                                        Forms\Components\Repeater::make('items')->label('Textos')->schema([
+                                            Forms\Components\TextInput::make('text')->label('Texto')->required(),
+                                        ])->defaultItems(5)->addActionLabel('+ Agregar texto')->columnSpanFull(),
+                                    ]),
+
+                                Forms\Components\Builder\Block::make('menu_categories')
+                                    ->label('Explora el menú (categorías)')
+                                    ->icon('heroicon-o-squares-2x2')
+                                    ->schema([
+                                        Forms\Components\TextInput::make('heading')->label('Título')->default('Explora el menú'),
+                                        Forms\Components\TextInput::make('subtitle')->label('Subtítulo')->default('Elige por dónde empezar.'),
+                                    ]),
+
+                                Forms\Components\Builder\Block::make('social_follow')
+                                    ->label('Síguenos en redes')
+                                    ->icon('heroicon-o-share')
+                                    ->schema([
+                                        Forms\Components\TextInput::make('heading')->label('Título')->default('Síguenos'),
+                                        Forms\Components\TextInput::make('subtitle')->label('Subtítulo'),
+                                        Forms\Components\TextInput::make('facebook_followers')->label('Seguidores de Facebook (texto)')->placeholder('5.2 mil'),
+                                        Forms\Components\TextInput::make('instagram_followers')->label('Seguidores de Instagram (texto)')->placeholder('2 mil'),
+                                    ]),
+
                                 Forms\Components\Builder\Block::make('cta_banner')
                                     ->label('Banner CTA (Llamada a la acción)')
                                     ->icon('heroicon-o-megaphone')
@@ -256,7 +283,7 @@ class PageResource extends Resource
                                         Forms\Components\TextInput::make('button_label')->label('Texto del botón')->default('Ver más'),
                                         Forms\Components\TextInput::make('button_url')->label('URL del botón')->url()->nullable(),
                                         Forms\Components\Toggle::make('button_new_tab')->label('Abrir en nueva pestaña')->default(false),
-                                        Forms\Components\ColorPicker::make('bg_color')->label('Color de fondo')->default('#E52B2B'),
+                                        Forms\Components\ColorPicker::make('bg_color')->label('Color de fondo')->default('#FDA317'),
                                         Forms\Components\ColorPicker::make('text_color')->label('Color del texto')->default('#ffffff'),
                                     ]),
 
@@ -357,7 +384,7 @@ class PageResource extends Resource
                                             Forms\Components\TextInput::make('button_label')->label('Texto del botón')->default('Elegir plan'),
                                             Forms\Components\TextInput::make('button_url')->label('URL del botón')->nullable(),
                                             Forms\Components\Toggle::make('highlighted')->label('¿Destacado?')->default(false),
-                                            Forms\Components\ColorPicker::make('accent_color')->label('Color de acento')->default('#E52B2B'),
+                                            Forms\Components\ColorPicker::make('accent_color')->label('Color de acento')->default('#FDA317'),
                                         ])->collapsible()->addActionLabel('+ Agregar plan')->columnSpanFull(),
                                     ]),
 
@@ -424,7 +451,7 @@ class PageResource extends Resource
                                             Forms\Components\TextInput::make('icon')->label('Ícono Heroicon (ej: heroicon-o-fire)')->nullable(),
                                             Forms\Components\TextInput::make('title')->label('Título')->required(),
                                             Forms\Components\Textarea::make('description')->label('Descripción')->rows(2)->required(),
-                                            Forms\Components\ColorPicker::make('icon_color')->label('Color del ícono')->default('#E52B2B'),
+                                            Forms\Components\ColorPicker::make('icon_color')->label('Color del ícono')->default('#FDA317'),
                                         ])->collapsible()->addActionLabel('+ Agregar característica')->columnSpanFull(),
                                     ]),
 
@@ -438,7 +465,7 @@ class PageResource extends Resource
                                             Forms\Components\TextInput::make('value')->label('Valor (ej: +500, 10 años, 98%)')->required(),
                                             Forms\Components\TextInput::make('label')->label('Etiqueta')->required(),
                                             Forms\Components\TextInput::make('icon')->label('Ícono Heroicon (opcional, ej: heroicon-o-users)')->nullable(),
-                                            Forms\Components\ColorPicker::make('value_color')->label('Color del valor')->default('#E52B2B'),
+                                            Forms\Components\ColorPicker::make('value_color')->label('Color del valor')->default('#FDA317'),
                                         ])->collapsible()->addActionLabel('+ Agregar stat')->columnSpanFull(),
                                     ]),
 
