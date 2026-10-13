@@ -15,7 +15,7 @@ use Illuminate\Support\Str;
 /**
  * Menú vigente de Agua & Sal Tostadería (fuente: ficha de Google del negocio, oct 2026).
  * Respalda el menú anterior en storage/app/backups y lo desactiva (no borra nada).
- * Las descripciones que Google truncó se recortaron en un punto limpio.
+ * Descripciones completas según el menú entregado por el dueño.
  */
 final class MenuFromGoogleSeeder extends Seeder
 {
@@ -69,9 +69,9 @@ final class MenuFromGoogleSeeder extends Seeder
         return [
             'Aguachiles' => [
                 ['Aguachile de Jamaica', 198, 'Camarón desnaturalizado bañado en una salsa de jamaica acompañado de pepino, jícama, cebolla morada, cacahuate tostado, láminas de camote frito, aguacate y un topping de poro frito.'],
-                ['Aguachile Verde', 198, 'Camarón desnaturalizado bañado en salsa verde acompañado de pepino, cebolla morada y rábano.'],
-                ['Aguachile Rojo', 190, 'Camarón desnaturalizado bañado en salsa roja acompañado de pepino, cebolla morada y rábano.'],
-                ['Aguachile Quemado', 198, 'Camarón desnaturalizado bañado en salsa de chile habanero y piña quemada.'],
+                ['Aguachile Verde', 198, 'Camarón desnaturalizado bañado en salsa verde acompañado de pepino, cebolla morada, rábano y un abanico de aguacate.'],
+                ['Aguachile Rojo', 190, 'Camarón desnaturalizado bañado en salsa roja acompañado de pepino, cebolla morada, rábano y un abanico de aguacate.'],
+                ['Aguachile Quemado', 198, 'Camarón desnaturalizado bañado en salsa de chile habanero y piña quemada acompañado de pepino, cebolla morada, piña, aguacate, poro frito y láminas de plátano fritas.'],
             ],
             'Tostadas' => [
                 ['Tostada de Aguachile Verde', 80, null],
@@ -92,21 +92,21 @@ final class MenuFromGoogleSeeder extends Seeder
             'Camarones' => [
                 ['Camarones Momia', 250, 'Camarones envueltos en tocino acompañados de papas a la francesa, ensalada y salsa BBQ.'],
                 ['Camarones Empanizados', 225, 'Acompañados de papas a la francesa y ensalada con vinagreta de mango.'],
-                ['Camarones al Ajillo', 220, 'Camarones salteados con ajo y chile guajillo acompañados de arroz blanco y ensalada.'],
+                ['Camarones al Ajillo', 220, 'Camarones salteados con ajo y chile guajillo acompañados de arroz blanco y ensalada con vinagreta de mango.'],
                 ['Camarones a la Diabla', 220, 'Camarones salteados acompañados de arroz blanco y ensalada con vinagreta de mango.'],
-                ['Camarones a los 3 Chiles', 250, 'Camarones salteados con 3 chiles secos (pasilla, morita y chiltepín) y mantequilla.'],
+                ['Camarones a los 3 Chiles', 250, 'Camarones salteados con 3 chiles secos (pasilla, morita y chiltepín), mantequilla y un toque de mayonesa, acompañados de ensalada con vinagreta de mango y arroz blanco.'],
             ],
             'Pulpos' => [
-                ['Pulpo a los 3 Chiles', 250, 'Pulpo salteado con 3 chiles secos (pasilla, morita y chiltepín) y mantequilla.'],
-                ['Pulpo al Ajillo', 245, 'Pulpo salteado con ajo y chile guajillo acompañado de arroz blanco y ensalada.'],
+                ['Pulpo a los 3 Chiles', 250, 'Pulpo salteado con 3 chiles secos (pasilla, morita y chiltepín), mantequilla y un toque de mayonesa, acompañado de ensalada con vinagreta de mango y arroz blanco.'],
+                ['Pulpo al Ajillo', 245, 'Pulpo salteado con ajo y chile guajillo acompañado de arroz blanco y ensalada con vinagreta de mango.'],
                 ['Pulpo a la Diabla', 245, 'Pulpo salteado acompañado de arroz blanco y ensalada con vinagreta de mango.'],
             ],
             'Ceviches' => [
-                ['Ceviche Chuy', 198, 'Atún fresco en cubos con mango, limón, pepino, cebolla morada y aguacate.'],
-                ['Ceviche de Tamarindo', 190, 'Atún fresco en cubos con pepino, aguacate, cebolla morada y ajonjolí negro tostado.'],
-                ['Ceviche de Iguana', 185, 'Filete de pescado fresco acompañado de pepino, limón, cebolla morada, cilantro y chile serrano.'],
-                ['Ceviche de Salmón', 198, 'Salmón fresco en cubos acompañado de pepino, pimiento morrón y cebolla morada.'],
-                ['Ceviche de Atún Sellado', 190, 'Atún sellado con pepino, cebolla, ajonjolí negro tostado y rodajas de chile toreado.'],
+                ['Ceviche Chuy', 198, 'Atún fresco en cubos con mango, limón, pepino, cebolla morada y aguacate, bañado en un aceite de ajonjolí con un toque de cilantro y chile serrano, con poro frito.'],
+                ['Ceviche de Tamarindo', 190, 'Atún fresco en cubos con pepino, aguacate, cebolla morada y ajonjolí negro tostado, acompañado de nuestra salsa de tamarindo y poro frito.'],
+                ['Ceviche de Iguana', 185, 'Filete de pescado fresco acompañado de pepino, limón, cebolla morada, cilantro, chile serrano, jícama, aguacate, pepita tostada y poro frito.'],
+                ['Ceviche de Salmón', 198, 'Salmón fresco en cubos acompañado de pepino, pimiento morrón y cebolla morada, bañado en una salsa de anguila con ajonjolí negro tostado y poro frito.'],
+                ['Ceviche de Atún Sellado', 190, 'Atún sellado con pepino, cebolla, ajonjolí negro tostado y rodajas de chile toreado, bañado en salsa ponzu y poro frito.'],
             ],
             'Cócteles' => [
                 ['Coctel de Camarón', 90, null],
@@ -115,20 +115,20 @@ final class MenuFromGoogleSeeder extends Seeder
             ],
             'Para Compartir' => [
                 ['Chicharrón de Pescado', 180, 'Láminas de chicharrón de pescado con guacamole y pico de gallo.'],
-                ['Fish and Chips', 160, 'Filetes rebozados acompañados de papas a la francesa y aderezo de tu preferencia.'],
+                ['Fish and Chips', 160, 'Filetes rebozados acompañados de papas a la francesa y aderezo de tu preferencia (mayonesa chipotle, mayonesa cilantro o alioli).'],
                 ['Mini Camarones Roca con Papas', 170, 'Mini camarones rebozados acompañados de papas a la francesa y aderezo de tu preferencia.'],
-                ['Tiradito de Salmón', 200, 'Salmón en láminas bañado en salsa ponzu, con un poco de cebollín y rodajas de chile toreado.'],
-                ['Tiradito Agua & Sal', 200, 'Atún en láminas con aguacate bañado en salsa de cítricos con un toque de tamarindo y jengibre.'],
+                ['Tiradito de Salmón', 200, 'Salmón en láminas bañado en una salsa ponzu, con un poco de cebollín, rodajas de chile toreado, ajonjolí y poro frito.'],
+                ['Tiradito Agua & Sal', 200, 'Atún en láminas con aguacate bañado en salsa de cítricos con un toque de tamarindo, jengibre y furikake.'],
                 ['Guacamole con Mariscos', 150, null],
                 ['Papas a la Francesa', 50, null],
             ],
             'Tacos y Costras' => [
-                ['Tacos Baja', 35, 'Tortilla con costra de queso y proteína rebozada, acompañada de un mix de ensalada de coles y zanahoria.'],
-                ['Costras', 35, 'Tortilla con costra de queso y proteína a tu elección, acompañada con mayonesa de cilantro y pico de gallo.'],
+                ['Tacos Baja', 35, 'Tortilla con costra de queso y proteína rebozada, acompañada de un mix de ensalada de coles y zanahoria, pico de gallo, aderezo de mayonesa chipotle y alioli. (Camarón, pescado o pimiento)'],
+                ['Costras', 35, 'Tortilla con costra de queso y proteína a tu elección, acompañada con mayonesa de cilantro y pico de gallo. (Pulpo, camarón o marlin)'],
                 ['Taco Gober', 38, 'Tortilla de harina acompañada de queso y guiso de camarón.'],
-                ['Tacos Jícama', 100, '4 láminas de jícama con camarón o pescado rebozado, acompañados de un mix de coles y zanahoria.'],
-                ['Pescadillas', 85, '3 piezas fritas sobre una cama de mix de coles con zanahoria y aderezo de mayonesa de cilantro.'],
-                ['Burrito de Marlin', 155, 'Marlin ahumado envuelto en tortilla de harina sobre un espejo de crema de pimiento.'],
+                ['Tacos Jícama', 100, '4 láminas de jícama con camarón o pescado rebozado, acompañados de un mix de coles y zanahoria, con salsa de tamarindo y alioli. (Pescado o camarón)'],
+                ['Pescadillas', 85, '3 piezas fritas sobre una cama de mix de coles con zanahoria, aderezo de mayonesa de cilantro, queso cotija y pico de gallo.'],
+                ['Burrito de Marlin', 155, 'Marlin ahumado envuelto en tortilla de harina sobre un espejo de crema de pimiento, acompañado de aderezo de mayonesa de cilantro, germinado y ajonjolí negro. Con queso.'],
             ],
             'Pollo y Carne' => [
                 ['Pechuga a la Plancha', 120, 'Acompañada de papas a la francesa y ensalada.'],
@@ -136,7 +136,7 @@ final class MenuFromGoogleSeeder extends Seeder
                 ['Arrachera', 150, 'Acompañada de papas a la francesa y ensalada.'],
             ],
             'Extras' => [
-                ['Atún con Arroz Frito', 110, 'Atún fresco bañado en una mayonesa de la casa con cebollín y rodajas de chile serrano.'],
+                ['Atún con Arroz Frito', 110, 'Atún fresco bañado en una mayonesa de la casa con cebollín y rodajas de chile serrano, sobre arroz botán frito con aguacate, cilantro y ajonjolí.'],
                 ['Arroz', 40, null],
                 ['Arroz con Camarones', 75, null],
             ],
